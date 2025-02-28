@@ -180,7 +180,7 @@ class pymav():
         print("Motors armed!")
 
 
-    def takeoff(self, altitude=10, while_moving = None):
+    def takeoff(self, altitude=10, while_moving = None, wait_to_takeoff = True):
         """Fait décoller le drone. Nécessite le mode 'GUIDED', et que le drone soit armé. 
 
         Args:
@@ -204,12 +204,14 @@ class pymav():
             0,
             altitude,
         )
-        print("Waiting for takeoff...")
-        while self.is_near_waypoint(self.get_local_pos()[2], -altitude) == False:
-            if while_moving is not None:
-                while_moving()
-            else:
-                pass
+        
+        if wait_to_takeoff:
+            print("Waiting for takeoff...")
+            while self.is_near_waypoint(self.get_local_pos()[2], -altitude) == False:
+                if while_moving is not None:
+                    while_moving()
+                else:
+                    pass
 
 
     def connect_arm_takeoff(self, ip='tcp:127.0.0.1:5762', height=20):
@@ -271,7 +273,7 @@ class pymav():
                 print("Waypoint reached!")
 
 
-    def RTL(self, while_moving = None):
+    def RTL(self, while_moving = None, wait_to_land = True):
         """Envoie une commande de RTL (return to launch). Attends que le drone soit atteri, une fois atteri, le drone est désarmé et la connection se ferme automatiquement, indiquant la fin de la mission.
 
         Args:
@@ -293,17 +295,18 @@ class pymav():
             0,
         )
 
-        while self.get_local_pos(connection)[2] > - 0.5:
-            if while_moving is not None:
-                while_moving()
+        if wait_to_land:
+            while self.get_local_pos(connection)[2] > - 0.5:
+                if while_moving is not None:
+                    while_moving()
+                else:
+                    pass
             else:
-                pass
-        else:
-            connection.motors_disarmed_wait()
-            print("Landed and motors disarmed!")
+                connection.motors_disarmed_wait()
+                print("Landed and motors disarmed!")
 
-            connection.close()
-            print("Connection closed. Mission Finished")
+                connection.close()
+                print("Connection closed. Mission Finished")
 
 
 
