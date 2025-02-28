@@ -1,0 +1,14 @@
+ardupilot
+ardupilot_gazebo
+ardupilot_gz
+logs
+ardupilot_sitl_models
+micro_ros_agent
+ros_gz
+terrain
+sdformat_urdf
+testing
+mav.tlog.raw
+mav.parm
+eeprom.bin
+mav.tlog
