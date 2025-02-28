@@ -1,6 +1,15 @@
 # Cheat sheet pour le développement ros2 
 
-
+### 👉 Important : essentiel de sourcer l'install du ws:
+Dans tous les nouveaux terminaux utilisés pour l'env ros2, exécuter :
+   ```bash
+   source install/setup.bash
+   ```
+   Si c'est le seul ws dans ta machine, et que tu comprends les risques de conflits avec les autres projets ros sur ta machine, tu peux mettre la ligne suivante dans ton bash rc. (Remplacer /home/colin/ par votre position absolue de ardu_ws)
+   
+   ```bash
+   source /home/colin/ardu_ws/install/setup.bash
+   ```
 
 ### 👉 Début de simulation avez gazebo, ros2, rviz:
 **Ouvrir un terminal** et exécuter la commande suivante :
@@ -85,7 +94,15 @@ Remplacer mission par le nom de votre package custom si ce n'est pas mission qui
    ```
    
    ```bash
-   sudo ros-${ROS_DISTRO}-mavros/scripts/install_geographiclib_datasets.sh
-
+   sudo apt update
+   sudo apt install geographiclib-tools
    ```
+
+   ```bash
+   sudo geographiclib-get-geoids egm96-5
+   sudo geographiclib-get-gravity egm2008
+   sudo geographiclib-get-magnetic emm2015
+   ```
+   
+
 

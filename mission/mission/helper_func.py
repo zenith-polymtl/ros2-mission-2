@@ -204,7 +204,7 @@ class pymav():
             0,
             altitude,
         )
-        
+
         if wait_to_takeoff:
             print("Waiting for takeoff...")
             while self.is_near_waypoint(self.get_local_pos()[2], -altitude) == False:
@@ -307,7 +307,6 @@ class pymav():
 
                 connection.close()
                 print("Connection closed. Mission Finished")
-
 
 
     def insert_coordinates_to_csv(file_path, coordinates):
