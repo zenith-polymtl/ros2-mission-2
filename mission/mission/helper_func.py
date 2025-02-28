@@ -229,7 +229,7 @@ class pymav():
         self.takeoff(height)
 
 
-    def local_target(self, wp, acceptance_radius=5, while_moving = None):
+    def local_target(self, wp, acceptance_radius=5, while_moving = None, wait_to_reach = True):
         """Permet l'envoi facile d'une commande de déplacement du drône aux coordonnées locales en système NED.
 
         Args:
@@ -258,15 +258,17 @@ class pymav():
             0,  # No yaw or yaw rate
         )
 
-        # Wait for the waypoint to be reached
-        print("Waiting for waypoint to be reached...")
-        while not self.is_near_waypoint(self.get_local_pos(), wp, threshold=acceptance_radius):
-            if while_moving is not None:
-                while_moving()
+
+        if wait_to_reach:
+            # Wait for the waypoint to be reached
+            print("Waiting for waypoint to be reached...")
+            while not self.is_near_waypoint(self.get_local_pos(), wp, threshold=acceptance_radius):
+                if while_moving is not None:
+                    while_moving()
+                else:
+                    pass
             else:
-                pass
-        else:
-            print("Waypoint reached!")
+                print("Waypoint reached!")
 
 
     def RTL(self, while_moving = None):
