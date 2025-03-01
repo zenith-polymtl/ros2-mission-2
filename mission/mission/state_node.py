@@ -32,7 +32,6 @@ class StateNode(Node):
         """Takeoff command, scheduled to prevent blocking."""
         self.get_logger().info("🚀 Takeoff initiated...")
         self.mav.takeoff(20)
-
         
         self.timer_move = self.create_timer(2.0, self.move_callback)
         
