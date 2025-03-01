@@ -33,8 +33,7 @@ Dans tous les nouveaux terminaux utilisés pour l'env ros2, exécuter :
     sitl:=127.0.0.1:5501 \
     out:=udp:127.0.0.1:14550 \
     out:=udp:127.0.0.1:14551 \
-    custom_location:="50.09746510,-110.73572050,101.855,0"
-
+    home:=50.09746510,-110.73572050,101.855,0
    ```
    Les deux connections udp sont les sortis de la simulation, ici distribuer à mavros et pymavlink, set up différent avec mission planner. (voir plus loin ... TODO, je comprends pas mais ça marche)
 
@@ -78,13 +77,12 @@ Remplacer mission par le nom de votre package custom si ce n'est pas mission qui
    Remplacer les <xxx> !!
 
 
-
-
 ## Installation MAVROS:
    ```bash
    sudo apt update && sudo apt upgrade -y
 
    ```
+
    ```bash
    sudo apt install -y python3-pip python3-colcon-common-extensions \
                     ros-${ROS_DISTRO}-mavros ros-${ROS_DISTRO}-mavros-extras \
