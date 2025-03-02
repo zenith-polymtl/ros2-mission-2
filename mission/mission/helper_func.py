@@ -242,6 +242,44 @@ class pymav():
 
         self.takeoff(height)
 
+    def global_target(self, wp, acceptance_radius=5, while_moving=None, wait_to_reach=True):
+            """Sends a movement command to the drone for a specific global GPS coordinate.
+
+            Args:
+                wp (tuple): Target waypoint as (latitude, longitude, altitude in meters).
+                acceptance_radius (float, optional): Distance at which the target is considered reached. Defaults to 5 meters.
+                while_moving (function, optional): Function to execute while the drone is in transit.
+                wait_to_reach (bool, optional): Whether to wait for the drone to reach the target before proceeding.
+            """
+            connection = self.connection
+
+            # Send a MAVLink command to set the target global position
+            connection.mav.set_position_target_global_int_send(
+                0,  # Timestamp in milliseconds
+                connection.target_system,
+                connection.target_component,
+                mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,  # Global frame with relative altitude
+                0b110111111000,  # Position mask
+                int(wp[0] * 1e7),  # Latitude in degrees * 1e7
+                int(wp[1] * 1e7),  # Longitude in degrees * 1e7
+                wp[2],  # Altitude in meters (relative to home)
+                0, 0, 0,  # No velocity set
+                0, 0, 0,  # No acceleration set
+                0, 0  # No yaw or yaw rate
+            )
+
+            if wait_to_reach:
+                # Wait for the waypoint to be reached
+                print("Waiting for waypoint to be reached...")
+                while not self.is_near_waypoint(self.get_global_pos(), wp, threshold=acceptance_radius):
+                    if while_moving is not None:
+                        while_moving()
+                    else:
+                        pass
+                else:
+                    print("Waypoint reached!")
+
+
 
     def local_target(self, wp, acceptance_radius=5, while_moving = None, wait_to_reach = True):
         """Permet l'envoi facile d'une commande de déplacement du drône aux coordonnées locales en système NED.
