@@ -63,7 +63,7 @@ class ApproachNode(Node):
 
     def go_approach_callback(self, msg):
         if msg.data == "GO":
-            if self.curr_pos:  # Hold current position
+            if self.curr_pos: 
                 self.approach_active = True
                 self.get_logger().info("Approach PID activated. Holding position.")
             else:

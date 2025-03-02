@@ -22,23 +22,23 @@ class DroneControlGUI(Node, QWidget):
         # GUI Layout
         layout = QVBoxLayout()
 
-        self.vision_btn = QPushButton('🔄 Vision search')
+        self.vision_btn = QPushButton('Vision search')
         self.vision_btn.clicked.connect(self.send_vision)
         layout.addWidget(self.vision_btn)
 
-        self.winch_btn = QPushButton('🎣 Winch Down')
+        self.winch_btn = QPushButton('Winch Down')
         self.winch_btn.clicked.connect(self.send_winch_down)
         layout.addWidget(self.winch_btn)
 
-        self.winch_btn_up = QPushButton('🎣 Winch Up')
+        self.winch_btn_up = QPushButton('Winch Up')
         self.winch_btn_up.clicked.connect(self.send_winch_up)
         layout.addWidget(self.winch_btn_up)
 
-        self.water_btn_bucket = QPushButton('💧 Release Water')
+        self.water_btn_bucket = QPushButton('Release Water')
         self.water_btn_bucket.clicked.connect(self.send_water_bucket)
         layout.addWidget(self.water_btn_bucket)
 
-        self.water_btn_source = QPushButton('💧Water Refill')
+        self.water_btn_source = QPushButton('Water Refill')
         self.water_btn_source.clicked.connect(self.send_water_source)
         layout.addWidget(self.water_btn_source)
 
@@ -76,7 +76,7 @@ class DroneControlGUI(Node, QWidget):
         msg = String()
         msg.data = "GO"
         self.water_source_pub.publish(msg)
-        self.get_logger().info("Water release command sent.")
+        self.get_logger().info("Water Refill command sent.")
 
     def send_water_bucket(self):
         msg = String()
