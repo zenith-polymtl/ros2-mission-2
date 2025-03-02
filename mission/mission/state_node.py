@@ -41,7 +41,7 @@ class StateNode(Node):
     def move_callback(self):
         """Move to the target position after takeoff."""
         self.get_logger().info("🎯 Moving to target location...")
-        self.mav.local_target([100, 0, -10])
+        self.mav.global_target([50.099, -110.734, 10])
         
         
         self.destroy_timer(self.timer_move)
