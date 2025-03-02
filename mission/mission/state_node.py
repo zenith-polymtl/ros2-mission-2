@@ -53,8 +53,6 @@ class StateNode(Node):
         self.publisher_.publish(self.msg)
         self.get_logger().info(f"VISION GO")
 
-
-
     
 
 def main(args=None):
