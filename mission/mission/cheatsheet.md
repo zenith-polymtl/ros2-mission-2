@@ -5,10 +5,10 @@ Dans tous les nouveaux terminaux utilisés pour l'env ros2, exécuter :
    ```bash
    source install/setup.bash
    ```
-   Si c'est le seul ws dans ta machine, et que tu comprends les risques de conflits avec les autres projets ros sur ta machine, tu peux mettre la ligne suivante dans ton bash rc. (Remplacer /home/colin/ par votre position absolue de ardu_ws)
+   Si c'est le seul ws dans ta machine, et que tu comprends les risques de conflits avec les autres projets ros sur ta machine, tu peux mettre la ligne suivante dans ton .bashrc. (Remplacer /home/<user> par votre position absolue de ardu_ws)
    
    ```bash
-   source /home/colin/ardu_ws/install/setup.bash
+   source /home/<user>/ardu_ws/install/setup.bash
    ```
 
 ### 👉 Début de simulation avez gazebo, ros2, rviz:
@@ -22,7 +22,7 @@ Dans tous les nouveaux terminaux utilisés pour l'env ros2, exécuter :
    ros2 launch ardupilot_sitl sitl_dds_udp.launch.py \
     transport:=udp4 \
     synthetic_clock:=True \
-    wipe:=False \
+    wipe:=True \
     model:=quad \
     speedup:=1 \
     slave:=0 \
@@ -46,12 +46,17 @@ Dans tous les nouveaux terminaux utilisés pour l'env ros2, exécuter :
    ```bash
    sim_vehicle.py -v ArduCopter --console --map -w --custom-location=50.0974520,-110.7357341,101.855,0
    ```
-   
+
+## 👉 Transfert de la simulation pour mavros et pymavlink:
+   ```bash
+   mavproxy.py --master=tcp:127.0.0.1:5762 --out=udp:127.0.0.1:14550 --out=udp:127.0.0.1:14551
+   ```
 
 ## 👉 Début de mavros:
    ```bash
    ros2 launch mavros apm.launch fcu_url:=udp://127.0.0.1:14550@14550 
    ```
+
 
 ## 👉 Début de l'ensembles des noeuds de mission, provient de start_mission package:
    ```bash

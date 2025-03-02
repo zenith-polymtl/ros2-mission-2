@@ -23,7 +23,7 @@ class StateNode(Node):
         self.mav = hf.pymav()
         self.mav.connect('udp:127.0.0.1:14551')
         self.mav.set_mode('GUIDED')
-        self.mav.arm()
+        
 
         # Schedule takeoff using a timer instead of blocking the main thread
         self.timer_takeoff = self.create_timer(1.0, self.takeoff_callback)
@@ -31,6 +31,7 @@ class StateNode(Node):
     def takeoff_callback(self):
         """Takeoff command, scheduled to prevent blocking."""
         self.get_logger().info("🚀 Takeoff initiated...")
+        self.mav.arm()
         self.mav.takeoff(20)
         
         self.timer_move = self.create_timer(2.0, self.move_callback)

@@ -54,5 +54,5 @@ def generate_launch_description():
     ld.add_action(valve_bucket_node)
     ld.add_action(valve_source_node)
     ld.add_action(winch_node)
-    ld.add_action(manual_control_node)
+    #ld.add_action(manual_control_node)
     return ld

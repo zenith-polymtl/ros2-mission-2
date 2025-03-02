@@ -150,9 +150,21 @@ class pymav():
             mode (str): Identification en lettres du mode
         """
         connection = self.connection
-        mode_id = connection.mode_mapping()[mode] #Conversion du mode en son id
-        connection.mav.set_mode_send(connection.target_system, mavutil.mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, mode_id)
-        print(f"Setting mode to {mode}...")
+        # Print all available mode mappings
+        print("Available mode mappings:", connection.mode_mapping())
+
+        # Verify the mode ID for GUIDED
+        mode_id = connection.mode_mapping().get(mode, None)
+
+        if mode_id is None:
+            print(f"Error: Mode {mode} not found in mode mapping!")
+        else:
+            print(f"Setting mode to {mode} (ID: {mode_id})...")
+            connection.mav.set_mode_send(
+                connection.target_system,
+                mavutil.mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,
+                mode_id
+            )
 
 
     def arm(self):
