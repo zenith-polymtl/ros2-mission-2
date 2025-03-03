@@ -71,7 +71,7 @@ class WinchNode(Node):
     def v_accel(self, msg):
         self.get_logger().info(f"Vertical accel : {msg.linear_acceleration.z}")
 
-    def send_can_command(command_hex, description):
+    def send_can_command(self, command_hex, description):
         """Send a CAN command and print details"""
         print(f"\n--- Sending: {description} ---")
         print(f"Command (hex): {command_hex}")
