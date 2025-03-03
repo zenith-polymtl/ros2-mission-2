@@ -82,7 +82,7 @@ class WinchNode(Node):
         
         # Build the canusb command
         cmd = [
-            "./canusb",
+            "/canusb_driver/canusb",
             "-d", DEVICE,
             "-s", str(CAN_SPEED),
             "-b", str(BAUDRATE),
