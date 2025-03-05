@@ -395,7 +395,7 @@ class WinchNode(Node):
                 print(f"Stderr: {result.stderr}")
                 
             # Wait a bit for the command to be processed
-            time.sleep(0.1)
+            time.sleep(0.02)
             return result
         except Exception as e:
             print(f"Error executing command: {e}")
