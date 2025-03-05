@@ -35,6 +35,7 @@ class WinchNode(Node):
         self.get_logger().info("Winch Subsriber started")
 
     def go_up(self):
+        self.send_can_command("94 00 00 48 42 D0 07 00", "Speed Control (50 RPM clockwise)")
         self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
     
         # 2. Set speed control (clockwise rotation)
@@ -42,12 +43,13 @@ class WinchNode(Node):
         # Example: 50 RPM for 2 seconds
         # 0x94 00 00 48 42 D0 07 00 = 50 RPM for 2000ms
         # Speed is in IEEE float format with LSB byte order
-        self.send_can_command("94 00 00 48 42 D0 07 00", "Speed Control (50 RPM clockwise)")
+        
         
         # 4. Stop the motor
         self.send_can_command("92 00 00 00 00 00 00 00", "Stop Motor")
 
     def go_down(self):
+        self.send_can_command("94 00 00 48 C2 D0 07 00", "Speed Control (50 RPM counter-clockwise)")
         self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
     
         # 2. Set speed control (clockwise rotation)
@@ -55,7 +57,7 @@ class WinchNode(Node):
         # Example: 50 RPM for 2 seconds
         # 0x94 00 00 48 42 D0 07 00 = 50 RPM for 2000ms
         # Speed is in IEEE float format with LSB byte order
-        self.send_can_command("94 00 00 48 C2 D0 07 00", "Speed Control (50 RPM counter-clockwise)")
+        
 
         
         # 4. Stop the motor
