@@ -35,33 +35,36 @@ class WinchNode(Node):
         self.get_logger().info("Winch Subsriber started")
 
     def go_up(self):
-        self.send_can_command("94 00 00 48 42 D0 07 00", "Speed Control (50 RPM clockwise)")
-        self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
-    
+        """Move motor clockwise (positive speed)"""
+        self.control_motor("speed", 20, 2)
+        self.control_motor("start")
+
         # 2. Set speed control (clockwise rotation)
         # Using Speed Control command (0x94) with positive speed value
         # Example: 50 RPM for 2 seconds
         # 0x94 00 00 48 42 D0 07 00 = 50 RPM for 2000ms
         # Speed is in IEEE float format with LSB byte order
         
+        time.sleep(2)
         
         # 4. Stop the motor
-        self.send_can_command("92 00 00 00 00 00 00 00", "Stop Motor")
+        self.control_motor("stop")
 
     def go_down(self):
-        self.send_can_command("94 00 00 48 C2 D0 07 00", "Speed Control (50 RPM counter-clockwise)")
-        self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
-    
+        """Move motor counter-clockwise (negative speed)"""
+        self.control_motor("speed", -20, 2)
+        self.control_motor("start")
+
         # 2. Set speed control (clockwise rotation)
         # Using Speed Control command (0x94) with positive speed value
         # Example: 50 RPM for 2 seconds
         # 0x94 00 00 48 42 D0 07 00 = 50 RPM for 2000ms
         # Speed is in IEEE float format with LSB byte order
         
-
+        time.sleep(2)
         
         # 4. Stop the motor
-        self.send_can_command("92 00 00 00 00 00 00 00", "Stop Motor")
+        self.control_motor("stop")
 
     def go_callback(self, msg):
         self.get_logger().info(f"GO MESSAGE : {msg.data}")
@@ -72,6 +75,57 @@ class WinchNode(Node):
     
     def v_accel(self, msg):
         self.get_logger().info(f"Vertical accel : {msg.linear_acceleration.z}")
+
+    def control_motor(self, control_type, value=0.0, time_seconds=0.0, description=None):
+        """
+        General motor control function that handles different control types
+        
+        Args:
+            control_type: String indicating the control type ("start", "stop", "speed", "position", "torque")
+            value: Float value for speed (RPM), position (radians), or torque (N.m)
+            time_seconds: Duration in seconds (not used for start/stop)
+            description: Optional custom description for logging
+        """
+        import struct
+        
+        # Convert time from seconds to milliseconds
+        time_ms = int(time_seconds * 1000)
+        time_bytes = struct.pack("<I", time_ms)[:3]  # Only need 3 bytes for 24-bit duration
+        
+        # Prepare command based on control type
+        if control_type.lower() == "start":
+            cmd_hex = "91 00 00 00 00 00 00 00"
+            desc = description or "Start Motor"
+        elif control_type.lower() == "stop":
+            cmd_hex = "92 00 00 00 00 00 00 00"
+            desc = description or "Stop Motor"
+        elif control_type.lower() == "torque":
+            # Convert torque value to IEEE float and format as hex
+            value_bytes = struct.pack("<f", value)
+            value_hex = " ".join([f"{b:02X}" for b in value_bytes])
+            time_hex = " ".join([f"{b:02X}" for b in time_bytes]) + " 00"
+            cmd_hex = f"93 {value_hex} {time_hex}"
+            desc = description or f"Torque Control ({value} N.m for {time_seconds}s)"
+        elif control_type.lower() == "speed":
+            # Convert speed value to IEEE float and format as hex
+            value_bytes = struct.pack("<f", value)
+            value_hex = " ".join([f"{b:02X}" for b in value_bytes])
+            time_hex = " ".join([f"{b:02X}" for b in time_bytes]) + " 00"
+            cmd_hex = f"94 {value_hex} {time_hex}"
+            desc = description or f"Speed Control ({value} RPM for {time_seconds}s)"
+        elif control_type.lower() == "position":
+            # Convert position value to IEEE float and format as hex
+            value_bytes = struct.pack("<f", value)
+            value_hex = " ".join([f"{b:02X}" for b in value_bytes])
+            time_hex = " ".join([f"{b:02X}" for b in time_bytes]) + " 00"
+            cmd_hex = f"95 {value_hex} {time_hex}"
+            desc = description or f"Position Control ({value} rad for {time_seconds}s)"
+        else:
+            raise ValueError(f"Unsupported control type: {control_type}")
+        
+        # Send the command using the existing method
+        return self.send_can_command(cmd_hex, desc)
+
 
     def send_can_command(self, command_hex, description):
         """Send a CAN command and print details"""
