@@ -66,7 +66,7 @@ class WinchNode(Node):
         # Send start motor command immediately after
         self.get_logger().info("Starting motor")
         self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
-        self.get_logger().info(self.read_indicator(0x03))
+        # self.get_logger().info(self.read_indicator(0x03))
         # Update state
         self.motor_state = {
             "running": True,
@@ -110,7 +110,7 @@ class WinchNode(Node):
         # Send start motor command immediately after
         self.get_logger().info("Starting motor")
         self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
-        self.get_logger().info(self.read_indicator(0x03))
+        #self.get_logger().info(self.read_indicator("0x03"))
         # Update state
         self.motor_state = {
             "running": True,
