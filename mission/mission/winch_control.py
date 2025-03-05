@@ -56,7 +56,7 @@ class WinchNode(Node):
             self.get_logger().info("Stopping motor before changing direction")
             self.send_can_command("92 00 00 00 00 00 00 00", "Stop Motor (urgent)")
             time.sleep(0.1)  # Short wait, just enough to ensure command is processed
-        self.get_logger().info(self.read_indicator(3))
+        
         # Send speed setting command directly
         # 20 RPM for 2 seconds (0x41 A0 00 00 = 20.0f, 0xD0 07 00 = 2000ms)
         self.get_logger().info("Setting speed to 20 RPM (UP)")
@@ -66,7 +66,7 @@ class WinchNode(Node):
         # Send start motor command immediately after
         self.get_logger().info("Starting motor")
         self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
-        
+        self.get_logger().info(self.read_indicator(0x03))
         # Update state
         self.motor_state = {
             "running": True,
@@ -104,12 +104,13 @@ class WinchNode(Node):
         # -20 RPM for 2 seconds (0xC1 A0 00 00 = -20.0f, 0xD0 07 00 = 2000ms)
         self.get_logger().info("Setting speed to -20 RPM (DOWN)")
         speed_cmd = "94 00 00 A0 C1 D0 07 00"
+        
         self.send_can_command(speed_cmd, "Speed -20 RPM for 2s")
         
         # Send start motor command immediately after
         self.get_logger().info("Starting motor")
         self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
-        
+        self.get_logger().info(self.read_indicator(0x03))
         # Update state
         self.motor_state = {
             "running": True,
