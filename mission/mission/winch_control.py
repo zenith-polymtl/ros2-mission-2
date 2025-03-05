@@ -56,7 +56,7 @@ class WinchNode(Node):
             self.get_logger().info("Stopping motor before changing direction")
             self.send_can_command("92 00 00 00 00 00 00 00", "Stop Motor (urgent)")
             time.sleep(0.1)  # Short wait, just enough to ensure command is processed
-        
+        self.get_logger().info(self.read_indicator(3))
         # Send speed setting command directly
         # 20 RPM for 2 seconds (0x41 A0 00 00 = 20.0f, 0xD0 07 00 = 2000ms)
         self.get_logger().info("Setting speed to 20 RPM (UP)")
@@ -350,8 +350,6 @@ class WinchNode(Node):
         ms = int(seconds * 1000)
         time_bytes = struct.pack("<I", ms)[:3]
         return " ".join([f"{b:02X}" for b in time_bytes]) + " 00"
-
-
 
 def main(args=None):
     rclpy.init(args=args)
