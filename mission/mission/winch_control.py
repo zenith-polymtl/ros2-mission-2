@@ -44,24 +44,30 @@ class WinchNode(Node):
 
 
     def go_up(self):
-        """Optimized for faster response"""
-        # Skip full status check for faster response
-        # Just send the commands directly
+        """Optimized for faster response without status checking"""
+        # Track start time for benchmarking
+        start_time = time.time()
+        self.get_logger().info("GO UP command received")
         
-        # If we know we need to change direction, send stop
-        if hasattr(self, 'motor_state') and self.motor_state.get("direction") == "down":
-            self.control_motor("stop")
-            time.sleep(0.1)  # Shorter wait
+        # Simplify direction changing logic
+        current_direction = getattr(self, 'motor_state', {}).get("direction", "none")
+        if current_direction == "down":
+            # Only stop if currently going the opposite direction
+            self.get_logger().info("Stopping motor before changing direction")
+            self.send_can_command("92 00 00 00 00 00 00 00", "Stop Motor (urgent)")
+            time.sleep(0.1)  # Short wait, just enough to ensure command is processed
         
-        # Batch commands instead of separate calls
-        batch_commands = [
-            # Format: (command_hex, description)
-            (f"94 {self._float_to_hex(20.0)} {self._duration_to_hex(2.0)}", "Speed 20 RPM for 2s"),
-            ("91 00 00 00 00 00 00 00", "Start Motor")
-        ]
-        self.send_batch_commands(batch_commands)
+        # Send speed setting command directly
+        # 20 RPM for 2 seconds (0x41 A0 00 00 = 20.0f, 0xD0 07 00 = 2000ms)
+        self.get_logger().info("Setting speed to 20 RPM (UP)")
+        speed_cmd = "94 00 00 A0 41 D0 07 00"
+        self.send_can_command(speed_cmd, "Speed 20 RPM for 2s")
         
-        # Update state without checking status
+        # Send start motor command immediately after
+        self.get_logger().info("Starting motor")
+        self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
+        
+        # Update state
         self.motor_state = {
             "running": True,
             "direction": "up",
@@ -69,32 +75,42 @@ class WinchNode(Node):
             "last_command_time": time.time()
         }
         
-        # Schedule stop with timer as before
+        # Schedule auto-stop
         if hasattr(self, '_stop_timer') and self._stop_timer:
             self._stop_timer.cancel()
         
-        self._stop_timer = threading.Timer(2.0, lambda: self.control_motor("stop"))
+        self._stop_timer = threading.Timer(2.0, self._auto_stop)
         self._stop_timer.start()
+        
+        # Log total execution time
+        elapsed = time.time() - start_time
+        self.get_logger().info(f"GO UP command processing completed in {elapsed:.3f} seconds")
 
     def go_down(self):
-        """Optimized for faster response"""
-        # Skip full status check for faster response
-        # Just send the commands directly
+        """Optimized for faster response without status checking"""
+        # Track start time for benchmarking
+        start_time = time.time()
+        self.get_logger().info("GO DOWN command received")
         
-        # If we know we need to change direction, send stop
-        if hasattr(self, 'motor_state') and self.motor_state.get("direction") == "up":
-            self.control_motor("stop")
-            time.sleep(0.1)  # Shorter wait
+        # Simplify direction changing logic
+        current_direction = getattr(self, 'motor_state', {}).get("direction", "none")
+        if current_direction == "up":
+            # Only stop if currently going the opposite direction
+            self.get_logger().info("Stopping motor before changing direction")
+            self.send_can_command("92 00 00 00 00 00 00 00", "Stop Motor (urgent)")
+            time.sleep(0.1)  # Short wait, just enough to ensure command is processed
         
-        # Batch commands instead of separate calls
-        batch_commands = [
-            # Format: (command_hex, description)
-            (f"94 {self._float_to_hex(-20.0)} {self._duration_to_hex(2.0)}", "Speed -20 RPM for 2s"),
-            ("91 00 00 00 00 00 00 00", "Start Motor")
-        ]
-        self.send_batch_commands(batch_commands)
+        # Send speed setting command directly
+        # -20 RPM for 2 seconds (0xC1 A0 00 00 = -20.0f, 0xD0 07 00 = 2000ms)
+        self.get_logger().info("Setting speed to -20 RPM (DOWN)")
+        speed_cmd = "94 00 00 A0 C1 D0 07 00"
+        self.send_can_command(speed_cmd, "Speed -20 RPM for 2s")
         
-        # Update state without checking status
+        # Send start motor command immediately after
+        self.get_logger().info("Starting motor")
+        self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
+        
+        # Update state
         self.motor_state = {
             "running": True,
             "direction": "down",
@@ -102,12 +118,25 @@ class WinchNode(Node):
             "last_command_time": time.time()
         }
         
-        # Schedule stop with timer as before
+        # Schedule auto-stop
         if hasattr(self, '_stop_timer') and self._stop_timer:
             self._stop_timer.cancel()
         
-        self._stop_timer = threading.Timer(2.0, lambda: self.control_motor("stop"))
+        self._stop_timer = threading.Timer(2.0, self._auto_stop)
         self._stop_timer.start()
+        
+        # Log total execution time
+        elapsed = time.time() - start_time
+        self.get_logger().info(f"GO DOWN command processing completed in {elapsed:.3f} seconds")
+
+    def _auto_stop(self):
+        """Auto-stop callback for timer"""
+        self.get_logger().info("Auto-stopping motor after timeout")
+        self.send_can_command("92 00 00 00 00 00 00 00", "Stop Motor (auto)")
+        self.motor_state["running"] = False
+        self.motor_state["direction"] = "none"
+        self.motor_state["speed"] = 0
+
 
 
 
@@ -287,14 +316,7 @@ class WinchNode(Node):
 
 
     def send_can_command(self, command_hex, description):
-        """Send a CAN command and print details"""
-        print(f"\n--- Sending: {description} ---")
-        print(f"Command (hex): {command_hex}")
-        
-        # Convert hex string to bytes for display
-        bytes_array = bytearray.fromhex(command_hex)
-        print(f"Bytes: {' '.join(f'0x{b:02X}' for b in bytes_array)}")
-        
+        """Send a CAN command with minimal overhead"""
         # Build the canusb command
         cmd = [
             "./mission/mission/canusb",
@@ -310,19 +332,14 @@ class WinchNode(Node):
         # Execute the command
         try:
             result = subprocess.run(cmd, capture_output=True, text=True)
-            print(f"Command executed: {' '.join(cmd)}")
-            
-            if result.stdout:
-                print(f"Stdout: {result.stdout}")
+            # Only log errors to reduce overhead
             if result.stderr:
-                print(f"Stderr: {result.stderr}")
-                
-            # Wait a bit for the command to be processed
-            time.sleep(0.005)
+                print(f"Command error: {result.stderr}")
             return result
         except Exception as e:
             print(f"Error executing command: {e}")
             return None
+
     def _float_to_hex(self, value):
         """Convert float to hex string in correct format"""
         value_bytes = struct.pack("<f", value)
@@ -334,37 +351,6 @@ class WinchNode(Node):
         time_bytes = struct.pack("<I", ms)[:3]
         return " ".join([f"{b:02X}" for b in time_bytes]) + " 00"
 
-    def send_batch_commands(self, commands):
-        """Send multiple commands with a single process invocation"""
-        # Join commands with semicolons for the canusb program
-        joined_commands = ";".join([cmd[0] for cmd in commands])
-        description = " + ".join([cmd[1] for cmd in commands])
-        
-        print(f"\n--- Sending batch: {description} ---")
-        print(f"Commands: {joined_commands}")
-        
-        # Build the command for multiple messages
-        cmd = [
-            "./mission/mission/canusb",
-            "-d", DEVICE,
-            "-s", str(CAN_SPEED),
-            "-b", str(BAUDRATE),
-            "-i", f"{MOTOR_ID:x}",
-            "-j", joined_commands,
-            "-n", "1",
-            "-m", "2"
-        ]
-        
-        try:
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            if result.stdout:
-                print(f"Stdout: {result.stdout}")
-            if result.stderr:
-                print(f"Stderr: {result.stderr}")
-            return result
-        except Exception as e:
-            print(f"Error executing batch command: {e}")
-            return None
 
 
 def main(args=None):
