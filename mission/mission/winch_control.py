@@ -44,148 +44,71 @@ class WinchNode(Node):
 
 
     def go_up(self):
-        """
-        Move motor clockwise (positive speed) with proper state management
-        and direction validation to prevent unexpected reversals.
-        """
-        # Get current motor status
-        status = self.get_motor_status()
-        current_speed = status.get('actual_speed', 0)
-        self.get_logger().info(f"GO UP requested. Current speed: {current_speed} RPM")
+        """Optimized for faster response"""
+        # Skip full status check for faster response
+        # Just send the commands directly
         
-        # Initialize motor state if not already done
-        if not hasattr(self, 'motor_state'):
-            self.motor_state = {
-                "running": False,
-                "direction": "none",
-                "speed": 0,
-                "last_command_time": 0
-            }
-        
-        # Check if already running in this direction within tolerance
-        if (self.motor_state["running"] and 
-            self.motor_state["direction"] == "up" and 
-            abs(self.motor_state["speed"] - 20) < 5):
-            self.get_logger().info("Motor already running in UP direction at requested speed")
-            return
-        
-        # If motor is running in opposite direction or faster than 5 RPM in wrong direction
-        if self.motor_state["running"] or current_speed < -5:
-            self.get_logger().info("Stopping motor before changing direction")
+        # If we know we need to change direction, send stop
+        if hasattr(self, 'motor_state') and self.motor_state.get("direction") == "down":
             self.control_motor("stop")
-            # Wait for motor to completely stop before changing direction
-            time.sleep(0.5)
-            
-            # Verify the motor is now stopped
-            status = self.get_motor_status()
-            if abs(status.get('actual_speed', 0)) > 2:
-                self.get_logger().warning(f"Motor failed to stop properly: {status.get('actual_speed')} RPM")
-                self.control_motor("stop")  # Try stopping again
-                time.sleep(0.3)
+            time.sleep(0.1)  # Shorter wait
         
-        # Set speed first (20 RPM for 2 seconds)
-        self.get_logger().info("Setting speed to 20 RPM (UP direction)")
-        self.control_motor("speed", 20, 2)
+        # Batch commands instead of separate calls
+        batch_commands = [
+            # Format: (command_hex, description)
+            (f"94 {self._float_to_hex(20.0)} {self._duration_to_hex(2.0)}", "Speed 20 RPM for 2s"),
+            ("91 00 00 00 00 00 00 00", "Start Motor")
+        ]
+        self.send_batch_commands(batch_commands)
         
-        # Start motor
-        self.get_logger().info("Starting motor")
-        self.control_motor("start")
+        # Update state without checking status
+        self.motor_state = {
+            "running": True,
+            "direction": "up",
+            "speed": 20,
+            "last_command_time": time.time()
+        }
         
-        # Update motor state
-        self.motor_state["running"] = True
-        self.motor_state["direction"] = "up"
-        self.motor_state["speed"] = 20
-        self.motor_state["last_command_time"] = time.time()
-        
-        # Schedule auto-stop without blocking
+        # Schedule stop with timer as before
         if hasattr(self, '_stop_timer') and self._stop_timer:
-            self._stop_timer.cancel()  # Cancel any existing timer
+            self._stop_timer.cancel()
         
-        # Create a new timer to stop the motor after 2 seconds
-        def _delayed_stop():
-            # Only stop if we haven't received new commands
-            if time.time() - self.motor_state["last_command_time"] >= 1.9:
-                self.get_logger().info("Auto-stopping motor after 2 seconds")
-                self.control_motor("stop")
-                self.motor_state["running"] = False
-                self.motor_state["direction"] = "none"
-                self.motor_state["speed"] = 0
-        
-        # Use a timer instead of blocking sleep
-        self._stop_timer = threading.Timer(2.0, _delayed_stop)
+        self._stop_timer = threading.Timer(2.0, lambda: self.control_motor("stop"))
         self._stop_timer.start()
 
     def go_down(self):
-        """
-        Move motor counter-clockwise (negative speed) with proper state management
-        and direction validation to prevent unexpected reversals.
-        """
-        # Get current motor status
-        status = self.get_motor_status()
-        current_speed = status.get('actual_speed', 0)
-        self.get_logger().info(f"GO DOWN requested. Current speed: {current_speed} RPM")
+        """Optimized for faster response"""
+        # Skip full status check for faster response
+        # Just send the commands directly
         
-        # Initialize motor state if not already done
-        if not hasattr(self, 'motor_state'):
-            self.motor_state = {
-                "running": False,
-                "direction": "none",
-                "speed": 0,
-                "last_command_time": 0
-            }
-        
-        # Check if already running in this direction within tolerance
-        if (self.motor_state["running"] and 
-            self.motor_state["direction"] == "down" and 
-            abs(self.motor_state["speed"] - (-20)) < 5):
-            self.get_logger().info("Motor already running in DOWN direction at requested speed")
-            return
-        
-        # If motor is running in opposite direction or faster than 5 RPM in wrong direction
-        if self.motor_state["running"] or current_speed > 5:
-            self.get_logger().info("Stopping motor before changing direction")
+        # If we know we need to change direction, send stop
+        if hasattr(self, 'motor_state') and self.motor_state.get("direction") == "up":
             self.control_motor("stop")
-            # Wait for motor to completely stop before changing direction
-            time.sleep(0.5)
-            
-            # Verify the motor is now stopped
-            status = self.get_motor_status()
-            if abs(status.get('actual_speed', 0)) > 2:
-                self.get_logger().warning(f"Motor failed to stop properly: {status.get('actual_speed')} RPM")
-                self.control_motor("stop")  # Try stopping again
-                time.sleep(0.3)
+            time.sleep(0.1)  # Shorter wait
         
-        # Set speed first (-20 RPM for 2 seconds)
-        self.get_logger().info("Setting speed to -20 RPM (DOWN direction)")
-        self.control_motor("speed", -20, 2)
+        # Batch commands instead of separate calls
+        batch_commands = [
+            # Format: (command_hex, description)
+            (f"94 {self._float_to_hex(-20.0)} {self._duration_to_hex(2.0)}", "Speed -20 RPM for 2s"),
+            ("91 00 00 00 00 00 00 00", "Start Motor")
+        ]
+        self.send_batch_commands(batch_commands)
         
-        # Start motor
-        self.get_logger().info("Starting motor")
-        self.control_motor("start")
+        # Update state without checking status
+        self.motor_state = {
+            "running": True,
+            "direction": "down",
+            "speed": -20,
+            "last_command_time": time.time()
+        }
         
-        # Update motor state
-        self.motor_state["running"] = True
-        self.motor_state["direction"] = "down"
-        self.motor_state["speed"] = -20
-        self.motor_state["last_command_time"] = time.time()
-        
-        # Schedule auto-stop without blocking
+        # Schedule stop with timer as before
         if hasattr(self, '_stop_timer') and self._stop_timer:
-            self._stop_timer.cancel()  # Cancel any existing timer
+            self._stop_timer.cancel()
         
-        # Create a new timer to stop the motor after 2 seconds
-        def _delayed_stop():
-            # Only stop if we haven't received new commands
-            if time.time() - self.motor_state["last_command_time"] >= 1.9:
-                self.get_logger().info("Auto-stopping motor after 2 seconds")
-                self.control_motor("stop")
-                self.motor_state["running"] = False
-                self.motor_state["direction"] = "none"
-                self.motor_state["speed"] = 0
-        
-        # Use a timer instead of blocking sleep
-        self._stop_timer = threading.Timer(2.0, _delayed_stop)
+        self._stop_timer = threading.Timer(2.0, lambda: self.control_motor("stop"))
         self._stop_timer.start()
+
 
 
     def go_callback(self, msg):
@@ -400,6 +323,49 @@ class WinchNode(Node):
         except Exception as e:
             print(f"Error executing command: {e}")
             return None
+    def _float_to_hex(self, value):
+        """Convert float to hex string in correct format"""
+        value_bytes = struct.pack("<f", value)
+        return " ".join([f"{b:02X}" for b in value_bytes])
+
+    def _duration_to_hex(self, seconds):
+        """Convert seconds to duration hex string"""
+        ms = int(seconds * 1000)
+        time_bytes = struct.pack("<I", ms)[:3]
+        return " ".join([f"{b:02X}" for b in time_bytes]) + " 00"
+
+    def send_batch_commands(self, commands):
+        """Send multiple commands with a single process invocation"""
+        # Join commands with semicolons for the canusb program
+        joined_commands = ";".join([cmd[0] for cmd in commands])
+        description = " + ".join([cmd[1] for cmd in commands])
+        
+        print(f"\n--- Sending batch: {description} ---")
+        print(f"Commands: {joined_commands}")
+        
+        # Build the command for multiple messages
+        cmd = [
+            "./mission/mission/canusb",
+            "-d", DEVICE,
+            "-s", str(CAN_SPEED),
+            "-b", str(BAUDRATE),
+            "-i", f"{MOTOR_ID:x}",
+            "-j", joined_commands,
+            "-n", "1",
+            "-m", "2"
+        ]
+        
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            if result.stdout:
+                print(f"Stdout: {result.stdout}")
+            if result.stderr:
+                print(f"Stderr: {result.stderr}")
+            return result
+        except Exception as e:
+            print(f"Error executing batch command: {e}")
+            return None
+
 
 def main(args=None):
     rclpy.init(args=args)
