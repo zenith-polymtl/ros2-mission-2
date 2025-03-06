@@ -24,15 +24,10 @@ class WinchNode(Node):
         )
 
         self.subscriber_ = self.create_subscription(String, '/go_winch', self.go_callback, qos_profile)
-
-        qos_profile = QoSProfile(
-            reliability=QoSReliabilityPolicy.BEST_EFFORT,  # Ensures message delivery
-            history=QoSHistoryPolicy.KEEP_LAST,
-            depth=10
-        )
-
         self.subscriber_ = self.create_subscription(Imu, '/mavros/imu/data', self.v_accel, qos_profile)
-        self.get_logger().info("Winch Subsriber started")
+
+
+        self.get_logger().info("Winch Node Initialized")
 
     def go_up(self):
         self.send_can_command("91 00 00 00 00 00 00 00", "Start Motor")
