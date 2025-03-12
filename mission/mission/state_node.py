@@ -10,8 +10,11 @@ import itertools
 """
 Brute force approach to the tmp
 """
-# Function to find the distance between two points
+
 def func_distance(pos1,pos2):
+    """
+    Function to find the distance between two points
+    """
     if len(pos1) != len(pos2):
         raise TypeError("The two points must be of the same dimension")
     delta = 0
@@ -20,8 +23,10 @@ def func_distance(pos1,pos2):
 
     return delta**(0.5)
 
-# Function to calculate the total cost of a route
 def calculate_cost(route, distances):
+    """
+    Function to calculate the total cost of a route
+    """
     total_cost = 0
     n = len(route)
     for i in range(n):
@@ -34,9 +39,10 @@ def calculate_cost(route, distances):
             total_cost += distances[(next_city, current_city)]
     return total_cost
 
-# Function that takes in a dict. (name: bucket postion) and outputs the optimal route to take
 def tmp_solution(buckets: dict) -> list[tuple[str, list[int]]]:
-
+    """
+    Function that takes in a dict. (name: bucket postion) and outputs the optimal route to take
+    """
     # Dict. that holds all distances
     distances = {}
 
@@ -64,13 +70,14 @@ def tmp_solution(buckets: dict) -> list[tuple[str, list[int]]]:
     answer = []
     for bucket in optimal_route:
         answer.append(bucket)
-    answer.append(buckets[0]) # Assuming we come back to the starting point
+    #answer.append(buckets[0]) # Assuming we come back to the starting point
 
     # Return the optimal route
     return answer
 
 class StateNode(Node):
-    def __init__(self):
+    def __init__(self, 
+                 position_dict: dict):
         super().__init__("State_node")
 
         qos_profile = QoSProfile(
@@ -78,6 +85,9 @@ class StateNode(Node):
             history=QoSHistoryPolicy.KEEP_LAST,  
             depth=10
         )
+
+        self.position_dict = position_dict
+        self.optimal_route = tmp_solution(self.position_dict)
         
         self.publisher_ = self.create_publisher(String, 'go_vision', qos_profile)
         self.msg = String()
@@ -105,7 +115,7 @@ class StateNode(Node):
     def move_callback(self):
         """Move to the target position after takeoff."""
         self.get_logger().info("🎯 Moving to target location...")
-        self.mav.global_target([50.099, -110.734, 10])
+        self.mav.global_target(self.optimal_route[0][1])
         
         
         self.destroy_timer(self.timer_move)
@@ -118,11 +128,20 @@ class StateNode(Node):
         self.publisher_.publish(self.msg)
         self.get_logger().info(f"VISION GO")
 
-    
+# Define the buckets and their distances
+#TODO Make it so this dict. is not hard coded
+buckets = [("bucket_1", [10,0,10]),
+          ("bucket_2", [0,10,10]),
+          ("bucket_3", [0,5,15]),
+          ("bucket_4", [6,0,66]),
+          ("bucket_5", [0,40,10]),
+          ("bucket_6", [20,30,10]),
+          ("bucket_7", [20,234,223]),
+          ("bucket_8", [222,10,49])]
 
 def main(args=None):
     rclpy.init(args=args)
-    node = StateNode()
+    node = StateNode(buckets)
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
