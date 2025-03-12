@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
 from PyQt6.QtCore import QTimer
 from std_msgs.msg import String
 
+
 class DroneControlGUI(Node, QWidget):
     def __init__(self):
         Node.__init__(self, 'Drone_Control_Interface')
@@ -33,6 +34,10 @@ class DroneControlGUI(Node, QWidget):
         self.winch_btn_up = QPushButton('Winch Up')
         self.winch_btn_up.clicked.connect(self.send_winch_up)
         layout.addWidget(self.winch_btn_up)
+
+        self.buckets_btn = QPushButton('Buckets Number')
+        self.buckets_btn.clicked.connect(self.send_buckets)
+        layout.addWidget(self.buckets_btn)
 
         self.water_btn_bucket = QPushButton('Release Water')
         self.water_btn_bucket.clicked.connect(self.send_water_bucket)
@@ -74,13 +79,19 @@ class DroneControlGUI(Node, QWidget):
 
     def send_water_source(self):
         msg = String()
-        msg.data = "GO"
-        self.water_source_pub.publish(msg)
+        msg.data = "REFILL"
+        self.water_bucket_pub.publish(msg)
         self.get_logger().info("Water Refill command sent.")
+
+    def send_buckets(self):
+        msg = String()
+        msg.data = "8"
+        self.water_bucket_pub.publish(msg)
+        self.get_logger().info("Number of buckets sent.")
 
     def send_water_bucket(self):
         msg = String()
-        msg.data = "GO"
+        msg.data = "RELEASE"
         self.water_bucket_pub.publish(msg)
         self.get_logger().info("Water release command sent.")
 
