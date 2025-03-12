@@ -3,7 +3,71 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
-from mission import helper_func as hf
+import helper_func as hf
+import itertools
+
+# Taken from https://medium.com/@davidlfliang/intro-python-algorithms-traveling-salesman-problem-ffa61f0bd47b
+"""
+Brute force approach to the tmp
+"""
+# Function to find the distance between two points
+def func_distance(pos1,pos2):
+    if len(pos1) != len(pos2):
+        raise TypeError("The two points must be of the same dimension")
+    delta = 0
+    for i in range(len(pos1)):
+        delta += (pos2[i]-pos1[i])**2
+
+    return delta**(0.5)
+
+# Function to calculate the total cost of a route
+def calculate_cost(route, distances):
+    total_cost = 0
+    n = len(route)
+    for i in range(n):
+        current_city = route[i][0]
+        next_city = route[(i + 1) % n][0]  # Wrap around to the start of the route
+        # Look up the distance in both directions
+        if (current_city, next_city) in distances:
+            total_cost += distances[(current_city, next_city)]
+        else:
+            total_cost += distances[(next_city, current_city)]
+    return total_cost
+
+# Function that takes in a dict. (name: bucket postion) and outputs the optimal route to take
+def tmp_solution(buckets: dict) -> list[tuple[str, list[int]]]:
+
+    # Dict. that holds all distances
+    distances = {}
+
+    for i in range(len(buckets)-1):
+        for j in range(len(buckets)):
+            if j<=i:
+                pass
+            else:
+                distances[(buckets[i][0],buckets[j][0])] = func_distance(buckets[i][1],buckets[j][1])
+
+    # Generate all permutations of the buckets
+    all_permutations = itertools.permutations(buckets)
+
+    # Initialize variables to track the minimum cost and corresponding route
+    min_cost = float("inf")
+    optimal_route = None
+
+    # Iterate over all permutations and calculate costs
+    for perm in all_permutations:
+        cost = calculate_cost(perm, distances)
+        if cost < min_cost:
+            min_cost = cost
+            optimal_route = perm
+
+    answer = []
+    for bucket in optimal_route:
+        answer.append(bucket)
+    answer.append(buckets[0]) # Assuming we come back to the starting point
+
+    # Return the optimal route
+    return answer
 
 class StateNode(Node):
     def __init__(self):
