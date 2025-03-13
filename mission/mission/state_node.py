@@ -5,6 +5,8 @@ from std_msgs.msg import String
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 import helper_func as hf
 import itertools
+import numpy as np
+import time
 
 # Taken from https://medium.com/@davidlfliang/intro-python-algorithms-traveling-salesman-problem-ffa61f0bd47b
 """
@@ -18,11 +20,7 @@ def func_distance(pos1: list[int], pos2: list[int]) -> float:
     """
     if len(pos1) != len(pos2):
         raise TypeError("The two points must be of the same dimension")
-    delta = 0.0
-    for i in range(len(pos1)):
-        delta += (pos2[i] - pos1[i]) ** 2
-
-    return delta ** (0.5)
+    return np.linalg.norm(np.array(pos1) - np.array(pos2))
 
 
 def calculate_cost(route: list[tuple], distances: dict) -> float:
@@ -75,7 +73,6 @@ def tmp_solution(buckets: dict) -> list[tuple[str, list[int]]]:
     answer = []
     for bucket in optimal_route:
         answer.append(bucket)
-    # answer.append(buckets[0]) # Assuming we come back to the starting point
 
     # Return the optimal route
     return answer
@@ -92,6 +89,7 @@ class StateNode(Node):
         )
 
         # Let's define the important points in space
+        self.ground_station = ("ground station", [0, 0, 0])
         self.water_source = ("water source", [50, 50, 20])
         # Optimal route to go to all buckets with the Travelling Marchant Problem brute force solution
         self.position_dict = position_dict
@@ -103,8 +101,18 @@ class StateNode(Node):
 
         # MAVLink Connection
         self.mav = hf.pymav()
-        # self.mav.connect('udp:127.0.0.1:14551')
+        self.mav.connect("udp:127.0.0.1:14551")
         self.mav.set_mode("GUIDED")
+
+        # Information on the drone
+        self.drone_battery = 100.0  # %
+
+        # Starting the mission
+        self.action()
+
+    def action(self) -> None:
+        # Scheduling a timer to call a function checking if there's an opportunity to come back to base to charge the battery
+        self.timer_battery = self.create_timer(10.0, self.charge_opportunity)  # Checking every 10 sec.
 
         # Schedule takeoff using a timer instead of blocking the main thread
         self.timer_takeoff = self.create_timer(1.0, self.takeoff_callback)
@@ -131,7 +139,7 @@ class StateNode(Node):
             # Removing the current bucket from the list
             self.optimal_route.pop(0)
 
-        # If there are no buckets to go to, return to base
+        # If there are no buckets left to go to, return to base
         if len(self.optimal_route) == 0:
             self.mav.RTL()
 
@@ -166,6 +174,21 @@ class StateNode(Node):
         self.msg.data = "GO"
         self.publisher_.publish(self.msg)
         self.get_logger().info(f"DROPPING WATER GO")
+
+    def charge_opportunity(self) -> None:
+        # Drone's current position
+        drone_position = self.mav.get_global_pos()
+        # If the drone is close enough to the ground station and the battery is nearly dead, let's take the opportunity to recharge it
+        if (
+            self.mav.is_near_waypoint(drone_position, self.ground_station[1], 10)
+            and self.drone_battery <= 10
+        ):
+            # Returning to launch
+            self.mav.RTL()
+            print("Charging battery ... ")
+            time.sleep(3)
+            print("Battery is charged!")
+            self.drone_battery = 100.0  # %
 
 
 # Define the buckets and their distances
