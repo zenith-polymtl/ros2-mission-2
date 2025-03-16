@@ -97,11 +97,15 @@ class StateNode(Node):
 
         self.reached_target = False
         self.battery_changed = False
+        self.taken_off = False
+        self.manual = False
     
 
         self.manual_sub = self.create_subscription(String, '/manual', self.manual_callback, qos_profile)
         self.finished_manual_sub = self.create_subscription(String, '/task_end', self.end_approach_callback, qos_profile)
         self.battery_sub = self.create_subscription(String, '/battery_changed', self.notify_battery, qos_profile)
+        self.abort_sub = self.create_subscription(String, '/abort_state', self.abort, qos_profile)
+        self.armed_sub = self.create_subscription(String, '/armed_confirmation', self.confirm_arming, qos_profile)
         self.publisher_ = self.create_publisher(String, "/go_vision", qos_profile)
         self.msg = String()
         self.get_logger().info("✅ State node started and listening.")
@@ -109,7 +113,6 @@ class StateNode(Node):
         # MAVLink Connection
         self.mav = hf.pymav()
         self.mav.connect("udp:127.0.0.1:14551")
-        self.mav.set_mode("GUIDED")
 
         # Information on the drone
         self.drone_battery = 100.0  # %
@@ -117,6 +120,11 @@ class StateNode(Node):
 
         # Starting the mission
         self.action()
+
+    def abort(self, msg: String) -> None:
+        self.get_logger().info('Shutting down node...')
+        self.destroy_node()
+        rclpy.shutdown()
 
     def notify_battery(self, msg: String) -> None:
         if msg.data == "CHANGED":
@@ -131,10 +139,13 @@ class StateNode(Node):
         self.timer_takeoff = self.create_timer(1.0, self.takeoff_callback)
         
 
-        # Schedule moving to the water source using a timer instead of blocking the main thread
-        self.timer_move = self.create_timer(
-            2.0, self.move_callback(self.water_source[0][1], self.water_source[0][0])
-        )
+        while not self.taken_off:
+            pass
+        else:
+            # Schedule moving to the water source using a timer instead of blocking the main thread
+            self.timer_move = self.create_timer(
+                2.0, lambda: self.move_callback(self.water_source[0][1], self.water_source[0][0])
+            )
 
 
         '''À voir si la stratégie bloquante ici est appropriée'''
@@ -155,7 +166,7 @@ class StateNode(Node):
                 self.reached_target = False
                 self.timer_move = self.create_timer(
                     2.0,
-                    self.move_callback(self.optimal_route[0][1], self.optimal_route[0][0]),
+                    lambda: self.move_callback(self.water_source[0][1], self.water_source[0][0])
                 )
 
                 while not self.reached_target:
@@ -196,12 +207,13 @@ class StateNode(Node):
     def takeoff_callback(self) -> None:
         """Takeoff command, scheduled to prevent blocking."""
         self.get_logger().info("🚀 Takeoff initiated...")
-        self.mav.arm()
+
         self.mav.takeoff(20)
         # Then destroying the takeoff timer and starting the vision node
         self.destroy_timer(self.timer_takeoff)
+        self.taken_off = True
 
-    def move_callback(self, pos_coordinates: list[int], pos_name: str = "") -> None:
+    def move_callback(self, pos_coordinates: list[float], pos_name: str = "") -> None:
         """Move to the target position."""
         self.get_logger().info(f"🎯 Moving to target location {pos_name} ...")
         self.mav.global_target(pos_coordinates)
@@ -238,6 +250,7 @@ class StateNode(Node):
         ):
             # Returning to launch
             self.mav.RTL()
+            self.taken_off = False
             print("Charging battery ... ")
             time.sleep(3)
             print("Battery is charged!")
@@ -264,14 +277,12 @@ class StateNode(Node):
 # Define the buckets and their distances
 # TODO Make it so this dict. is not hard coded. I believe this data would come from the first phase.
 buckets = [
-    ("bucket_1", [10, 0, 10]),
-    ("bucket_2", [0, 10, 10]),
-    ("bucket_3", [0, 5, 15]),
-    ("bucket_4", [6, 0, 66]),
-    ("bucket_5", [0, 40, 10]),
-    ("bucket_6", [20, 30, 10]),
-    ("bucket_7", [20, 234, 223]),
-    ("bucket_8", [222, 10, 49]),
+    ("bucket_1", [50.101222, -110.738856, 10]),
+    ("bucket_2", [50.101196, -110.739031, 10]),
+    ("bucket_3", [50.101195, -110.738814, 10]),
+    ("bucket_4", [50.101195, -110.738554, 10]),
+    ("bucket_5", [50.101928, -110.738858, 10]),
+    ("bucket_6", [50.101876,-110.738629, 10]),
 ]
 
 

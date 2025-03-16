@@ -13,7 +13,6 @@
   <test_depend>python3-pytest</test_depend>
   <buildtool_depend>rosidl_default_generators</buildtool_depend>
   <exec_depend>rosidl_default_runtime</exec_depend>
-  <exec_depend>mission</exec_depend>
 
 
   <export>

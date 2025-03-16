@@ -3,6 +3,7 @@ import rclpy
 from rclpy.node import Node
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLineEdit, QLabel, QGroupBox, QGridLayout
 from PyQt6.QtCore import QTimer
+from PyQt6.QtGui import QColor, QPalette
 from std_msgs.msg import String
 
 class DroneControlGUI(Node, QWidget):
@@ -11,7 +12,7 @@ class DroneControlGUI(Node, QWidget):
         QWidget.__init__(self)
 
         self.setWindowTitle("Drone Control Interface")
-        self.setGeometry(500, 500, 400, 550)  # Increased window size
+        self.setGeometry(500, 500, 400, 600)  # Increased window size
 
         # ROS 2 publishers
         self.vision_pub = self.create_publisher(String, '/go_vision', 10)
@@ -20,7 +21,10 @@ class DroneControlGUI(Node, QWidget):
         self.water_bucket_pub = self.create_publisher(String, '/go_bucket_valve', 10)
         self.manual_approach = self.create_publisher(String, '/manual', 10)
         self.finished_manual_approach_pub = self.create_publisher(String, '/task_end', 10)
-        self.battery_changed_pub = self.create_publisher(String, '/battery_changed', 10)  # NEW Battery publisher
+        self.battery_changed_pub = self.create_publisher(String, '/battery_changed', 10)
+        self.abort_state_pub = self.create_publisher(String, '/abort_state', 10)  # NEW Abort State publisher
+        self.confirm_arming_pub = self.create_publisher(String, '/confirm_arming', 10)  # NEW Confirm Arming publisher
+
 
         # Main layout
         main_layout = QVBoxLayout()
@@ -54,7 +58,6 @@ class DroneControlGUI(Node, QWidget):
         self.manual_btn = QPushButton('Finish Manual Approach')
         self.manual_btn.clicked.connect(self.finished_manual)
         task_layout.addWidget(self.manual_btn)
-
         task_box.setLayout(task_layout)
         main_layout.addWidget(task_box)
 
@@ -98,16 +101,41 @@ class DroneControlGUI(Node, QWidget):
         water_box.setLayout(water_layout)
         main_layout.addWidget(water_box)
 
-        # ➡️ Battery Status Controls (NEW)
+        # ➡️ Battery Status Controls
         battery_box = QGroupBox("Battery Status")
         battery_layout = QVBoxLayout()
-
         self.battery_btn = QPushButton('Battery Changed')
         self.battery_btn.clicked.connect(self.send_battery_changed)
         battery_layout.addWidget(self.battery_btn)
-
         battery_box.setLayout(battery_layout)
         main_layout.addWidget(battery_box)
+
+        # ➡️ Abort State Controls (NEW)
+        abort_box = QGroupBox("Abort State")
+        abort_layout = QVBoxLayout()
+        
+        self.abort_btn = QPushButton('ABORT STATE')
+        self.abort_btn.clicked.connect(self.send_abort_state)
+        
+        # Set button color to red
+        palette = self.abort_btn.palette()
+        palette.setColor(QPalette.ColorRole.Button, QColor(200, 0, 0))  # RGB for Red
+        self.abort_btn.setPalette(palette)
+        self.abort_btn.setStyleSheet("background-color: red; color: white; font-weight: bold;")
+
+        abort_layout.addWidget(self.abort_btn)
+        abort_box.setLayout(abort_layout)
+        main_layout.addWidget(abort_box)
+
+        self.arm_btn = QPushButton('Confirm ARMED, GUIDED, AUTHORISE TAKEOFF')
+        self.arm_btn.clicked.connect(self.confirm_arming)
+        self.arm_btn.setStyleSheet("background-color: green; color: white; font-weight: bold;")
+
+        flight_mode_box = QGroupBox("Flight Mode")
+        flight_mode_layout = QVBoxLayout()
+        flight_mode_layout.addWidget(self.arm_btn)
+        flight_mode_box.setLayout(flight_mode_layout)
+        main_layout.addWidget(flight_mode_box)
 
         # Set main layout
         self.setLayout(main_layout)
@@ -152,26 +180,26 @@ class DroneControlGUI(Node, QWidget):
         msg = String()
         msg.data = "DOWN"
         self.winch_pub.publish(msg)
-        self.get_logger().info("Winch DOWN command sent.")
+        self.get_logger().info("Winch Command Sent: DOWN")
 
     def send_winch_up(self):
         msg = String()
         msg.data = "UP"
         self.winch_pub.publish(msg)
-        self.get_logger().info("Winch UP command sent.")
+        self.get_logger().info("Winch Command Sent: UP")
 
     # ➡️ Water Commands
     def send_water_source(self):
         msg = String()
         msg.data = "REFILL"
         self.water_source_pub.publish(msg)
-        self.get_logger().info("Water Refill command sent.")
+        self.get_logger().info("Water Refill Command Sent.")
 
     def send_water_bucket(self):
         msg = String()
         msg.data = "RELEASE"
         self.water_bucket_pub.publish(msg)
-        self.get_logger().info("Water release command sent.")
+        self.get_logger().info("Water Release Command Sent.")
 
     def send_buckets(self):
         num_buckets = self.bucket_input.text().strip()
@@ -179,16 +207,28 @@ class DroneControlGUI(Node, QWidget):
             msg = String()
             msg.data = num_buckets
             self.water_bucket_pub.publish(msg)
-            self.get_logger().info(f"Number of buckets set to: {num_buckets}")
-        else:
-            self.get_logger().error("Invalid number of buckets. Please enter a valid number.")
+            self.get_logger().info(f"Set number of buckets to {num_buckets}.")
 
-    # ➡️ NEW: Battery Status Command
+    # ➡️ Battery Status Command
     def send_battery_changed(self):
         msg = String()
         msg.data = "CHANGED"
         self.battery_changed_pub.publish(msg)
-        self.get_logger().info("Battery changed message sent.")
+        self.get_logger().info("Battery Changed Command Sent.")
+
+    #Abort State Command
+    def send_abort_state(self):
+        msg = String()
+        msg.data = "ABORT"
+        self.abort_state_pub.publish(msg)
+        self.get_logger().warn("ABORT STATE ACTIVATED!")
+
+    # Confirm Arming Command
+    def confirm_arming(self):
+        msg = String()
+        msg.data = "ARM"
+        self.confirm_arming_pub.publish(msg)
+        self.get_logger().info("Confirm Arming Command Sent.")
 
 def main(args=None):
     rclpy.init(args=args)
