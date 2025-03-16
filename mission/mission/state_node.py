@@ -3,7 +3,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
-import helper_func as hf
+import mission.helper_func as hf
 import itertools
 import numpy as np
 import time
@@ -140,7 +140,7 @@ class StateNode(Node):
         else:
             self.wait_for_manual_approach()
 
-        self.current_pos = self.water_source
+        self.current_pos = self.mav.get_global_pos()
         for _ in range(len(self.optimal_route)):
             # Making sure the drone can do the travel without running out of battery 
             if self.possible_movement(self.optimal_route[0]):
