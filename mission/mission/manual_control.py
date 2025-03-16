@@ -186,7 +186,7 @@ class DroneControlGUI(Node, QWidget):
     # ➡️ NEW: Battery Status Command
     def send_battery_changed(self):
         msg = String()
-        msg.data = "BATTERY_CHANGED"
+        msg.data = "CHANGED"
         self.battery_changed_pub.publish(msg)
         self.get_logger().info("Battery changed message sent.")
 

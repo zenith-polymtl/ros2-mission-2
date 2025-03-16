@@ -96,10 +96,12 @@ class StateNode(Node):
         self.optimal_route, self.distances = tmp_solution(self.position_dict)
 
         self.reached_target = False
-
+        self.battery_changed = False
+    
 
         self.manual_sub = self.create_subscription(String, '/manual', self.manual_callback, qos_profile)
         self.finished_manual_sub = self.create_subscription(String, '/task_end', self.end_approach_callback, qos_profile)
+        self.battery_sub = self.create_subscription(String, '/battery_changed', self.notify_battery, qos_profile)
         self.publisher_ = self.create_publisher(String, "/go_vision", qos_profile)
         self.msg = String()
         self.get_logger().info("✅ State node started and listening.")
@@ -115,6 +117,11 @@ class StateNode(Node):
 
         # Starting the mission
         self.action()
+
+    def notify_battery(self, msg: String) -> None:
+        if msg.data == "CHANGED":
+            self.drone_battery = 100.0
+            self.battery_changed = True
 
     def action(self) -> None:
         # Scheduling a timer to call a function checking if there's an opportunity to come back to base to charge the battery
