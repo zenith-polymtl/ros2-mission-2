@@ -8,7 +8,6 @@ from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
-from mission.msg import approach_info
 
 class VisionNode(Node):
     def __init__(self):
@@ -42,7 +41,7 @@ class VisionNode(Node):
             10
         )
 
-        self.go_publisher = self.create_publisher(approach_info, 'go_approach', qos_profile)
+        self.go_publisher = self.create_publisher(String, 'go_approach', qos_profile)
 
         self.image_pub = self.create_publisher(Image, '/camera/image_modified', 10)
 
@@ -77,11 +76,8 @@ class VisionNode(Node):
         elif ((time.time() - self.analysis_time) < 30):
             self.get_logger().info(f"SIMULATING VISION")
         else:
-            self.go_for_approach = approach_info()
-            self.go_for_approach.status = 'GO'
-            self.go_for_approach.x = 69
-            self.go_for_approach.y = 69
-            self.go_for_approach.z = -10
+            self.go_for_approach = String()
+            self.go_for_approach.data = 'GO'
             self.go_publisher.publish(self.go_for_approach)
             self.get_logger().info(f"LAUNCHED APPROACH")
             self.analysis_time = None

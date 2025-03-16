@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import os
+from glob import glob
 
 package_name = 'mission'
 
@@ -10,6 +12,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        # Include the .msg files for message generation
+        (os.path.join('share', package_name, 'msg'), glob('msg/*.msg'))
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -23,7 +27,6 @@ setup(
             'state = mission.state_node:main',
             'approach = mission.approach:main',
             'vision = mission.machine_vision:main',
-            'source_valve = mission.valve_source_control:main',
             'bucket_valve = mission.valve_bucket_control:main',
             'winch = mission.winch_control:main',
             'control = mission.manual_control:main'

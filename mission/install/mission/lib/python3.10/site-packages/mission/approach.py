@@ -55,16 +55,16 @@ class ApproachNode(Node):
         self.pid_z = PIDController(kp=0.7, ki=0.00, kd=0.06)
 
         self.curr_pos = None
+        self.target_pos = target(69, 69, 15)  # Desired hold position
         self.approach_active = False  # Control flag
         self.last_time = self.get_clock().now()
 
         self.timer = self.create_timer(0.05, self.control_loop)  # 20 Hz loop
 
     def go_approach_callback(self, msg):
-        if msg.status == "GO":
+        if msg.data == "GO":
             if self.curr_pos: 
                 self.approach_active = True
-                self.target_pos = target(msg.x, msg.y, msg.z)
                 self.get_logger().info("Approach PID activated. Holding position.")
             else:
                 self.get_logger().warn("No position data received yet!")
