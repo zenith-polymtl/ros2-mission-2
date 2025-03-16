@@ -75,7 +75,7 @@ def tmp_solution(buckets: dict) -> list[tuple[str, list[int]]]:
         answer.append(bucket)
 
     # Return the optimal route
-    return answer
+    return (answer, distances)
 
 
 class StateNode(Node):
@@ -93,7 +93,7 @@ class StateNode(Node):
         self.water_source = ("water source", [50, 50, 20])
         # Optimal route to go to all buckets with the Travelling Marchant Problem brute force solution
         self.position_dict = position_dict
-        self.optimal_route = tmp_solution(self.position_dict)
+        self.optimal_route, self.distances = tmp_solution(self.position_dict)
 
         self.publisher_ = self.create_publisher(String, "go_vision", qos_profile)
         self.msg = String()
@@ -106,6 +106,7 @@ class StateNode(Node):
 
         # Information on the drone
         self.drone_battery = 100.0  # %
+        self.drone_travel_efficiency = 2 # Distance units per % of battery
 
         # Starting the mission
         self.action()
@@ -128,16 +129,24 @@ class StateNode(Node):
         # Starting the node to fill up the water tank
         self.start_filling_up()
 
+        self.current_pos = self.water_source
         for _ in range(len(self.optimal_route)):
-            # Schedule moving to the current bucket using a timer instead of blocking the main thread
-            self.timer_move = self.create_timer(
-                2.0,
-                self.move_callback(self.optimal_route[0][1], self.optimal_route[0][0]),
-            )
-            # Starting the node to drop water
-            self.start_dropping_water()
-            # Removing the current bucket from the list
-            self.optimal_route.pop(0)
+            # Making sure the drone can do the travel without running out of battery 
+            if self.possible_movement(self.optimal_route[0]):
+                # Schedule moving to the current bucket using a timer instead of blocking the main thread
+                self.timer_move = self.create_timer(
+                    2.0,
+                    self.move_callback(self.optimal_route[0][1], self.optimal_route[0][0]),
+                )
+                # Updating the current position
+                self.current_pos = self.optimal_route[0]
+                # Starting the node to drop water
+                self.start_dropping_water()
+                # Removing the current bucket from the list
+                self.optimal_route.pop(0)
+            else:
+                self.mav.RTL()
+                break
 
         # If there are no buckets left to go to, return to base
         if len(self.optimal_route) == 0:
@@ -189,7 +198,24 @@ class StateNode(Node):
             time.sleep(3)
             print("Battery is charged!")
             self.drone_battery = 100.0  # %
+    
+    def possible_movement(self, target_pos: tuple[str, list[int]]) -> bool:
+        #TODO Do profilling to see if the try-except block is faster than re-calculating the distance 
+        try:
+            next_distance = self.distances[(self.current_pos[0], target_pos[0])]
+        except:
+            try:
+                next_distance = self.distances[(self.current_pos[0], target_pos[0])]
+            except:
+                next_distance = func_distance(self.current_pos[1], target_pos[1]) # Possibly faster to do this in every cases
 
+        # Distance from the target to the ground station
+        distance_target_to_base = func_distance(target_pos[1], self.ground_station[1])
+
+        # Approximate battery level and drone's autonomy when it will have met the target
+        battery_at_target = self.drone_battery - (next_distance/self.drone_travel_efficiency)
+        autonomy_at_target = battery_at_target*self.drone_travel_efficiency
+        return autonomy_at_target > distance_target_to_base
 
 # Define the buckets and their distances
 # TODO Make it so this dict. is not hard coded. I believe this data would come from the first phase.
