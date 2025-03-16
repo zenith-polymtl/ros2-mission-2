@@ -16,7 +16,6 @@ mission/manual_control.py
 mission/state_node.py
 mission/valve_bucket_control.py
 mission/winch_control.py
-msg/approach_info.msg
 resource/mission
 test/test_copyright.py
 test/test_flake8.py

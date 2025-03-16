@@ -95,7 +95,12 @@ class StateNode(Node):
         self.position_dict = position_dict
         self.optimal_route, self.distances = tmp_solution(self.position_dict)
 
-        self.publisher_ = self.create_publisher(String, "go_vision", qos_profile)
+        self.reached_target = False
+
+
+        self.manual_sub = self.create_subscription(String, '/manual', self.manual_callback, qos_profile)
+        self.finished_manual_sub = self.create_subscription(String, '/task_end', self.end_approach_callback, qos_profile)
+        self.publisher_ = self.create_publisher(String, "/go_vision", qos_profile)
         self.msg = String()
         self.get_logger().info("✅ State node started and listening.")
 
@@ -117,31 +122,45 @@ class StateNode(Node):
 
         # Schedule takeoff using a timer instead of blocking the main thread
         self.timer_takeoff = self.create_timer(1.0, self.takeoff_callback)
-
-        # Then destroying the takeoff timer and starting the vision node
-        self.destroy_timer(self.timer_takeoff)
-        self.start_vision()
+        
 
         # Schedule moving to the water source using a timer instead of blocking the main thread
         self.timer_move = self.create_timer(
             2.0, self.move_callback(self.water_source[0][1], self.water_source[0][0])
         )
-        # Starting the node to fill up the water tank
-        self.start_filling_up()
+
+
+        '''À voir si la stratégie bloquante ici est appropriée'''
+        # Starting vision node to make the approach
+        while not self.reached_target:
+            pass
+        
+        if not self.manual:
+            self.start_vision()
+        else:
+            self.wait_for_manual_approach()
 
         self.current_pos = self.water_source
         for _ in range(len(self.optimal_route)):
             # Making sure the drone can do the travel without running out of battery 
             if self.possible_movement(self.optimal_route[0]):
                 # Schedule moving to the current bucket using a timer instead of blocking the main thread
+                self.reached_target = False
                 self.timer_move = self.create_timer(
                     2.0,
                     self.move_callback(self.optimal_route[0][1], self.optimal_route[0][0]),
                 )
+
+                while not self.reached_target:
+                    pass
+
                 # Updating the current position
-                self.current_pos = self.optimal_route[0]
-                # Starting the node to drop water
-                self.start_dropping_water()
+                self.current_pos = self.mav.get_global_pos()
+                # Starting the vision node
+                if not self.manual:
+                    self.start_vision()
+                else:
+                    self.wait_for_manual_approach()
                 # Removing the current bucket from the list
                 self.optimal_route.pop(0)
             else:
@@ -152,16 +171,34 @@ class StateNode(Node):
         if len(self.optimal_route) == 0:
             self.mav.RTL()
 
+    def wait_for_manual_approach(self) -> None:
+        # Waiting for the manual approach to finish
+        while not self.finished_manual_approach:
+            pass
+    
+    def end_approach_callback(self, msg: String) -> None:
+        if msg.data == "END":
+            self.finished_manual_approach = True
+    
+    def manual_callback(self, msg: String) -> None:
+        if msg.data == "MANUAL":
+            self.manual = True
+        elif msg.data == "AUTO":
+            self.manual = False
+
     def takeoff_callback(self) -> None:
         """Takeoff command, scheduled to prevent blocking."""
         self.get_logger().info("🚀 Takeoff initiated...")
         self.mav.arm()
         self.mav.takeoff(20)
+        # Then destroying the takeoff timer and starting the vision node
+        self.destroy_timer(self.timer_takeoff)
 
     def move_callback(self, pos_coordinates: list[int], pos_name: str = "") -> None:
         """Move to the target position."""
         self.get_logger().info(f"🎯 Moving to target location {pos_name} ...")
         self.mav.global_target(pos_coordinates)
+        self.reached_target = True
 
         # Destroying the "travel" timer
         self.destroy_timer(self.timer_move)
