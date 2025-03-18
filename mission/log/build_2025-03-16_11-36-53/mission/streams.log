@@ -1,0 +1,40 @@
+[0.659s] Invoking command in '/home/colin/ardupilot_sim/ardu_ws/src/mission': PYTHONPATH=/home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base build/mission build --build-base /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build install --record /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/install.log --single-version-externally-managed install_data
+[0.790s] /home/colin/.local/lib/python3.10/site-packages/setuptools/_distutils/dist.py:270: UserWarning: Unknown distribution option: 'tests_require'
+[0.791s]   warnings.warn(msg)
+[0.888s] running egg_info
+[0.903s] writing build/mission/mission.egg-info/PKG-INFO
+[0.903s] writing dependency_links to build/mission/mission.egg-info/dependency_links.txt
+[0.904s] writing entry points to build/mission/mission.egg-info/entry_points.txt
+[0.904s] writing requirements to build/mission/mission.egg-info/requires.txt
+[0.904s] writing top-level names to build/mission/mission.egg-info/top_level.txt
+[0.935s] reading manifest file 'build/mission/mission.egg-info/SOURCES.txt'
+[0.936s] writing manifest file 'build/mission/mission.egg-info/SOURCES.txt'
+[0.936s] running build
+[0.936s] running build_py
+[0.936s] copying mission/helper_func.py -> /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build/lib/mission
+[0.936s] copying mission/approach.py -> /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build/lib/mission
+[0.937s] copying mission/machine_vision.py -> /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build/lib/mission
+[0.937s] copying mission/__init__.py -> /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build/lib/mission
+[0.937s] copying mission/manual_control.py -> /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build/lib/mission
+[0.937s] copying mission/valve_bucket_control.py -> /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build/lib/mission
+[0.937s] copying mission/winch_control.py -> /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build/lib/mission
+[0.938s] copying mission/state_node.py -> /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build/lib/mission
+[0.938s] running install
+[0.942s] running install_lib
+[0.958s] copying /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build/lib/mission/manual_control.py -> /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/python3.10/site-packages/mission
+[0.959s] byte-compiling /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/python3.10/site-packages/mission/manual_control.py to manual_control.cpython-310.pyc
+[0.960s] running install_data
+[0.960s] copying resource/mission -> /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/share/ament_index/resource_index/packages
+[0.960s] copying package.xml -> /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/share/mission
+[0.960s] running install_egg_info
+[0.976s] removing '/home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/python3.10/site-packages/mission-0.0.0-py3.10.egg-info' (and everything under it)
+[0.977s] Copying build/mission/mission.egg-info to /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/python3.10/site-packages/mission-0.0.0-py3.10.egg-info
+[0.978s] running install_scripts
+[1.099s] Installing approach script to /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/mission
+[1.099s] Installing bucket_valve script to /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/mission
+[1.100s] Installing control script to /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/mission
+[1.100s] Installing state script to /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/mission
+[1.100s] Installing vision script to /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/mission
+[1.100s] Installing winch script to /home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/mission
+[1.100s] writing list of installed files to '/home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/install.log'
+[1.120s] Invoked command in '/home/colin/ardupilot_sim/ardu_ws/src/mission' returned '0': PYTHONPATH=/home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/colin/ardupilot_sim/ardu_ws/src/mission/install/mission/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base build/mission build --build-base /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/build install --record /home/colin/ardupilot_sim/ardu_ws/src/mission/build/mission/install.log --single-version-externally-managed install_data

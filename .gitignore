@@ -12,4 +12,8 @@ mav.tlog.raw
 mav.parm
 eeprom.bin
 mav.tlog
+<<<<<<< HEAD
 env
+=======
+env
+>>>>>>> dev
