@@ -8,7 +8,7 @@ Dans tous les nouveaux terminaux utilisés pour l'env ros2, exécuter :
    Si c'est le seul ws dans ta machine, et que tu comprends les risques de conflits avec les autres projets ros sur ta machine, tu peux mettre la ligne suivante dans ton .bashrc. (Remplacer /home/<user> par votre position absolue de ardu_ws)
    
    ```bash
-   source /home/<user>/ardu_ws/install/setup.bash
+   source /home/<user>/ardupilot_sim/ardu_ws/install/setup.bash
    ```
 
 ### 👉 Début de simulation avez gazebo, ros2, rviz:

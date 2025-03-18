@@ -298,35 +298,39 @@ class StateNode(Node):
             self.battery_changed = True
             self.get_logger().info("Battery changed => drone battery set to 100%.")
 
-    def charge_opportunity(self):
-        """
-        Non-blocking battery check. If near ground station and battery <= 10%, we can RTL, wait, recharge, etc.
-        In reality you’d want more robust approach for real flights.
-        """
-        # Use your local or global pos to see if we are near ground station
-        # For simplicity, skip real geometry.
-        if self.drone_battery <= 10:
-            self.get_logger().info("Battery near 10%. Attempting RTL + re-charge.")
-            self.mav.RTL(wait_to_land=False)
-            # Once landed, you might set self.taken_off=False, do a short “charging” approach, etc.
-            time.sleep(3)  # not recommended in real callbacks, but left for demonstration
-            self.drone_battery = 100.0
-            self.get_logger().info("Battery is charged => ready to fly again")
+    def charge_opportunity(self) -> None:
+        # Drone's current position
+        drone_position = self.mav.get_local_pos()
+        # If the drone is close enough to the ground station and the battery is nearly dead, let's take the opportunity to recharge it
+        if (
+            self.mav.is_near_waypoint(drone_position, self.ground_station[1], 100) #is near waypoint marche mieux avec coordonnées locale
+            and self.drone_battery <= 10
+        ):
+            # Returning to launch
+            self.mav.RTL()
+            self.taken_off = False
+            print("Charging battery ... ")
+            time.sleep(3)
+            print("Battery is charged!")
+            self.drone_battery = 100.0  # %
+    
+    def possible_movement(self, target_pos: tuple[str, list[int]]) -> bool:
+        #TODO Do profilling to see if the try-except block is faster than re-calculating the distance 
+        try:
+            next_distance = self.distances[(self.current_pos[0], target_pos[0])]
+        except:
+            try:
+                next_distance = self.distances[(self.current_pos[0], target_pos[0])]
+            except:
+                next_distance = func_distance(self.current_pos[1], target_pos[1]) # Possibly faster to do this in every cases
 
-    def possible_movement(self, target_pos):
-        """
-        Checks if we have enough battery to get from self.current_pos to target, and
-        then from target to base. This is simplified from your code. Also note that we
-        do not block. 
-        """
-        # In real usage, we’d do the geometry or TSP-distances. 
-        # Here is an example:
-        route_name, route_coords = target_pos
-        # if distance is large:
-        #   return False
-        # else:
-        #   return True
-        return True
+        # Distance from the target to the ground station
+        distance_target_to_base = func_distance(target_pos[1], self.ground_station[1])
+
+        # Approximate battery level and drone's autonomy when it will have met the target
+        battery_at_target = self.drone_battery - (next_distance/self.drone_travel_efficiency)
+        autonomy_at_target = battery_at_target*self.drone_travel_efficiency
+        return autonomy_at_target > distance_target_to_base
 
     # Example simulation method for setting “taken_off” or “reached_target.”
     # In reality you’d have MAVLink telemetry with altitude to set self.taken_off
