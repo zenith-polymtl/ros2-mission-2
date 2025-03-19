@@ -15,7 +15,7 @@
                     <locator>
                         <udpv4>
                             <!-- Your Raspberry Pi's IP -->
-                            <address>172.17.0.1</address>
+                            <address>172.19.40.72</address>
                             <port>7412</port>
                         </udpv4>
                     </locator>
