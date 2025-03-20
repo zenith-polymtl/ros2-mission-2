@@ -242,7 +242,7 @@ class pymav():
 
         self.takeoff(height)
 
-    def global_target(self, wp, acceptance_radius=5, while_moving=None, wait_to_reach=True):
+    def global_target(self, wp, acceptance_radius=5e-6, while_moving=None, wait_to_reach=True):
             """Sends a movement command to the drone for a specific global GPS coordinate.
 
             Args:
