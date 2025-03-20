@@ -21,7 +21,9 @@ setup(
     maintainer_email='colin@todo.todo',
     description='TODO: Package description',
     license='TODO: License declaration',
-    tests_require=['pytest'],
+    extras_require={
+        'test': ['pytest'],
+    },
     entry_points={
         'console_scripts': [
             'state = mission.state_node:main',
