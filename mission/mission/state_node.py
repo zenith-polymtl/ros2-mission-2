@@ -97,6 +97,7 @@ class StateNode(Node):
         self.optimal_route, self.distances = tmp_solution(self.position_dict)
 
         # Some fixed references
+        self.flying_height = flying_height
         self.ground_station = ("ground station", [0, 0, 0])
         self.water_source = ("water source", [50.1013, -110.734, self.flying_height])
         self.current_pos = None  # store last known drone position
@@ -105,12 +106,12 @@ class StateNode(Node):
         # We track mission states
         self.state = MissionState.IDLE
         self.finished_manual_approach = False
-        self.manual = False
+        self.manual = True
         self.taken_off = False
         self.reached_wp = False
         self.ready_to_fly = False
 
-        self.flying_height = flying_height
+        
 
         # Battery info
         self.drone_battery = 100.0
@@ -224,9 +225,9 @@ class StateNode(Node):
             # Check if near the current_target
             self.get_logger().info("Flying towards target")
             if self.mav.is_near_waypoint(
-                self.current_target[1], self.mav.get_global_pos(), 0.00003
+                self.current_target[1], self.mav.get_global_pos(), 0.00006
             ):
-                self.get_logger().info("Reached water source. Next: VISION/APPROACH.")
+                self.get_logger().info(f"Reached {self.target_type}. Next: VISION/APPROACH.")
                 self.state = MissionState.LOWERING_DRONE
 
         elif self.state == MissionState.LOWERING_DRONE:
@@ -241,9 +242,9 @@ class StateNode(Node):
         elif self.state == MissionState.WAIT_FOR_LOWER:
 
             if self.mav.is_near_waypoint(
-                self.mav.get_local_pos(),
-                [self.current_pos[0], self.current_pos[1], self.target_type.approach_height],
-                2
+                self.mav.get_local_pos()[2],
+                self.target_type.approach_height,
+                0.5
             ):
                 self.get_logger().info(f"Into position, beginning Vision approach.")
                 self.state = MissionState.APPROACH
@@ -253,8 +254,7 @@ class StateNode(Node):
             if not self.manual:
                 self.finished_bucket = False
                 self.start_vision()
-                # we assume it completes instantly or triggers something
-                # you could set a short wait or event
+
                 self.state = MissionState.WAIT_FINISH
             else:
                 # If manual, we wait for /task_end:
@@ -297,8 +297,9 @@ class StateNode(Node):
 
             # We do have enough battery, so go
             self.current_target = next_bucket
-            self.send_global_target(next_bucket, label=next_bucket[0])
             self.target_type = self.bucket
+
+            self.send_global_target(next_bucket, label=next_bucket[0])
             self.state = MissionState.WAIT_FOR_TRAVEL
 
         elif self.state == MissionState.FINISHED:
