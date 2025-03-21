@@ -63,8 +63,6 @@ class pymav():
 
         self.message_request(message_type=mavutil.mavlink.MAVLINK_MSG_ID_GLOBAL_POSITION_INT, freq_hz=60)
 
-        print("Requested GLOBAL_POSITION_INT messages at 2 Hz.")
-
         while self.connection.recv_match(type="GLOBAL_POSITION_INT", blocking=False):
             pass  # Discard old messages
 
@@ -78,7 +76,7 @@ class pymav():
                     lon = msg.lon / 1e7  # Convert from int32 to degrees
                     alt = msg.relative_alt / 1000.0  # Convert from mm to meters (relative altitude)
 
-                    print(f"Position: Lat = {lat}°, Lon = {lon}°, Alt = {alt} meters")
+                    #print(f"Position: Lat = {lat}°, Lon = {lon}°, Alt = {alt} meters")
                     return lat, lon, alt
         else:
             # Fetch the current global position with time tag
