@@ -22,8 +22,8 @@ class DroneControlGUI(Node, QWidget):
         self.manual_approach = self.create_publisher(String, '/manual', 10)
         self.finished_manual_approach_pub = self.create_publisher(String, '/task_end', 10)
         self.battery_changed_pub = self.create_publisher(String, '/battery_changed', 10)
-        self.abort_state_pub = self.create_publisher(String, '/abort_state', 10)  # NEW Abort State publisher
-        self.confirm_arming_pub = self.create_publisher(String, '/confirm_arming', 10)  # NEW Confirm Arming publisher
+        self.abort_state_pub = self.create_publisher(String, '/abort_state', 10)  
+        self.confirm_arming_pub = self.create_publisher(String, '/confirm_arming', 10)  
 
 
         # Main layout
@@ -31,10 +31,16 @@ class DroneControlGUI(Node, QWidget):
 
         # ➡️ Vision Controls
         vision_box = QGroupBox("Vision Controls")
-        vision_layout = QVBoxLayout()
-        self.vision_btn = QPushButton('Start Vision Search')
-        self.vision_btn.clicked.connect(self.send_vision)
-        vision_layout.addWidget(self.vision_btn)
+        vision_layout = QHBoxLayout()
+
+        self.vision_source_btn = QPushButton('Start Source Search')
+        self.vision_source_btn.clicked.connect(self.send_vision_source)
+        vision_layout.addWidget(self.vision_source_btn)
+
+        self.vision_bucket_btn = QPushButton('Start Bucket Search')
+        self.vision_bucket_btn.clicked.connect(self.send_vision_bucket)
+        vision_layout.addWidget(self.vision_bucket_btn)
+
         vision_box.setLayout(vision_layout)
         main_layout.addWidget(vision_box)
 
@@ -150,11 +156,18 @@ class DroneControlGUI(Node, QWidget):
         rclpy.spin_once(self, timeout_sec=0.1)
 
     # ➡️ Vision Commands
-    def send_vision(self):
+    # ➡️ Vision Commands
+    def send_vision_source(self):
         msg = String()
-        msg.data = "GO"
+        msg.data = "SOURCE"
         self.vision_pub.publish(msg)
-        self.get_logger().info("Vision command sent.")
+        self.get_logger().info("Sent Vision SOURCE command.")
+
+    def send_vision_bucket(self):
+        msg = String()
+        msg.data = "BUCKET"
+        self.vision_pub.publish(msg)
+        self.get_logger().info("Sent Vision BUCKET command.")
 
     # ➡️ Approach Commands
     def send_manual(self):

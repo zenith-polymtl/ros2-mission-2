@@ -225,7 +225,7 @@ class StateNode(Node):
             # Check if near the current_target
             self.get_logger().info("Flying towards target")
             if self.mav.is_near_waypoint(
-                self.current_target[1], self.mav.get_global_pos(), 0.00006
+                self.current_target[1], self.mav.get_global_pos(), 0.00003
             ):
                 self.get_logger().info(f"Reached {self.target_type}. Next: VISION/APPROACH.")
                 self.state = MissionState.LOWERING_DRONE

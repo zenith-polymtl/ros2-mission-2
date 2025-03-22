@@ -4,7 +4,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import TwistStamped, PoseStamped
 from std_msgs.msg import String
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
-import time
+
 # Ilyes est trop cool
 class PIDController:
     def __init__(self, kp, ki, kd, max_output=2.0):
@@ -61,16 +61,20 @@ class ApproachNode(Node):
         self.timer = self.create_timer(0.05, self.control_loop)  # 20 Hz loop
 
     def go_approach_callback(self, msg):
-        if msg.status == "GO":
+        if msg.status == "Intermediate":
             if self.curr_pos: 
                 self.approach_active = True
                 self.target_pos = target(msg.x, msg.y, msg.z)
                 self.get_logger().info("Approach PID activated. Holding position.")
             else:
                 self.get_logger().warn("No position data received yet!")
-        elif msg.data == "no_go":
-            self.approach_active = False
-            self.get_logger().info("Approach PID deactivated.")
+        elif  msg.status == "Final": #Currently same exact logic is used for both status, as an example , change as needed
+            if self.curr_pos: 
+                self.approach_active = True
+                self.target_pos = target(msg.x, msg.y, msg.z)
+                self.get_logger().info("Approach PID activated. Holding position.")
+            else:
+                self.get_logger().warn("No position data received yet!")
 
     def local_position_callback(self, msg):
         self.curr_pos = msg.pose.position

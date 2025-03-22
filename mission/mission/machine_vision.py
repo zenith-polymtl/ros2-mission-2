@@ -8,7 +8,8 @@ from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
-from mission.msg import approach_info
+from mission_interfaces.msg import ApproachInfo
+from mission_interfaces.srv import GetPose
 
 class VisionNode(Node):
     def __init__(self):
@@ -26,13 +27,6 @@ class VisionNode(Node):
             self.go_callback,
             qos_profile)
 
-        self.position_sub = self.create_subscription(
-            PoseStamped, 
-            '/ap/pose/filtered', 
-            self.position_callback, 
-            qos_profile
-        )
-
         self.bridge = CvBridge()
 
         self.image_sub = self.create_subscription(
@@ -42,65 +36,70 @@ class VisionNode(Node):
             10
         )
 
-        self.go_publisher = self.create_publisher(approach_info, 'go_approach', qos_profile)
+        self.go_publisher = self.create_publisher(ApproachInfo, 'go_approach', qos_profile)
+        self.client = self.create_client(GetPose, 'get_pose')
 
         self.image_pub = self.create_publisher(Image, '/camera/image_modified', 10)
 
-        self.position = None
         self.status = False
-        self.analysis_time = None
-
+        self.first = True
+        
         self.get_logger().info("Vision Node initialized")
 
-    def position_callback(self, msg):
-        """Always listening for pose updates while navigation is happening."""
-        #self.get_logger().info(f"Position -> X: {msg.pose.position.x}, Y: {msg.pose.position.y}, Z: {msg.pose.position.z}")
-
-        self.position = msg.pose.position
           
     def go_callback(self, msg):
         go_message = msg.data
-        self.get_logger().info(f"Received notice : {go_message}")
 
-        if go_message == 'GO':
+        if go_message == 'SOURCE':
             self.status = True
-            self.analysis_timer = self.create_timer(0.01, self.analysis)
-        elif go_message == 'NO GO':
-            self.status = False
+            self.type = "source"
+            self.get_logger().info(f"BEGINNING SOURCE VISION")
+        elif go_message == 'BUCKET':
+            self.status = True
+            self.type = "bucket"
+            self.get_logger().info(f"BEGINNING BUCKET VISION")
         else:
             self.get_logger().warning(f"INVALID COMMAND MESSAGE RECEIVED : {go_message}")
 
 
-    def analysis(self):
-        if self.analysis_time == None:
-             self.analysis_time = time.time()
-        elif ((time.time() - self.analysis_time) < 30):
-            self.get_logger().info(f"SIMULATING VISION")
-        else:
-            self.go_for_approach = approach_info()
-            self.go_for_approach.status = 'GO'
-            self.go_for_approach.x = 69
-            self.go_for_approach.y = 69
-            self.go_for_approach.z = -10
-            self.go_publisher.publish(self.go_for_approach)
-            self.get_logger().info(f"LAUNCHED APPROACH")
-            self.analysis_time = None
-            self.destroy_timer(self.analysis_timer)
-
     def image_callback(self, msg):
-        self.get_logger().info(f"IMAGE RECEIVED")
-        cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
+        if self.status:
+            if self.first:
+                self.i = 0 #Initialisation of whatever you want yo to do in your analysis
+                self.first = False
 
-        # Convert to grayscale
-        modified_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+            if self.type == 'source':
+                #Then do this
+                pass
+            if self.type == 'bucket':
+                #Then do that
+                pass
+                
+            self.get_logger().info(f"IMAGE RECEIVED")
+            cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
 
-        # Convert back to ROS2 Image message
-        ros_image = self.bridge.cv2_to_imgmsg(modified_image, "mono8")
-        ros_image.header.frame_id = "camera_frame"  # Important for RViz
+            # Convert to grayscale
+            modified_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+
+            # Convert back to ROS2 Image message
+            ros_image = self.bridge.cv2_to_imgmsg(modified_image, "mono8")
+            ros_image.header.frame_id = "camera_frame"  # Important for RViz
 
 
-        self.image_pub.publish(ros_image)
-        self.get_logger().info(f"IMAGE SENT")
+            self.image_pub.publish(ros_image)
+            self.get_logger().info(f"IMAGE SENT")
+
+            self.i +=1
+            if self.i > 30: #Here i is juste taken as an example for a criteria  to publish a setpoint
+                msg = ApproachInfo()
+                msg.x = 100.
+                msg.y = 100.
+                msg.z = 3.
+                msg.status = 'Final'
+                self.go_publisher.publish(msg)
+                self.get_logger().info(f"Published setpoint for approach")
+                self.status = False
+
 
                 
 

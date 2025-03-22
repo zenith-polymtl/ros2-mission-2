@@ -15,7 +15,7 @@ setup(
         # Include the .msg files for message generation
         (os.path.join('share', package_name, 'msg'), glob('msg/*.msg'))
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'mission_interfaces'],
     zip_safe=True,
     maintainer='colin',
     maintainer_email='colin@todo.todo',
