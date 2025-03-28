@@ -4,20 +4,19 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 import time
+import gpiod
+import time
+import numpy as np
 #import RPi.GPIO as GPIO
 
 class ValveNode(Node):
     def __init__(self):
         super().__init__("bucket_valve_Node")
-        # GPIO.setmode(GPIO.BCM)
-        # self.PWM_PIN = 18
-        # self.OPEN_VALVE = 10
-        # self.CLOSE_VALVE = 5
-        # self.PWM_FREQ = 50
-
-        # GPIO.setup(self.PWM_PIN, GPIO.OUT)
-        # self.PWM = GPIO.PWM(self.PWM_PIN, self.PWM_FREQ)
-        # self.PWM.start(self.CLOSE_VALVE)
+        servo_pin = 3
+        # Create a chip instance (adjust the chip number if needed)
+        self.chip = gpiod.Chip("gpiochip4")  # Use gpiochip4 for your Pi 5
+        self.line1 = self.chip.get_line(servo_pin)
+        self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)
 
         self.bucketsQty = 5
         self.waterVolume = 4000
@@ -31,14 +30,33 @@ class ValveNode(Node):
         )
 
         self.subscriber_ = self.create_subscription(String, '/go_bucket_valve', self.go_callback, qos_profile)
+    def set_servo_angle(self,angle):
+        """
+        Set the angle of the servo motor.
+        
+        :param angle: The desired angle between 0 and 180.
+        """
+        # Convert the angle to duty cycle
+        # Duty cycle values may vary based on the servo model
+        duty_cycle = 2 + (angle / 18)  # Example conversion for standard servos
+        
+        # Calculate high time (in seconds) for PWM
+        high_time = duty_cycle / 100.0 * 0.02  # 20 ms period
+        low_time = 0.02 - high_time
 
+        # Send the PWM signal
+        self.line1.set_value(1)  # Set high
+        time.sleep(high_time)  # High duration
+        self.line1.set_value(0)  # Set low
+        time.sleep(low_time)  # Low duration
+        
     def open_valve(self):
-        # self.PWM.ChangeDutyCycle(self.OPEN_VALVE)
+        self.set_servo_angle(180) #pas sur
         self.get_logger().info(f"Opened Valve")
         self.isClosed = False
 
     def close_valve(self):
-        # self.pwm.ChangeDutyCycle(self.CLOSE_VALVE)
+        self.set_servo_angle(0) #pas sur
         self.get_logger().info(f"Closed Valve")
         self.isClosed = True
 
