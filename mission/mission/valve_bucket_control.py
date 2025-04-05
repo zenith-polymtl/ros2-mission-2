@@ -14,7 +14,7 @@ class ValveNode(Node):
         super().__init__("bucket_valve_Node")
         servo_pin = 3
         # Create a chip instance (adjust the chip number if needed)
-        self.chip = gpiod.Chip("gpiochip4")  # Use gpiochip4 for your Pi 5
+        self.chip = gpiod.Chip("gpiochip0")  # Use gpiochip4 for your Pi 5
         self.line1 = self.chip.get_line(servo_pin)
         self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)
 
