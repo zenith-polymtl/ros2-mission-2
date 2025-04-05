@@ -30,25 +30,19 @@ class ValveNode(Node):
         )
 
         self.subscriber_ = self.create_subscription(String, '/go_bucket_valve', self.go_callback, qos_profile)
-    def set_servo_angle(self,angle):
-        """
-        Set the angle of the servo motor.
-        
-        :param angle: The desired angle between 0 and 180.
-        """
-        # Convert the angle to duty cycle
-        # Duty cycle values may vary based on the servo model
-        duty_cycle = 2 + (angle / 18)  # Example conversion for standard servos
-        
-        # Calculate high time (in seconds) for PWM
-        high_time = duty_cycle / 100.0 * 0.02  # 20 ms period
-        low_time = 0.02 - high_time
+    def set_servo_angle(self, angle, duration=1.0):
+        duty_cycle = 2 + (angle / 18)
+        period = 0.02  # 20 ms
+        high_time = duty_cycle / 100.0 * period
+        low_time = period - high_time
 
-        # Send the PWM signal
-        self.line1.set_value(1)  # Set high
-        time.sleep(high_time)  # High duration
-        self.line1.set_value(0)  # Set low
-        time.sleep(low_time)  # Low duration
+        end_time = time.time() + duration
+        while time.time() < end_time:
+            self.line1.set_value(1)
+            time.sleep(high_time)
+            self.line1.set_value(0)
+            time.sleep(low_time)
+
         
     def open_valve(self):
         self.set_servo_angle(180) #pas sur
