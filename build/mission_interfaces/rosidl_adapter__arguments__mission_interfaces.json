@@ -1,0 +1,7 @@
+{
+  "package_name": "mission_interfaces",
+  "non_idl_tuples": [
+    "/home/colin/ros2-mission-2/mission_interfaces:srv/GetPose.srv",
+    "/home/colin/ros2-mission-2/mission_interfaces:msg/ApproachInfo.msg"
+  ]
+}

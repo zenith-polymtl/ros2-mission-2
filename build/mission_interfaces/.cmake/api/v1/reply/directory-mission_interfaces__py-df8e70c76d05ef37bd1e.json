@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "mission_interfaces__py",
+		"source" : "/home/colin/ros2-mission-2/build/mission_interfaces/mission_interfaces__py"
+	}
+}
