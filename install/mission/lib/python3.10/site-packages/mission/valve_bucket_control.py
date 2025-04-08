@@ -15,7 +15,7 @@ class ValveNode(Node):
         super().__init__("bucket_valve_Node")
         servo_pin = 3
         # Create a chip instance (adjust the chip number if needed)
-        self.chip = gpiod.Chip("gpiochip0")  # Use gpiochip4 for your Pi 5
+        self.chip = gpiod.Chip("gpiochip0")  # Use gpiochip0 for your Pi 5
         self.line1 = self.chip.get_line(servo_pin)
         self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)
 
@@ -33,6 +33,9 @@ class ValveNode(Node):
         self.subscriber_ = self.create_subscription(String, '/go_bucket_valve', self.go_callback, qos_profile)
         self.bucket_number_sub = self.create_subscription(Integer, '/bucket_number', self.bucket_number_callback, qos_profile)
 
+        self.set_servo_angle(90)  # Initialize the servo to 0 degrees
+        self.get_logger().info(f"Valve Initialized")
+        
     def set_servo_angle(self, angle, duration=1.0):
 
         duty_cycle = 2 + (angle / 18)

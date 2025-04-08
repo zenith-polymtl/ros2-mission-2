@@ -1,0 +1,233 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-a73446cc9a4f110bb867.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				},
+				{
+					"build" : "ardupilot_msgs__py",
+					"jsonFile" : "directory-ardupilot_msgs__py-e69be449c11f6d226e11.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_msgs/ardupilot_msgs__py",
+					"targetIndexes" : 
+					[
+						4
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "ardupilot_msgs",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_ardupilot_msgs_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_ardupilot_msgs_egg-0d19eac94f7a5579f002.json",
+					"name" : "ament_cmake_python_build_ardupilot_msgs_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_ardupilot_msgs::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_ardupilot_msgs-a44ab82d1d9705ace6d3.json",
+					"name" : "ament_cmake_python_copy_ardupilot_msgs",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs-8b16fab2e6aaa268abf1.json",
+					"name" : "ardupilot_msgs",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__cpp-4f85ee738e20e0ca2c60.json",
+					"name" : "ardupilot_msgs__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ardupilot_msgs__py::@563125cbae3a4d1c3568",
+					"jsonFile" : "target-ardupilot_msgs__py-788091446fb79fb3254b.json",
+					"name" : "ardupilot_msgs__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_generator_c-6dd7e2b8d28a8a42bc90.json",
+					"name" : "ardupilot_msgs__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_generator_py-3bd878962db7e63b1495.json",
+					"name" : "ardupilot_msgs__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_typesupport_c-0cf60066a433cecf3dae.json",
+					"name" : "ardupilot_msgs__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_typesupport_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_typesupport_c__pyext-3d6590cc0781660c2820.json",
+					"name" : "ardupilot_msgs__rosidl_typesupport_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_typesupport_cpp-1fcceaf6cdc2e1183ba7.json",
+					"name" : "ardupilot_msgs__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_typesupport_fastrtps_c-f6f7d43c1d17af64158c.json",
+					"name" : "ardupilot_msgs__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_typesupport_fastrtps_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_typesupport_fastrtps_c__pyext-3941e7fc503e638bed3e.json",
+					"name" : "ardupilot_msgs__rosidl_typesupport_fastrtps_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_typesupport_fastrtps_cpp-2b57fa2138f16c5b3aa8.json",
+					"name" : "ardupilot_msgs__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_typesupport_introspection_c-f7ec99d517a0a1786230.json",
+					"name" : "ardupilot_msgs__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_typesupport_introspection_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_typesupport_introspection_c__pyext-971ead0b1913c9186838.json",
+					"name" : "ardupilot_msgs__rosidl_typesupport_introspection_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs__rosidl_typesupport_introspection_cpp-0e49408cab666aca1fd0.json",
+					"name" : "ardupilot_msgs__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ardupilot_msgs_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ardupilot_msgs_uninstall-5e53a735f455b3f76fd6.json",
+					"name" : "ardupilot_msgs_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-ddc54d28851bfe5a7ac7.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_msgs",
+		"source" : "/home/colin/ardupilot_sim/ardu_ws/src/ardupilot/Tools/ros2/ardupilot_msgs"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

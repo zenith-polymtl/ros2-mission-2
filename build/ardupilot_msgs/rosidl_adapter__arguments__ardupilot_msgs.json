@@ -1,0 +1,10 @@
+{
+  "package_name": "ardupilot_msgs",
+  "non_idl_tuples": [
+    "/home/colin/ardupilot_sim/ardu_ws/src/ardupilot/Tools/ros2/ardupilot_msgs:msg/GlobalPosition.msg",
+    "/home/colin/ardupilot_sim/ardu_ws/src/ardupilot/Tools/ros2/ardupilot_msgs:msg/Status.msg",
+    "/home/colin/ardupilot_sim/ardu_ws/src/ardupilot/Tools/ros2/ardupilot_msgs:srv/ArmMotors.srv",
+    "/home/colin/ardupilot_sim/ardu_ws/src/ardupilot/Tools/ros2/ardupilot_msgs:srv/ModeSwitch.srv",
+    "/home/colin/ardupilot_sim/ardu_ws/src/ardupilot/Tools/ros2/ardupilot_msgs:srv/Takeoff.srv"
+  ]
+}

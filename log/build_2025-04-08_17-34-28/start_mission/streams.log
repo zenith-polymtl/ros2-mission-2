@@ -1,0 +1,5 @@
+[0.077s] Invoking command in '/home/colin/ardupilot_sim/ardu_ws/src/build/start_mission': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/colin/ardupilot_sim/ardu_ws/install/test_nodes:/home/colin/ardupilot_sim/ardu_ws/install/mission:/home/colin/ardupilot_sim/ardu_ws/install/ardupilot_dds_tests:/opt/ros/humble /usr/bin/cmake --build /home/colin/ardupilot_sim/ardu_ws/src/build/start_mission -- -j12 -l12
+[2.193s] [0mCMake Error: The current CMakeCache.txt directory /home/colin/ardupilot_sim/ardu_ws/src/build/start_mission/CMakeCache.txt is different than the directory /home/colin/ros2-mission-2/build/start_mission where CMakeCache.txt was created. This may result in binaries being created in the wrong place. If you are not sure, reedit the CMakeCache.txt[0m
+[2.193s] [0mCMake Error: The source directory "/home/colin/ros2-mission-2/start_mission" does not exist.
+[2.193s] Specify --help for usage, or press the help button on the CMake GUI.[0m
+[2.193s] gmake: *** [Makefile:226: cmake_check_build_system] Error 1

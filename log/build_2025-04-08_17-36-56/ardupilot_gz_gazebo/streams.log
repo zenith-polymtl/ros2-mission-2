@@ -1,0 +1,7 @@
+[0.057s] Invoking command in '/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/colin/ardupilot_sim/ardu_ws/install/test_nodes:/home/colin/ardupilot_sim/ardu_ws/install/mission:/home/colin/ardupilot_sim/ardu_ws/install/ardupilot_dds_tests:/opt/ros/humble /usr/bin/cmake --build /home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo -- -j12 -l12
+[0.150s] [ 25%] [32mBuilding CXX object CMakeFiles/FullSystem.dir/src/FullSystem.cc.o[0m
+[0.156s] [ 50%] [32mBuilding CXX object CMakeFiles/BasicSystem.dir/src/BasicSystem.cc.o[0m
+[0.284s] [ 75%] [32m[1mLinking CXX shared library libBasicSystem.so[0m
+[0.309s] [100%] [32m[1mLinking CXX shared library libFullSystem.so[0m
+[1.002s] [100%] Built target BasicSystem
+[1.033s] [100%] Built target FullSystem

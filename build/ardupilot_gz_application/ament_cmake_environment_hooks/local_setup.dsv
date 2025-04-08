@@ -1,0 +1,2 @@
+source;share/ardupilot_gz_application/environment/ament_prefix_path.sh
+source;share/ardupilot_gz_application/environment/path.sh

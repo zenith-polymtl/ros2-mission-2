@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "ardupilot_msgs__py",
+		"source" : "/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_msgs/ardupilot_msgs__py"
+	}
+}

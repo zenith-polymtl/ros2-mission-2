@@ -18,6 +18,8 @@ class DroneControlGUI(Node, QWidget):
         # ROS 2 publishers
         self.vision_pub = self.create_publisher(String, '/go_vision', 10)
         self.winch_pub = self.create_publisher(String, '/go_winch', 10)
+        self.motor_init_pub = self.create_publisher(String, '/init_motor', 10)
+        self.motor_stop_pub = self.create_publisher(String, '/close_motor', 10)
         self.water_source_pub = self.create_publisher(String, '/go_bucket_valve', 10)
         self.water_bucket_pub = self.create_publisher(String, '/go_bucket_valve', 10)
         self.manual_approach = self.create_publisher(String, '/manual', 10)
@@ -79,6 +81,14 @@ class DroneControlGUI(Node, QWidget):
         self.winch_btn_up = QPushButton('Winch Up')
         self.winch_btn_up.clicked.connect(self.send_winch_up)
         winch_layout.addWidget(self.winch_btn_up)
+
+        self.motor_init = QPushButton('Initialize Motor')
+        self.motor_init.clicked.connect(self.send_init_motor)
+        winch_layout.addWidget(self.motor_init)
+
+        self.close_motor = QPushButton('Stop Motor')
+        self.close_motor.clicked.connect(self.send_close_motor)
+        winch_layout.addWidget(self.close_motor)
 
         winch_box.setLayout(winch_layout)
         main_layout.addWidget(winch_box)
@@ -202,6 +212,18 @@ class DroneControlGUI(Node, QWidget):
         msg.data = "UP"
         self.winch_pub.publish(msg)
         self.get_logger().info("Winch Command Sent: UP")
+
+    def send_close_motor(self):
+        msg = String()
+        msg.data = "CLOSE"
+        self.motor_stop_pub.publish(msg)
+        self.get_logger().info("Sent Close Bucket Command.")
+
+    def send_init_motor(self):
+        msg = String()
+        msg.data = "INIT"
+        self.motor_init_pub.publish(msg)
+        self.get_logger().info("Sent Initialize Motor Command.")
 
     # ➡️ Water Commands
     def send_water_source(self):

@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
+from std_msgs.msg import String, Int32
 from sensor_msgs.msg import Imu
+
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 import subprocess
 import time, math
 import threading
 import struct
+
 
 # Configuration
 DEVICE = "/dev/ttyUSB0"  # Change this to your actual device
@@ -25,10 +27,13 @@ class WinchNode(Node):
             depth=10
         )
 
+        self.volume = 69
+        self.main_timer = self.create_timer(0.5, self.send_water_volume)
         self.subscriber_ = self.create_subscription(String, '/go_winch', self.go_callback, qos_profile)
-        self.subscriber_ = self.create_subscription(Imu, '/mavros/imu/data', self.v_accel, qos_profile)
-
-
+        self.imu_sub = self.create_subscription(Imu, '/mavros/imu/data', self.v_accel, qos_profile)
+        self.init_sub = self.create_subscription(String, '/init_motor', self.init_callback, 10)
+        self.stop_sub = self.create_subscription(String, '/close_motor', self.stop_callback, 10)
+        self.water_qty_pub = self.create_publisher(Int32, '/water_qty', 10)
         self.get_logger().info("Winch Node Initialized")
 
         self.motor_state = {
@@ -36,7 +41,29 @@ class WinchNode(Node):
             "direction": "none",  # "up", "down", or "none"
             "last_command_time": 0
         }
+    def init_callback(self, msg):
+        if msg.data == 'INIT':
+            pass
+        self.get_logger().info("Motor Initialization Command Received")
+            # Fait whatever ce qui te tente pour initialiser le moteur
+    def send_water_volume(self):
+        """Publish water volume to the /water_qty topic"""
+        msg = Int32()
+        msg.data = self.volume
+        self.water_qty_pub.publish(msg)
+        self.get_logger().info(f"Water volume published: {self.volume} liters")
 
+    def stop_callback(self, msg):
+        self.get_logger().info("Motor Stop Command Received")
+        if msg.data == 'STOP':
+            # Fait whatever ce qui te tente pour arreter le moteur
+            # Voici la propositino de Copilot, probablement de la bullshit à voir
+            self.send_can_command("92 00 00 00 00 00 00 00", "Stop Motor (urgent)")
+            self.motor_state["running"] = False
+            self.motor_state["direction"] = "none"
+            self.motor_state["speed"] = 0
+            if hasattr(self, '_stop_timer') and self._stop_timer:
+                self._stop_timer.cancel()
 
     def go_up(self):
         """Optimized for faster response without status checking"""

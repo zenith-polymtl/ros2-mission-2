@@ -1,0 +1,38 @@
+[0.082s] Invoking command in '/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/colin/ardupilot_sim/ardu_ws/install/test_nodes:/home/colin/ardupilot_sim/ardu_ws/install/mission:/home/colin/ardupilot_sim/ardu_ws/install/ardupilot_dds_tests:/opt/ros/humble /usr/bin/cmake --build /home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_msgs -- -j12 -l12
+[0.137s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_generator_c[0m
+[0.185s] [ 11%] Built target ardupilot_msgs__rosidl_generator_c
+[0.193s] [ 12%] Built target ardupilot_msgs__cpp
+[0.199s] [ 12%] Built target ament_cmake_python_copy_ardupilot_msgs
+[0.209s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_typesupport_introspection_c[0m
+[0.218s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_typesupport_c[0m
+[0.219s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_typesupport_fastrtps_c[0m
+[0.236s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_typesupport_cpp[0m
+[0.243s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_typesupport_introspection_cpp[0m
+[0.256s] [ 23%] Built target ardupilot_msgs__rosidl_typesupport_c
+[0.256s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_typesupport_fastrtps_cpp[0m
+[0.262s] [ 46%] Built target ardupilot_msgs__rosidl_typesupport_introspection_c
+[0.262s] [ 46%] Built target ardupilot_msgs__rosidl_typesupport_cpp
+[0.265s] [ 47%] [32m[1mLinking CXX shared library libardupilot_msgs__rosidl_typesupport_fastrtps_c.so[0m
+[0.278s] [ 49%] [32m[1mLinking CXX shared library libardupilot_msgs__rosidl_typesupport_introspection_cpp.so[0m
+[0.288s] [ 50%] [32m[1mLinking CXX shared library libardupilot_msgs__rosidl_typesupport_fastrtps_cpp.so[0m
+[0.441s] [ 60%] Built target ardupilot_msgs__rosidl_typesupport_introspection_cpp
+[0.454s] [ 69%] Built target ardupilot_msgs__rosidl_typesupport_fastrtps_c
+[0.467s] [ 79%] Built target ardupilot_msgs__rosidl_typesupport_fastrtps_cpp
+[0.485s] [ 79%] Built target ardupilot_msgs
+[0.509s] [ 80%] Built target ardupilot_msgs__py
+[0.520s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_generator_py[0m
+[0.527s] running egg_info
+[0.538s] [ 90%] Built target ardupilot_msgs__rosidl_generator_py
+[0.549s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_typesupport_introspection_c__pyext[0m
+[0.549s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_typesupport_fastrtps_c__pyext[0m
+[0.550s] [35m[1mConsolidate compiler generated dependencies of target ardupilot_msgs__rosidl_typesupport_c__pyext[0m
+[0.553s] writing ardupilot_msgs.egg-info/PKG-INFO
+[0.553s] writing dependency_links to ardupilot_msgs.egg-info/dependency_links.txt
+[0.554s] writing top-level names to ardupilot_msgs.egg-info/top_level.txt
+[0.563s] [ 92%] [32m[1mLinking C shared library rosidl_generator_py/ardupilot_msgs/ardupilot_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[0.565s] [ 95%] Built target ardupilot_msgs__rosidl_typesupport_introspection_c__pyext
+[0.566s] [ 98%] Built target ardupilot_msgs__rosidl_typesupport_c__pyext
+[0.639s] reading manifest file 'ardupilot_msgs.egg-info/SOURCES.txt'
+[0.640s] writing manifest file 'ardupilot_msgs.egg-info/SOURCES.txt'
+[0.658s] [100%] Built target ardupilot_msgs__rosidl_typesupport_fastrtps_c__pyext
+[0.669s] [100%] Built target ament_cmake_python_build_ardupilot_msgs_egg

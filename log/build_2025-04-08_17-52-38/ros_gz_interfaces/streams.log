@@ -1,0 +1,34 @@
+[0.088s] Invoking command in '/home/colin/ardupilot_sim/ardu_ws/src/build/ros_gz_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/colin/ardupilot_sim/ardu_ws/install/test_nodes:/home/colin/ardupilot_sim/ardu_ws/install/mission:/home/colin/ardupilot_sim/ardu_ws/install/ardupilot_dds_tests:/opt/ros/humble /usr/bin/cmake --build /home/colin/ardupilot_sim/ardu_ws/src/build/ros_gz_interfaces -- -j12 -l12
+[0.158s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_generator_c[0m
+[0.174s] [  0%] Built target ros_gz_interfaces__cpp
+[0.194s] [  0%] Built target ament_cmake_python_copy_ros_gz_interfaces
+[0.203s] [ 13%] Built target ros_gz_interfaces__rosidl_generator_c
+[0.216s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_typesupport_cpp[0m
+[0.220s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_typesupport_introspection_cpp[0m
+[0.233s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_typesupport_fastrtps_cpp[0m
+[0.242s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_typesupport_introspection_c[0m
+[0.245s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_typesupport_c[0m
+[0.248s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_typesupport_fastrtps_c[0m
+[0.298s] [ 36%] Built target ros_gz_interfaces__rosidl_typesupport_cpp
+[0.298s] [ 38%] Built target ros_gz_interfaces__rosidl_typesupport_introspection_cpp
+[0.306s] [ 50%] Built target ros_gz_interfaces__rosidl_typesupport_introspection_c
+[0.308s] [ 62%] Built target ros_gz_interfaces__rosidl_typesupport_c
+[0.317s] [ 74%] Built target ros_gz_interfaces__rosidl_typesupport_fastrtps_cpp
+[0.320s] [ 86%] Built target ros_gz_interfaces__rosidl_typesupport_fastrtps_c
+[0.346s] [ 86%] Built target ros_gz_interfaces
+[0.372s] [ 86%] Built target ros_gz_interfaces__py
+[0.392s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_generator_py[0m
+[0.442s] [ 97%] Built target ros_gz_interfaces__rosidl_generator_py
+[0.455s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_typesupport_c__pyext[0m
+[0.455s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_typesupport_introspection_c__pyext[0m
+[0.455s] [35m[1mConsolidate compiler generated dependencies of target ros_gz_interfaces__rosidl_typesupport_fastrtps_c__pyext[0m
+[0.473s] [ 98%] Built target ros_gz_interfaces__rosidl_typesupport_c__pyext
+[0.473s] [ 99%] Built target ros_gz_interfaces__rosidl_typesupport_introspection_c__pyext
+[0.474s] [100%] Built target ros_gz_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[0.543s] running egg_info
+[0.564s] writing ros_gz_interfaces.egg-info/PKG-INFO
+[0.564s] writing dependency_links to ros_gz_interfaces.egg-info/dependency_links.txt
+[0.564s] writing top-level names to ros_gz_interfaces.egg-info/top_level.txt
+[0.627s] reading manifest file 'ros_gz_interfaces.egg-info/SOURCES.txt'
+[0.628s] writing manifest file 'ros_gz_interfaces.egg-info/SOURCES.txt'
+[0.656s] [100%] Built target ament_cmake_python_build_ros_gz_interfaces_egg

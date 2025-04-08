@@ -1,0 +1,11 @@
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/uninstall.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/ardupilot_gz_gazebo_uninstall.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/BasicSystem.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/FullSystem.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/test.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/edit_cache.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/rebuild_cache.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/list_install_components.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/install.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/install/local.dir
+/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_gazebo/CMakeFiles/install/strip.dir

@@ -1,0 +1,4 @@
+source;share/ardupilot_gz_description/environment/ament_prefix_path.sh
+source;share/ardupilot_gz_description/environment/ardupilot_gz_description.sh
+source;share/ardupilot_gz_description/environment/path.sh
+source;share/ardupilot_gz_description/environment/ardupilot_gz_description.dsv
