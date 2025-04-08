@@ -18,6 +18,8 @@ class DroneControlGUI(Node, QWidget):
         # ROS 2 publishers
         self.vision_pub = self.create_publisher(String, '/go_vision', 10)
         self.winch_pub = self.create_publisher(String, '/go_winch', 10)
+        self.winch_pub = self.create_publisher(String, '/init_motor', 10)
+        self.winch_pub = self.create_publisher(String, '/close_motor', 10)
         self.water_source_pub = self.create_publisher(String, '/go_bucket_valve', 10)
         self.water_bucket_pub = self.create_publisher(String, '/go_bucket_valve', 10)
         self.manual_approach = self.create_publisher(String, '/manual', 10)
