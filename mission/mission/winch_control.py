@@ -41,17 +41,12 @@ class WinchNode(Node):
             "direction": "none",  # "up", "down", or "none"
             "last_command_time": 0
         }
+        
     def init_callback(self, msg):
         if msg.data == 'INIT':
             pass
         self.get_logger().info("Motor Initialization Command Received")
             # Fait whatever ce qui te tente pour initialiser le moteur
-    def send_water_volume(self):
-        """Publish water volume to the /water_qty topic"""
-        msg = Int32()
-        msg.data = self.volume
-        self.water_qty_pub.publish(msg)
-        self.get_logger().info(f"Water volume published: {self.volume} liters")
 
     def stop_callback(self, msg):
         self.get_logger().info("Motor Stop Command Received")
@@ -64,6 +59,13 @@ class WinchNode(Node):
             self.motor_state["speed"] = 0
             if hasattr(self, '_stop_timer') and self._stop_timer:
                 self._stop_timer.cancel()
+
+    def send_water_volume(self):
+        """Publish water volume to the /water_qty topic"""
+        msg = Int32()
+        msg.data = self.volume
+        self.water_qty_pub.publish(msg)
+        self.get_logger().info(f"Water volume published: {self.volume} liters")
 
     def go_up(self):
         """Optimized for faster response without status checking"""
