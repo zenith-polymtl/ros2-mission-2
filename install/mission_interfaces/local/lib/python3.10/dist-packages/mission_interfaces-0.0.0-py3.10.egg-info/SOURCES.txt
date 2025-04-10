@@ -1,6 +1,0 @@
-setup.py
-mission_interfaces/__init__.py
-mission_interfaces.egg-info/PKG-INFO
-mission_interfaces.egg-info/SOURCES.txt
-mission_interfaces.egg-info/dependency_links.txt
-mission_interfaces.egg-info/top_level.txt
