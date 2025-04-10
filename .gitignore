@@ -4,6 +4,12 @@ ardupilot_gz
 logs
 install
 build
+mission/logs
+mission/install
+mission/build
+start_mission/logs
+start_mission/install
+start_mission/build
 ardupilot_sitl_models
 micro_ros_agent
 ros_gz
