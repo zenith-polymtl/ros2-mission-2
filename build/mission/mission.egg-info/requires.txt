@@ -1,5 +1,0 @@
-setuptools
-mission_interfaces
-
-[test]
-pytest

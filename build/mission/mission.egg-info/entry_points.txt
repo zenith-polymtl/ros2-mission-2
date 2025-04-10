@@ -1,7 +1,0 @@
-[console_scripts]
-approach = mission.approach:main
-bucket_valve = mission.valve_bucket_control:main
-control = mission.manual_control:main
-state = mission.state_node:main
-vision = mission.machine_vision:main
-winch = mission.winch_control:main
