@@ -2,6 +2,8 @@ ardupilot
 ardupilot_gazebo
 ardupilot_gz
 logs
+install
+build
 ardupilot_sitl_models
 micro_ros_agent
 ros_gz
