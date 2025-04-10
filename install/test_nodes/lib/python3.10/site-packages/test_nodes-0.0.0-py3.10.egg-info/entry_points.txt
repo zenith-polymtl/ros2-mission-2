@@ -1,5 +1,0 @@
-[console_scripts]
-battery_monitor = test_nodes.battery_monitor:main
-pose_monitor = test_nodes.pose_monitor:main
-service_client = test_nodes.service_client:main
-service_server = test_nodes.service_server:main

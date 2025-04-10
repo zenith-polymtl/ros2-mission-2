@@ -1,9 +1,0 @@
-/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_application/CMakeFiles/uninstall.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_application/CMakeFiles/ardupilot_gz_application_uninstall.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_application/CMakeFiles/test.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_application/CMakeFiles/edit_cache.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_application/CMakeFiles/rebuild_cache.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_application/CMakeFiles/list_install_components.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_application/CMakeFiles/install.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_application/CMakeFiles/install/local.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/ardupilot_gz_application/CMakeFiles/install/strip.dir

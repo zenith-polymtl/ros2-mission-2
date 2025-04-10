@@ -1,6 +1,0 @@
-/home/colin/ardupilot_sim/ardu_ws/src/build/sdformat_test_files/CMakeFiles/edit_cache.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/sdformat_test_files/CMakeFiles/rebuild_cache.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/sdformat_test_files/CMakeFiles/list_install_components.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/sdformat_test_files/CMakeFiles/install.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/sdformat_test_files/CMakeFiles/install/local.dir
-/home/colin/ardupilot_sim/ardu_ws/src/build/sdformat_test_files/CMakeFiles/install/strip.dir
