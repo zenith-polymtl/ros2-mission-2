@@ -1,0 +1,849 @@
+[0.000000] (-) TimerEvent: {}
+[0.001237] (-) JobUnselected: {'identifier': 'start_mission'}
+[0.002225] (-) JobUnselected: {'identifier': 'test_nodes'}
+[0.002341] (mission_interfaces) JobQueued: {'identifier': 'mission_interfaces', 'dependencies': OrderedDict()}
+[0.003448] (mission) JobQueued: {'identifier': 'mission', 'dependencies': OrderedDict([('mission_interfaces', '/ros2_ws/install/mission_interfaces')])}
+[0.003623] (mission_interfaces) JobStarted: {'identifier': 'mission_interfaces'}
+[0.034306] (mission_interfaces) JobProgress: {'identifier': 'mission_interfaces', 'progress': 'cmake'}
+[0.038136] (mission_interfaces) Command: {'cmd': ['/usr/bin/cmake', '/ros2_ws/mission_interfaces', '-DCMAKE_INSTALL_PREFIX=/ros2_ws/install/mission_interfaces'], 'cwd': '/ros2_ws/build/mission_interfaces', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('HOSTNAME', 'raspberrypi4'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('CYCLONEDDS_URI', 'file:///connections/cycloneDDS_profile.xml'), ('OLDPWD', '/'), ('ROS_PYTHON_VERSION', '3'), ('ROS_DISTRO', 'humble'), ('_', '/usr/local/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('LIBGL_ALWAYS_INDIRECT', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LANG', 'en_US.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('ROS_DOMAIN_ID', '1'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('DEBIAN_FRONTEND', 'noninteractive'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/ros2_ws/build/mission_interfaces'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[0.098929] (-) TimerEvent: {}
+[0.200197] (-) TimerEvent: {}
+[0.267360] (mission_interfaces) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.303746] (-) TimerEvent: {}
+[0.404755] (-) TimerEvent: {}
+[0.505859] (-) TimerEvent: {}
+[0.515726] (mission_interfaces) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.541923] (mission_interfaces) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.606027] (-) TimerEvent: {}
+[0.707296] (-) TimerEvent: {}
+[0.811931] (-) TimerEvent: {}
+[0.830192] (mission_interfaces) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.875692] (mission_interfaces) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.879054] (mission_interfaces) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.879907] (mission_interfaces) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.896131] (mission_interfaces) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.912303] (-) TimerEvent: {}
+[1.013280] (-) TimerEvent: {}
+[1.114909] (-) TimerEvent: {}
+[1.203718] (mission_interfaces) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[1.215691] (-) TimerEvent: {}
+[1.236614] (mission_interfaces) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[1.237664] (mission_interfaces) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[1.240061] (mission_interfaces) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[1.250863] (mission_interfaces) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[1.315861] (-) TimerEvent: {}
+[1.417295] (-) TimerEvent: {}
+[1.518227] (-) TimerEvent: {}
+[1.620745] (-) TimerEvent: {}
+[1.722085] (-) TimerEvent: {}
+[1.823616] (-) TimerEvent: {}
+[1.924796] (-) TimerEvent: {}
+[2.025864] (-) TimerEvent: {}
+[2.127350] (-) TimerEvent: {}
+[2.228277] (-) TimerEvent: {}
+[2.329171] (-) TimerEvent: {}
+[2.429974] (-) TimerEvent: {}
+[2.531989] (-) TimerEvent: {}
+[2.636190] (-) TimerEvent: {}
+[2.736969] (-) TimerEvent: {}
+[2.837804] (-) TimerEvent: {}
+[2.939269] (-) TimerEvent: {}
+[3.040698] (-) TimerEvent: {}
+[3.141481] (-) TimerEvent: {}
+[3.242533] (-) TimerEvent: {}
+[3.343769] (-) TimerEvent: {}
+[3.445041] (-) TimerEvent: {}
+[3.546313] (-) TimerEvent: {}
+[3.647199] (-) TimerEvent: {}
+[3.748856] (-) TimerEvent: {}
+[3.849863] (-) TimerEvent: {}
+[3.950931] (-) TimerEvent: {}
+[4.052093] (-) TimerEvent: {}
+[4.153173] (-) TimerEvent: {}
+[4.256072] (-) TimerEvent: {}
+[4.293540] (mission_interfaces) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[4.356242] (-) TimerEvent: {}
+[4.457380] (-) TimerEvent: {}
+[4.558340] (-) TimerEvent: {}
+[4.651038] (mission_interfaces) StdoutLine: {'line': b'-- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)\n'}
+[4.658501] (-) TimerEvent: {}
+[4.662741] (mission_interfaces) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[4.683920] (mission_interfaces) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[4.758672] (-) TimerEvent: {}
+[4.812863] (mission_interfaces) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[4.858848] (-) TimerEvent: {}
+[4.959732] (-) TimerEvent: {}
+[5.060991] (-) TimerEvent: {}
+[5.161891] (-) TimerEvent: {}
+[5.263287] (-) TimerEvent: {}
+[5.364022] (-) TimerEvent: {}
+[5.464643] (-) TimerEvent: {}
+[5.565374] (-) TimerEvent: {}
+[5.666587] (-) TimerEvent: {}
+[5.767488] (-) TimerEvent: {}
+[5.868424] (-) TimerEvent: {}
+[5.970496] (-) TimerEvent: {}
+[6.072958] (-) TimerEvent: {}
+[6.174257] (-) TimerEvent: {}
+[6.275731] (-) TimerEvent: {}
+[6.367725] (mission_interfaces) StdoutLine: {'line': b'-- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)\n'}
+[6.375867] (-) TimerEvent: {}
+[6.476506] (-) TimerEvent: {}
+[6.577245] (-) TimerEvent: {}
+[6.678362] (-) TimerEvent: {}
+[6.779846] (-) TimerEvent: {}
+[6.880542] (-) TimerEvent: {}
+[6.981476] (-) TimerEvent: {}
+[7.083034] (-) TimerEvent: {}
+[7.183875] (-) TimerEvent: {}
+[7.285016] (-) TimerEvent: {}
+[7.386150] (-) TimerEvent: {}
+[7.471084] (mission_interfaces) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[7.486331] (-) TimerEvent: {}
+[7.587003] (-) TimerEvent: {}
+[7.692741] (-) TimerEvent: {}
+[7.793455] (-) TimerEvent: {}
+[7.895898] (-) TimerEvent: {}
+[7.998407] (-) TimerEvent: {}
+[8.099750] (-) TimerEvent: {}
+[8.200447] (-) TimerEvent: {}
+[8.301199] (-) TimerEvent: {}
+[8.402142] (-) TimerEvent: {}
+[8.504851] (-) TimerEvent: {}
+[8.605565] (-) TimerEvent: {}
+[8.706217] (-) TimerEvent: {}
+[8.806952] (-) TimerEvent: {}
+[8.907689] (-) TimerEvent: {}
+[9.008409] (-) TimerEvent: {}
+[9.109278] (-) TimerEvent: {}
+[9.210623] (-) TimerEvent: {}
+[9.311592] (-) TimerEvent: {}
+[9.416174] (-) TimerEvent: {}
+[9.516982] (-) TimerEvent: {}
+[9.617959] (-) TimerEvent: {}
+[9.719946] (-) TimerEvent: {}
+[9.820949] (-) TimerEvent: {}
+[9.921681] (-) TimerEvent: {}
+[10.022904] (-) TimerEvent: {}
+[10.123682] (-) TimerEvent: {}
+[10.224566] (-) TimerEvent: {}
+[10.325864] (-) TimerEvent: {}
+[10.426776] (-) TimerEvent: {}
+[10.527492] (-) TimerEvent: {}
+[10.628497] (-) TimerEvent: {}
+[10.729364] (-) TimerEvent: {}
+[10.830112] (-) TimerEvent: {}
+[10.930919] (-) TimerEvent: {}
+[11.032077] (-) TimerEvent: {}
+[11.134099] (-) TimerEvent: {}
+[11.235826] (-) TimerEvent: {}
+[11.340019] (-) TimerEvent: {}
+[11.441183] (-) TimerEvent: {}
+[11.542154] (-) TimerEvent: {}
+[11.643057] (-) TimerEvent: {}
+[12.781371] (-) TimerEvent: {}
+[12.882037] (-) TimerEvent: {}
+[12.984967] (-) TimerEvent: {}
+[13.089795] (-) TimerEvent: {}
+[13.190599] (-) TimerEvent: {}
+[13.291480] (-) TimerEvent: {}
+[13.392228] (-) TimerEvent: {}
+[13.493847] (-) TimerEvent: {}
+[13.594855] (-) TimerEvent: {}
+[13.695932] (-) TimerEvent: {}
+[13.796896] (-) TimerEvent: {}
+[13.897889] (-) TimerEvent: {}
+[13.999636] (-) TimerEvent: {}
+[14.100792] (-) TimerEvent: {}
+[14.201536] (-) TimerEvent: {}
+[14.304869] (-) TimerEvent: {}
+[14.405659] (-) TimerEvent: {}
+[14.504708] (mission_interfaces) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[14.505757] (-) TimerEvent: {}
+[14.609361] (-) TimerEvent: {}
+[14.710332] (-) TimerEvent: {}
+[14.811658] (-) TimerEvent: {}
+[14.912770] (-) TimerEvent: {}
+[15.013884] (-) TimerEvent: {}
+[15.115400] (-) TimerEvent: {}
+[15.216665] (-) TimerEvent: {}
+[15.317360] (-) TimerEvent: {}
+[15.418026] (-) TimerEvent: {}
+[15.519469] (-) TimerEvent: {}
+[15.620716] (-) TimerEvent: {}
+[15.727404] (-) TimerEvent: {}
+[15.829451] (-) TimerEvent: {}
+[15.930469] (-) TimerEvent: {}
+[16.031207] (-) TimerEvent: {}
+[16.131874] (-) TimerEvent: {}
+[16.232619] (-) TimerEvent: {}
+[16.333501] (-) TimerEvent: {}
+[16.434234] (-) TimerEvent: {}
+[16.535157] (-) TimerEvent: {}
+[16.636106] (-) TimerEvent: {}
+[17.679338] (-) TimerEvent: {}
+[17.709932] (mission_interfaces) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") \n'}
+[17.720090] (mission_interfaces) StdoutLine: {'line': b'-- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)\n'}
+[17.779591] (-) TimerEvent: {}
+[17.860401] (mission_interfaces) StdoutLine: {'line': b'-- Found PythonLibs: /usr/lib/aarch64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") \n'}
+[17.861184] (mission_interfaces) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[17.861566] (mission_interfaces) StdoutLine: {'line': b'-- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10\n'}
+[17.861896] (mission_interfaces) StdoutLine: {'line': b'-- Using PYTHON_LIBRARIES: /usr/lib/aarch64-linux-gnu/libpython3.10.so\n'}
+[17.879830] (-) TimerEvent: {}
+[17.964463] (mission_interfaces) StdoutLine: {'line': b'-- Found PythonExtra: .so  \n'}
+[17.979990] (-) TimerEvent: {}
+[18.082282] (-) TimerEvent: {}
+[18.133945] (mission_interfaces) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.12 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[18.182696] (-) TimerEvent: {}
+[18.283889] (-) TimerEvent: {}
+[18.290908] (mission_interfaces) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[18.309865] (mission_interfaces) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[18.318403] (mission_interfaces) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[18.343991] (mission_interfaces) StdoutLine: {'line': b'-- Configuring done\n'}
+[18.384283] (-) TimerEvent: {}
+[18.485136] (-) TimerEvent: {}
+[18.490487] (mission_interfaces) StdoutLine: {'line': b'-- Generating done\n'}
+[18.535747] (mission_interfaces) StdoutLine: {'line': b'-- Build files have been written to: /ros2_ws/build/mission_interfaces\n'}
+[18.557573] (mission_interfaces) CommandEnded: {'returncode': 0}
+[18.561282] (mission_interfaces) JobProgress: {'identifier': 'mission_interfaces', 'progress': 'build'}
+[18.564066] (mission_interfaces) Command: {'cmd': ['/usr/bin/cmake', '--build', '/ros2_ws/build/mission_interfaces', '--', '-j4', '-l4'], 'cwd': '/ros2_ws/build/mission_interfaces', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('HOSTNAME', 'raspberrypi4'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('CYCLONEDDS_URI', 'file:///connections/cycloneDDS_profile.xml'), ('OLDPWD', '/'), ('ROS_PYTHON_VERSION', '3'), ('ROS_DISTRO', 'humble'), ('_', '/usr/local/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('LIBGL_ALWAYS_INDIRECT', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LANG', 'en_US.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('ROS_DOMAIN_ID', '1'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('DEBIAN_FRONTEND', 'noninteractive'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/ros2_ws/build/mission_interfaces'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[18.587815] (-) TimerEvent: {}
+[18.689142] (-) TimerEvent: {}
+[18.790843] (-) TimerEvent: {}
+[18.807441] (mission_interfaces) StdoutLine: {'line': b'[  2%] \x1b[34m\x1b[1mGenerating C code for ROS interfaces\x1b[0m\n'}
+[18.847215] (mission_interfaces) StdoutLine: {'line': b'[  5%] \x1b[34m\x1b[1mGenerating C++ code for ROS interfaces\x1b[0m\n'}
+[18.887173] (mission_interfaces) StdoutLine: {'line': b'[  5%] Built target ament_cmake_python_copy_mission_interfaces\n'}
+[18.891095] (-) TimerEvent: {}
+[18.993175] (-) TimerEvent: {}
+[19.096698] (-) TimerEvent: {}
+[19.201938] (-) TimerEvent: {}
+[19.303281] (-) TimerEvent: {}
+[19.409765] (-) TimerEvent: {}
+[19.520892] (-) TimerEvent: {}
+[19.624389] (-) TimerEvent: {}
+[19.727736] (-) TimerEvent: {}
+[19.835775] (-) TimerEvent: {}
+[19.936910] (-) TimerEvent: {}
+[20.038104] (-) TimerEvent: {}
+[20.141063] (-) TimerEvent: {}
+[20.244250] (-) TimerEvent: {}
+[20.345014] (-) TimerEvent: {}
+[20.448194] (-) TimerEvent: {}
+[20.548937] (-) TimerEvent: {}
+[20.649668] (-) TimerEvent: {}
+[20.756009] (-) TimerEvent: {}
+[20.856920] (-) TimerEvent: {}
+[20.958331] (-) TimerEvent: {}
+[21.059083] (-) TimerEvent: {}
+[21.159946] (-) TimerEvent: {}
+[21.261188] (-) TimerEvent: {}
+[21.364095] (-) TimerEvent: {}
+[21.465878] (-) TimerEvent: {}
+[21.568696] (-) TimerEvent: {}
+[21.611385] (mission_interfaces) StdoutLine: {'line': b'[  7%] \x1b[32mBuilding C object CMakeFiles/mission_interfaces__rosidl_generator_c.dir/rosidl_generator_c/mission_interfaces/msg/detail/approach_info__functions.c.o\x1b[0m\n'}
+[21.639694] (mission_interfaces) StdoutLine: {'line': b'[ 10%] \x1b[32mBuilding C object CMakeFiles/mission_interfaces__rosidl_generator_c.dir/rosidl_generator_c/mission_interfaces/srv/detail/get_pose__functions.c.o\x1b[0m\n'}
+[21.671759] (-) TimerEvent: {}
+[21.772842] (-) TimerEvent: {}
+[21.873894] (-) TimerEvent: {}
+[21.980253] (-) TimerEvent: {}
+[22.081295] (-) TimerEvent: {}
+[22.089131] (mission_interfaces) StdoutLine: {'line': b'running egg_info\n'}
+[22.095036] (mission_interfaces) StdoutLine: {'line': b'creating mission_interfaces.egg-info\n'}
+[22.143782] (mission_interfaces) StdoutLine: {'line': b'[ 10%] Built target mission_interfaces__cpp\n'}
+[22.181505] (-) TimerEvent: {}
+[22.185529] (mission_interfaces) StdoutLine: {'line': b'[ 12%] \x1b[32m\x1b[1mLinking C shared library libmission_interfaces__rosidl_generator_c.so\x1b[0m\n'}
+[22.191208] (mission_interfaces) StdoutLine: {'line': b'[ 15%] \x1b[34m\x1b[1mGenerating C++ type support dispatch for ROS interfaces\x1b[0m\n'}
+[22.218203] (mission_interfaces) StdoutLine: {'line': b'[ 17%] \x1b[34m\x1b[1mGenerating C++ type support for eProsima Fast-RTPS\x1b[0m\n'}
+[22.229766] (mission_interfaces) StdoutLine: {'line': b'writing mission_interfaces.egg-info/PKG-INFO\n'}
+[22.231830] (mission_interfaces) StdoutLine: {'line': b'writing dependency_links to mission_interfaces.egg-info/dependency_links.txt\n'}
+[22.233207] (mission_interfaces) StdoutLine: {'line': b'writing top-level names to mission_interfaces.egg-info/top_level.txt\n'}
+[22.235360] (mission_interfaces) StdoutLine: {'line': b"writing manifest file 'mission_interfaces.egg-info/SOURCES.txt'\n"}
+[22.283003] (-) TimerEvent: {}
+[22.385386] (-) TimerEvent: {}
+[22.507737] (-) TimerEvent: {}
+[22.517839] (mission_interfaces) StdoutLine: {'line': b'[ 17%] Built target mission_interfaces__rosidl_generator_c\n'}
+[22.609571] (-) TimerEvent: {}
+[22.612737] (mission_interfaces) StdoutLine: {'line': b'[ 20%] \x1b[34m\x1b[1mGenerating C++ introspection for ROS interfaces\x1b[0m\n'}
+[22.710935] (-) TimerEvent: {}
+[22.737379] (mission_interfaces) StdoutLine: {'line': b"reading manifest file 'mission_interfaces.egg-info/SOURCES.txt'\n"}
+[22.769161] (mission_interfaces) StdoutLine: {'line': b"writing manifest file 'mission_interfaces.egg-info/SOURCES.txt'\n"}
+[22.815743] (-) TimerEvent: {}
+[22.917258] (-) TimerEvent: {}
+[23.032018] (-) TimerEvent: {}
+[23.134117] (-) TimerEvent: {}
+[23.237188] (-) TimerEvent: {}
+[23.340171] (-) TimerEvent: {}
+[23.445856] (-) TimerEvent: {}
+[23.506123] (mission_interfaces) StdoutLine: {'line': b'[ 20%] Built target ament_cmake_python_build_mission_interfaces_egg\n'}
+[23.547264] (-) TimerEvent: {}
+[23.605462] (mission_interfaces) StdoutLine: {'line': b'[ 23%] \x1b[34m\x1b[1mGenerating C type support for eProsima Fast-RTPS\x1b[0m\n'}
+[23.648395] (-) TimerEvent: {}
+[23.751576] (-) TimerEvent: {}
+[23.853956] (-) TimerEvent: {}
+[23.956274] (-) TimerEvent: {}
+[24.058528] (-) TimerEvent: {}
+[24.165057] (-) TimerEvent: {}
+[24.269603] (-) TimerEvent: {}
+[24.371805] (-) TimerEvent: {}
+[24.475984] (-) TimerEvent: {}
+[24.527024] (mission_interfaces) StdoutLine: {'line': b'[ 25%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/mission_interfaces/srv/get_pose__type_support.cpp.o\x1b[0m\n'}
+[24.578527] (-) TimerEvent: {}
+[24.683803] (-) TimerEvent: {}
+[24.786040] (-) TimerEvent: {}
+[24.887125] (-) TimerEvent: {}
+[24.988041] (-) TimerEvent: {}
+[25.095903] (-) TimerEvent: {}
+[25.130060] (mission_interfaces) StdoutLine: {'line': b'[ 28%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/mission_interfaces/srv/detail/dds_fastrtps/get_pose__type_support.cpp.o\x1b[0m\n'}
+[25.197183] (-) TimerEvent: {}
+[25.311280] (-) TimerEvent: {}
+[25.412101] (-) TimerEvent: {}
+[25.519723] (-) TimerEvent: {}
+[25.627751] (-) TimerEvent: {}
+[25.729051] (-) TimerEvent: {}
+[25.830565] (-) TimerEvent: {}
+[25.951907] (-) TimerEvent: {}
+[26.060663] (-) TimerEvent: {}
+[26.169477] (-) TimerEvent: {}
+[26.280009] (-) TimerEvent: {}
+[26.388836] (-) TimerEvent: {}
+[26.492114] (-) TimerEvent: {}
+[26.505741] (mission_interfaces) StdoutLine: {'line': b'[ 30%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/mission_interfaces/srv/detail/get_pose__type_support_c.cpp.o\x1b[0m\n'}
+[26.512538] (mission_interfaces) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/mission_interfaces/srv/detail/get_pose__type_support.cpp.o\x1b[0m\n'}
+[26.595748] (-) TimerEvent: {}
+[26.699823] (-) TimerEvent: {}
+[26.801271] (-) TimerEvent: {}
+[26.902178] (-) TimerEvent: {}
+[27.003727] (-) TimerEvent: {}
+[27.108029] (-) TimerEvent: {}
+[27.211742] (-) TimerEvent: {}
+[27.312694] (-) TimerEvent: {}
+[27.415811] (-) TimerEvent: {}
+[27.491129] (mission_interfaces) StdoutLine: {'line': b'[ 35%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/mission_interfaces/msg/approach_info__type_support.cpp.o\x1b[0m\n'}
+[27.519750] (-) TimerEvent: {}
+[27.621078] (-) TimerEvent: {}
+[27.722126] (-) TimerEvent: {}
+[27.827812] (-) TimerEvent: {}
+[27.932576] (-) TimerEvent: {}
+[28.036457] (-) TimerEvent: {}
+[28.139710] (-) TimerEvent: {}
+[28.255808] (-) TimerEvent: {}
+[28.357235] (-) TimerEvent: {}
+[28.467966] (-) TimerEvent: {}
+[28.571721] (-) TimerEvent: {}
+[28.672865] (-) TimerEvent: {}
+[28.774475] (-) TimerEvent: {}
+[28.876052] (-) TimerEvent: {}
+[28.977140] (-) TimerEvent: {}
+[29.079721] (-) TimerEvent: {}
+[29.181895] (-) TimerEvent: {}
+[29.284962] (-) TimerEvent: {}
+[29.386893] (-) TimerEvent: {}
+[29.489339] (-) TimerEvent: {}
+[29.571322] (mission_interfaces) StdoutLine: {'line': b'[ 38%] \x1b[32m\x1b[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_cpp.so\x1b[0m\n'}
+[29.595938] (-) TimerEvent: {}
+[29.631222] (mission_interfaces) StdoutLine: {'line': b'[ 41%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/mission_interfaces/msg/detail/approach_info__type_support_c.cpp.o\x1b[0m\n'}
+[29.699739] (-) TimerEvent: {}
+[29.709431] (mission_interfaces) StdoutLine: {'line': b'[ 43%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/mission_interfaces/msg/detail/dds_fastrtps/approach_info__type_support.cpp.o\x1b[0m\n'}
+[29.802005] (-) TimerEvent: {}
+[29.919723] (-) TimerEvent: {}
+[29.939730] (mission_interfaces) StdoutLine: {'line': b'[ 43%] Built target mission_interfaces__rosidl_typesupport_cpp\n'}
+[30.020275] (mission_interfaces) StdoutLine: {'line': b'[ 46%] \x1b[34m\x1b[1mGenerating C introspection for ROS interfaces\x1b[0m\n'}
+[30.021842] (-) TimerEvent: {}
+[30.123198] (-) TimerEvent: {}
+[30.226549] (-) TimerEvent: {}
+[30.327763] (-) TimerEvent: {}
+[30.439819] (-) TimerEvent: {}
+[30.543347] (-) TimerEvent: {}
+[30.647886] (-) TimerEvent: {}
+[30.748712] (-) TimerEvent: {}
+[30.852122] (-) TimerEvent: {}
+[30.955056] (-) TimerEvent: {}
+[30.983732] (mission_interfaces) StdoutLine: {'line': b'[ 48%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/mission_interfaces/msg/detail/approach_info__type_support.cpp.o\x1b[0m\n'}
+[31.063794] (-) TimerEvent: {}
+[31.167750] (-) TimerEvent: {}
+[31.269257] (-) TimerEvent: {}
+[31.371098] (-) TimerEvent: {}
+[31.472432] (-) TimerEvent: {}
+[31.575740] (-) TimerEvent: {}
+[31.683989] (-) TimerEvent: {}
+[31.785188] (-) TimerEvent: {}
+[31.886491] (-) TimerEvent: {}
+[31.989538] (-) TimerEvent: {}
+[32.091738] (-) TimerEvent: {}
+[32.196037] (-) TimerEvent: {}
+[32.298005] (-) TimerEvent: {}
+[32.401229] (-) TimerEvent: {}
+[32.503572] (-) TimerEvent: {}
+[32.542718] (mission_interfaces) StdoutLine: {'line': b'[ 51%] \x1b[32m\x1b[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_fastrtps_c.so\x1b[0m\n'}
+[32.607790] (-) TimerEvent: {}
+[32.709327] (-) TimerEvent: {}
+[32.810632] (-) TimerEvent: {}
+[32.915787] (-) TimerEvent: {}
+[33.017214] (-) TimerEvent: {}
+[33.118597] (-) TimerEvent: {}
+[33.185187] (mission_interfaces) StdoutLine: {'line': b'[ 51%] Built target mission_interfaces__rosidl_typesupport_fastrtps_c\n'}
+[33.223778] (-) TimerEvent: {}
+[33.224528] (mission_interfaces) StdoutLine: {'line': b'[ 53%] \x1b[32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/mission_interfaces/srv/detail/get_pose__type_support.c.o\x1b[0m\n'}
+[33.282686] (mission_interfaces) StdoutLine: {'line': b'[ 56%] \x1b[34m\x1b[1mGenerating C type support dispatch for ROS interfaces\x1b[0m\n'}
+[33.323994] (-) TimerEvent: {}
+[33.407863] (mission_interfaces) StdoutLine: {'line': b'[ 58%] \x1b[32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/mission_interfaces/msg/detail/approach_info__type_support.c.o\x1b[0m\n'}
+[33.424645] (-) TimerEvent: {}
+[33.532506] (-) TimerEvent: {}
+[33.603386] (mission_interfaces) StdoutLine: {'line': b'[ 61%] \x1b[32m\x1b[1mLinking C shared library libmission_interfaces__rosidl_typesupport_introspection_c.so\x1b[0m\n'}
+[33.632706] (-) TimerEvent: {}
+[33.733558] (-) TimerEvent: {}
+[33.837731] (mission_interfaces) StdoutLine: {'line': b'[ 61%] Built target mission_interfaces__rosidl_typesupport_introspection_c\n'}
+[33.838428] (-) TimerEvent: {}
+[33.940104] (-) TimerEvent: {}
+[33.950070] (mission_interfaces) StdoutLine: {'line': b'[ 64%] \x1b[32m\x1b[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_fastrtps_cpp.so\x1b[0m\n'}
+[34.040428] (-) TimerEvent: {}
+[34.143931] (-) TimerEvent: {}
+[34.244740] (-) TimerEvent: {}
+[34.315904] (mission_interfaces) StdoutLine: {'line': b'[ 64%] Built target mission_interfaces__rosidl_typesupport_fastrtps_cpp\n'}
+[34.344946] (-) TimerEvent: {}
+[34.445884] (-) TimerEvent: {}
+[34.547288] (-) TimerEvent: {}
+[34.649185] (-) TimerEvent: {}
+[34.721241] (mission_interfaces) StdoutLine: {'line': b'[ 66%] \x1b[32m\x1b[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_introspection_cpp.so\x1b[0m\n'}
+[34.749397] (-) TimerEvent: {}
+[34.852736] (-) TimerEvent: {}
+[34.954532] (-) TimerEvent: {}
+[35.024007] (mission_interfaces) StdoutLine: {'line': b'[ 66%] Built target mission_interfaces__rosidl_typesupport_introspection_cpp\n'}
+[35.054889] (-) TimerEvent: {}
+[35.156191] (-) TimerEvent: {}
+[35.259798] (-) TimerEvent: {}
+[35.337853] (mission_interfaces) StdoutLine: {'line': b'[ 69%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/mission_interfaces/srv/get_pose__type_support.cpp.o\x1b[0m\n'}
+[35.344136] (mission_interfaces) StdoutLine: {'line': b'[ 71%] \x1b[32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/mission_interfaces/msg/approach_info__type_support.cpp.o\x1b[0m\n'}
+[35.359990] (-) TimerEvent: {}
+[35.465123] (-) TimerEvent: {}
+[35.497942] (mission_interfaces) StdoutLine: {'line': b'[ 74%] \x1b[32m\x1b[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_c.so\x1b[0m\n'}
+[35.566207] (-) TimerEvent: {}
+[35.672198] (-) TimerEvent: {}
+[35.686793] (mission_interfaces) StdoutLine: {'line': b'[ 74%] Built target mission_interfaces__rosidl_typesupport_c\n'}
+[35.772429] (-) TimerEvent: {}
+[35.782816] (mission_interfaces) StdoutLine: {'line': b'[ 74%] Built target mission_interfaces\n'}
+[35.874560] (-) TimerEvent: {}
+[35.880632] (mission_interfaces) StdoutLine: {'line': b'[ 76%] \x1b[34m\x1b[1mGenerating Python code for ROS interfaces\x1b[0m\n'}
+[35.974756] (-) TimerEvent: {}
+[36.075751] (-) TimerEvent: {}
+[36.177182] (-) TimerEvent: {}
+[36.279225] (-) TimerEvent: {}
+[36.380102] (-) TimerEvent: {}
+[36.481775] (-) TimerEvent: {}
+[36.582909] (-) TimerEvent: {}
+[36.687029] (-) TimerEvent: {}
+[36.787896] (-) TimerEvent: {}
+[36.888910] (-) TimerEvent: {}
+[36.989867] (-) TimerEvent: {}
+[37.091998] (-) TimerEvent: {}
+[37.194778] (-) TimerEvent: {}
+[37.313300] (-) TimerEvent: {}
+[37.414268] (-) TimerEvent: {}
+[37.515262] (-) TimerEvent: {}
+[37.616772] (-) TimerEvent: {}
+[37.719103] (-) TimerEvent: {}
+[37.820150] (-) TimerEvent: {}
+[37.921285] (-) TimerEvent: {}
+[38.022776] (-) TimerEvent: {}
+[38.123907] (-) TimerEvent: {}
+[38.225282] (-) TimerEvent: {}
+[38.331703] (-) TimerEvent: {}
+[38.432470] (-) TimerEvent: {}
+[38.539757] (-) TimerEvent: {}
+[38.640867] (-) TimerEvent: {}
+[38.744687] (-) TimerEvent: {}
+[38.848470] (-) TimerEvent: {}
+[38.950735] (-) TimerEvent: {}
+[38.998937] (mission_interfaces) StdoutLine: {'line': b'[ 76%] Built target mission_interfaces__py\n'}
+[39.051489] (-) TimerEvent: {}
+[39.071827] (mission_interfaces) StdoutLine: {'line': b'[ 79%] \x1b[32mBuilding C object CMakeFiles/mission_interfaces__rosidl_generator_py.dir/rosidl_generator_py/mission_interfaces/srv/_get_pose_s.c.o\x1b[0m\n'}
+[39.104000] (mission_interfaces) StdoutLine: {'line': b'[ 82%] \x1b[32mBuilding C object CMakeFiles/mission_interfaces__rosidl_generator_py.dir/rosidl_generator_py/mission_interfaces/msg/_approach_info_s.c.o\x1b[0m\n'}
+[39.151738] (-) TimerEvent: {}
+[39.255730] (-) TimerEvent: {}
+[39.357440] (-) TimerEvent: {}
+[39.459771] (-) TimerEvent: {}
+[39.564703] (-) TimerEvent: {}
+[39.665652] (-) TimerEvent: {}
+[39.766531] (-) TimerEvent: {}
+[39.872160] (-) TimerEvent: {}
+[39.973016] (-) TimerEvent: {}
+[40.074145] (-) TimerEvent: {}
+[40.174884] (-) TimerEvent: {}
+[40.275756] (-) TimerEvent: {}
+[40.376579] (-) TimerEvent: {}
+[40.477921] (-) TimerEvent: {}
+[40.578731] (-) TimerEvent: {}
+[40.679485] (-) TimerEvent: {}
+[40.780494] (-) TimerEvent: {}
+[40.883982] (-) TimerEvent: {}
+[40.988492] (-) TimerEvent: {}
+[41.089274] (-) TimerEvent: {}
+[41.191396] (-) TimerEvent: {}
+[43.917308] (-) TimerEvent: {}
+[44.019684] (-) TimerEvent: {}
+[44.122162] (-) TimerEvent: {}
+[44.178400] (mission_interfaces) StdoutLine: {'line': b'[ 84%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/mission_interfaces/libmission_interfaces__rosidl_generator_py.so\x1b[0m\n'}
+[44.222443] (-) TimerEvent: {}
+[44.324695] (-) TimerEvent: {}
+[44.372788] (mission_interfaces) StdoutLine: {'line': b'[ 84%] Built target mission_interfaces__rosidl_generator_py\n'}
+[44.424837] (-) TimerEvent: {}
+[44.447530] (mission_interfaces) StdoutLine: {'line': b'[ 87%] \x1b[32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c.o\x1b[0m\n'}
+[44.526046] (-) TimerEvent: {}
+[44.628257] (-) TimerEvent: {}
+[44.731169] (-) TimerEvent: {}
+[44.834426] (-) TimerEvent: {}
+[44.917599] (mission_interfaces) StdoutLine: {'line': b'[ 89%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/mission_interfaces/mission_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so\x1b[0m\n'}
+[44.934653] (-) TimerEvent: {}
+[45.035772] (-) TimerEvent: {}
+[45.067184] (mission_interfaces) StdoutLine: {'line': b'[ 89%] Built target mission_interfaces__rosidl_typesupport_fastrtps_c__pyext\n'}
+[45.132228] (mission_interfaces) StdoutLine: {'line': b'[ 92%] \x1b[32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_c.c.o\x1b[0m\n'}
+[45.138698] (-) TimerEvent: {}
+[45.239528] (-) TimerEvent: {}
+[45.340406] (-) TimerEvent: {}
+[45.441249] (-) TimerEvent: {}
+[45.542257] (-) TimerEvent: {}
+[45.642947] (-) TimerEvent: {}
+[45.704370] (mission_interfaces) StdoutLine: {'line': b'[ 94%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/mission_interfaces/mission_interfaces_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so\x1b[0m\n'}
+[45.743151] (-) TimerEvent: {}
+[45.840010] (mission_interfaces) StdoutLine: {'line': b'[ 94%] Built target mission_interfaces__rosidl_typesupport_c__pyext\n'}
+[45.843331] (-) TimerEvent: {}
+[45.905575] (mission_interfaces) StdoutLine: {'line': b'[ 97%] \x1b[32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_introspection_c.c.o\x1b[0m\n'}
+[45.944020] (-) TimerEvent: {}
+[46.045554] (-) TimerEvent: {}
+[46.146368] (-) TimerEvent: {}
+[46.247326] (-) TimerEvent: {}
+[47.533960] (-) TimerEvent: {}
+[47.557290] (mission_interfaces) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/mission_interfaces/mission_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so\x1b[0m\n'}
+[47.634197] (-) TimerEvent: {}
+[47.711299] (mission_interfaces) StdoutLine: {'line': b'[100%] Built target mission_interfaces__rosidl_typesupport_introspection_c__pyext\n'}
+[47.734600] (-) TimerEvent: {}
+[47.767043] (mission_interfaces) CommandEnded: {'returncode': 0}
+[47.770204] (mission_interfaces) JobProgress: {'identifier': 'mission_interfaces', 'progress': 'install'}
+[47.808645] (mission_interfaces) Command: {'cmd': ['/usr/bin/cmake', '--install', '/ros2_ws/build/mission_interfaces'], 'cwd': '/ros2_ws/build/mission_interfaces', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('HOSTNAME', 'raspberrypi4'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('CYCLONEDDS_URI', 'file:///connections/cycloneDDS_profile.xml'), ('OLDPWD', '/'), ('ROS_PYTHON_VERSION', '3'), ('ROS_DISTRO', 'humble'), ('_', '/usr/local/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('LIBGL_ALWAYS_INDIRECT', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LANG', 'en_US.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('ROS_DOMAIN_ID', '1'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('DEBIAN_FRONTEND', 'noninteractive'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/ros2_ws/build/mission_interfaces'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[47.835413] (-) TimerEvent: {}
+[47.851105] (mission_interfaces) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[47.853003] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/ament_index/resource_index/rosidl_interfaces/mission_interfaces\n'}
+[47.854849] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces\n'}
+[47.856446] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg\n'}
+[47.858453] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_generator_c__visibility_control.h\n'}
+[47.860399] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail\n'}
+[47.861835] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__struct.h\n'}
+[47.864423] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__type_support.h\n'}
+[47.865846] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__functions.h\n'}
+[47.868858] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__functions.c\n'}
+[47.874120] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/approach_info.h\n'}
+[47.876007] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv\n'}
+[47.877206] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/get_pose.h\n'}
+[47.878043] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail\n'}
+[47.878963] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__type_support.h\n'}
+[47.879974] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__functions.c\n'}
+[47.881250] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__struct.h\n'}
+[47.882735] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__functions.h\n'}
+[47.884275] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/library_path.sh\n'}
+[47.885850] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/library_path.dsv\n'}
+[47.886847] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_generator_c.so\n'}
+[47.887623] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_generator_c.so" to ""\n'}
+[47.888597] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces\n'}
+[47.889415] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg\n'}
+[47.890271] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[47.890880] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail\n'}
+[47.892856] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__rosidl_typesupport_fastrtps_c.h\n'}
+[47.894327] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv\n'}
+[47.895016] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail\n'}
+[47.895989] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__rosidl_typesupport_fastrtps_c.h\n'}
+[47.896673] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_fastrtps_c.so\n'}
+[47.897195] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_fastrtps_c.so" to ""\n'}
+[47.897920] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces\n'}
+[47.898819] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg\n'}
+[47.899960] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[47.901188] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail\n'}
+[47.901915] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__rosidl_typesupport_introspection_c.h\n'}
+[47.902969] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__type_support.c\n'}
+[47.903417] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv\n'}
+[47.904129] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail\n'}
+[47.905286] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__type_support.c\n'}
+[47.906371] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__rosidl_typesupport_introspection_c.h\n'}
+[47.907599] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_introspection_c.so\n'}
+[47.909050] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_introspection_c.so" to ""\n'}
+[47.910596] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_c.so\n'}
+[47.912382] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_c.so" to ""\n'}
+[47.913797] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces\n'}
+[47.914973] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg\n'}
+[47.916218] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/approach_info.hpp\n'}
+[47.917709] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[47.918348] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail\n'}
+[47.919348] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__struct.hpp\n'}
+[47.920130] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__builder.hpp\n'}
+[47.920994] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__type_support.hpp\n'}
+[47.921503] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__traits.hpp\n'}
+[47.922113] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv\n'}
+[47.922665] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/get_pose.hpp\n'}
+[47.923433] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail\n'}
+[47.924711] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__builder.hpp\n'}
+[47.926099] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__traits.hpp\n'}
+[47.927061] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__struct.hpp\n'}
+[47.928034] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__type_support.hpp\n'}
+[47.929199] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces\n'}
+[47.929874] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg\n'}
+[47.930355] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[47.931006] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail\n'}
+[47.932457] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/dds_fastrtps\n'}
+[47.934201] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[47.935656] (-) TimerEvent: {}
+[47.936523] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv\n'}
+[47.937997] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail\n'}
+[47.939329] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/dds_fastrtps\n'}
+[47.940230] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[47.940876] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_fastrtps_cpp.so\n'}
+[47.941756] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_fastrtps_cpp.so" to ""\n'}
+[47.943060] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces\n'}
+[47.945807] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg\n'}
+[47.948473] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail\n'}
+[47.951052] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__rosidl_typesupport_introspection_cpp.hpp\n'}
+[47.952597] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__type_support.cpp\n'}
+[47.953217] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv\n'}
+[47.954389] (mission_interfaces) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail\n'}
+[47.955667] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__rosidl_typesupport_introspection_cpp.hpp\n'}
+[47.956804] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__type_support.cpp\n'}
+[47.958081] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_introspection_cpp.so\n'}
+[47.958632] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_introspection_cpp.so" to ""\n'}
+[47.959921] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_cpp.so\n'}
+[47.960689] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_cpp.so" to ""\n'}
+[47.961240] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/pythonpath.sh\n'}
+[47.961675] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/pythonpath.dsv\n'}
+[47.962078] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info\n'}
+[47.962572] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info/top_level.txt\n'}
+[47.964311] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info/PKG-INFO\n'}
+[47.964939] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[47.965790] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[47.966964] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces\n'}
+[47.967701] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so\n'}
+[47.968678] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg\n'}
+[47.969456] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/_approach_info_s.c\n'}
+[47.970255] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/_approach_info.py\n'}
+[47.971041] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/__init__.py\n'}
+[47.971735] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so\n'}
+[47.972691] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_c.c\n'}
+[47.973443] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so\n'}
+[47.974150] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/__init__.py\n'}
+[47.974736] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/libmission_interfaces__rosidl_generator_py.so\n'}
+[47.975501] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[47.976428] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[47.976990] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv\n'}
+[47.978028] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/_get_pose_s.c\n'}
+[47.978721] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/_get_pose.py\n'}
+[47.979476] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/__init__.py\n'}
+[48.035918] (-) TimerEvent: {}
+[48.136946] (-) TimerEvent: {}
+[48.226968] (mission_interfaces) StdoutLine: {'line': b"Listing '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces'...\n"}
+[48.233244] (mission_interfaces) StdoutLine: {'line': b"Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/__init__.py'...\n"}
+[48.234336] (mission_interfaces) StdoutLine: {'line': b"Listing '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg'...\n"}
+[48.240584] (-) TimerEvent: {}
+[48.241701] (mission_interfaces) StdoutLine: {'line': b"Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/__init__.py'...\n"}
+[48.243179] (mission_interfaces) StdoutLine: {'line': b"Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/_approach_info.py'...\n"}
+[48.244345] (mission_interfaces) StdoutLine: {'line': b"Listing '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv'...\n"}
+[48.245304] (mission_interfaces) StdoutLine: {'line': b"Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/__init__.py'...\n"}
+[48.248654] (mission_interfaces) StdoutLine: {'line': b"Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/_get_pose.py'...\n"}
+[48.267368] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so\n'}
+[48.269118] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so" to ""\n'}
+[48.271327] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so\n'}
+[48.272239] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so" to ""\n'}
+[48.273168] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so\n'}
+[48.275100] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so" to ""\n'}
+[48.278367] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_generator_py.so\n'}
+[48.279818] (mission_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_generator_py.so" to ""\n'}
+[48.280656] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/srv/GetPose.idl\n'}
+[48.281096] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/msg/ApproachInfo.idl\n'}
+[48.281848] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/srv/GetPose.srv\n'}
+[48.284406] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/srv/GetPose_Request.msg\n'}
+[48.286674] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/srv/GetPose_Response.msg\n'}
+[48.288476] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/msg/ApproachInfo.msg\n'}
+[48.291567] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/ament_index/resource_index/package_run_dependencies/mission_interfaces\n'}
+[48.294859] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/ament_index/resource_index/parent_prefix_path/mission_interfaces\n'}
+[48.296148] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/ament_prefix_path.sh\n'}
+[48.296640] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/ament_prefix_path.dsv\n'}
+[48.297130] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/path.sh\n'}
+[48.297666] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/path.dsv\n'}
+[48.298185] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/local_setup.bash\n'}
+[48.298702] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/local_setup.sh\n'}
+[48.304088] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/local_setup.zsh\n'}
+[48.304686] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/local_setup.dsv\n'}
+[48.305225] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/package.dsv\n'}
+[48.305728] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/ament_index/resource_index/packages/mission_interfaces\n'}
+[48.306433] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_cExport.cmake\n'}
+[48.307387] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_cExport-noconfig.cmake\n'}
+[48.316342] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[48.316907] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[48.317415] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_introspection_cExport.cmake\n'}
+[48.317895] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[48.318381] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_cExport.cmake\n'}
+[48.318910] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[48.319422] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_cppExport.cmake\n'}
+[48.326194] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[48.326706] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[48.327286] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[48.327927] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[48.328508] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_cppExport.cmake\n'}
+[48.328978] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[48.329560] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_pyExport.cmake\n'}
+[48.330106] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_pyExport-noconfig.cmake\n'}
+[48.331225] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/rosidl_cmake-extras.cmake\n'}
+[48.345421] (-) TimerEvent: {}
+[48.352116] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[48.352669] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[48.353069] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[48.353412] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[48.353760] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[48.354198] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[48.354635] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfacesConfig.cmake\n'}
+[48.355121] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfacesConfig-version.cmake\n'}
+[48.355959] (mission_interfaces) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/package.xml\n'}
+[48.364415] (mission_interfaces) CommandEnded: {'returncode': 0}
+[48.447309] (-) TimerEvent: {}
+[48.548522] (-) TimerEvent: {}
+[48.599928] (mission_interfaces) JobEnded: {'identifier': 'mission_interfaces', 'rc': 0}
+[48.603855] (mission) JobStarted: {'identifier': 'mission'}
+[48.648746] (-) TimerEvent: {}
+[48.750086] (-) TimerEvent: {}
+[48.851590] (-) TimerEvent: {}
+[48.952817] (-) TimerEvent: {}
+[49.053790] (-) TimerEvent: {}
+[49.157438] (-) TimerEvent: {}
+[49.260541] (-) TimerEvent: {}
+[49.363620] (-) TimerEvent: {}
+[49.464522] (-) TimerEvent: {}
+[49.565483] (-) TimerEvent: {}
+[49.666606] (-) TimerEvent: {}
+[49.767752] (-) TimerEvent: {}
+[49.870141] (-) TimerEvent: {}
+[49.971521] (-) TimerEvent: {}
+[50.072825] (-) TimerEvent: {}
+[50.173870] (-) TimerEvent: {}
+[50.275612] (-) TimerEvent: {}
+[50.376835] (-) TimerEvent: {}
+[50.480214] (-) TimerEvent: {}
+[50.581577] (-) TimerEvent: {}
+[50.683656] (-) TimerEvent: {}
+[50.784932] (-) TimerEvent: {}
+[50.885865] (-) TimerEvent: {}
+[50.986769] (-) TimerEvent: {}
+[51.088249] (-) TimerEvent: {}
+[51.189475] (-) TimerEvent: {}
+[51.290274] (-) TimerEvent: {}
+[51.395323] (-) TimerEvent: {}
+[51.496250] (-) TimerEvent: {}
+[51.597803] (-) TimerEvent: {}
+[51.699157] (-) TimerEvent: {}
+[51.799875] (-) TimerEvent: {}
+[51.900531] (-) TimerEvent: {}
+[52.002081] (-) TimerEvent: {}
+[52.103590] (-) TimerEvent: {}
+[52.204753] (-) TimerEvent: {}
+[52.305580] (-) TimerEvent: {}
+[52.407110] (-) TimerEvent: {}
+[52.507742] (-) TimerEvent: {}
+[52.609050] (-) TimerEvent: {}
+[52.710492] (-) TimerEvent: {}
+[52.811324] (-) TimerEvent: {}
+[52.912796] (-) TimerEvent: {}
+[53.014630] (-) TimerEvent: {}
+[53.115426] (-) TimerEvent: {}
+[53.216516] (-) TimerEvent: {}
+[53.317325] (-) TimerEvent: {}
+[53.418444] (-) TimerEvent: {}
+[53.520212] (-) TimerEvent: {}
+[53.624569] (-) TimerEvent: {}
+[53.727833] (-) TimerEvent: {}
+[53.755807] (mission) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../build/mission', 'build', '--build-base', '/ros2_ws/build/mission/build', 'install', '--record', '/ros2_ws/build/mission/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/ros2_ws/mission', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'HOSTNAME': 'raspberrypi4', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/ros2_ws/install/mission_interfaces/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/root', 'CYCLONEDDS_URI': 'file:///connections/cycloneDDS_profile.xml', 'OLDPWD': '/', 'ROS_PYTHON_VERSION': '3', 'ROS_DISTRO': 'humble', '_': '/usr/local/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'LIBGL_ALWAYS_INDIRECT': '1', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LANG': 'en_US.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_cyclonedds_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'ROS_DOMAIN_ID': '1', 'AMENT_PREFIX_PATH': '/ros2_ws/install/mission_interfaces:/opt/ros/humble', 'DEBIAN_FRONTEND': 'noninteractive', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'PWD': '/ros2_ws/build/mission', 'PYTHONPATH': '/ros2_ws/build/mission/prefix_override:/usr/local/lib/python3.10/dist-packages/colcon_core/task/python/colcon_distutils_commands:/ros2_ws/install/mission/lib/python3.10/site-packages:/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/ros2_ws/install/mission_interfaces'}, 'shell': False}
+[53.828195] (-) TimerEvent: {}
+[53.930298] (-) TimerEvent: {}
+[54.032180] (-) TimerEvent: {}
+[54.134559] (-) TimerEvent: {}
+[54.240231] (-) TimerEvent: {}
+[54.340885] (-) TimerEvent: {}
+[54.441567] (-) TimerEvent: {}
+[54.542480] (-) TimerEvent: {}
+[54.643120] (-) TimerEvent: {}
+[54.743811] (-) TimerEvent: {}
+[54.844509] (-) TimerEvent: {}
+[54.945263] (-) TimerEvent: {}
+[55.046214] (-) TimerEvent: {}
+[55.147004] (-) TimerEvent: {}
+[55.248010] (-) TimerEvent: {}
+[55.350554] (-) TimerEvent: {}
+[55.451220] (-) TimerEvent: {}
+[55.509953] (mission) StdoutLine: {'line': b'running egg_info\n'}
+[55.512719] (mission) StdoutLine: {'line': b'creating ../build/mission/mission.egg-info\n'}
+[55.551377] (-) TimerEvent: {}
+[55.576431] (mission) StdoutLine: {'line': b'writing ../build/mission/mission.egg-info/PKG-INFO\n'}
+[55.577800] (mission) StdoutLine: {'line': b'writing dependency_links to ../build/mission/mission.egg-info/dependency_links.txt\n'}
+[55.579195] (mission) StdoutLine: {'line': b'writing entry points to ../build/mission/mission.egg-info/entry_points.txt\n'}
+[55.580276] (mission) StdoutLine: {'line': b'writing requirements to ../build/mission/mission.egg-info/requires.txt\n'}
+[55.581154] (mission) StdoutLine: {'line': b'writing top-level names to ../build/mission/mission.egg-info/top_level.txt\n'}
+[55.582290] (mission) StdoutLine: {'line': b"writing manifest file '../build/mission/mission.egg-info/SOURCES.txt'\n"}
+[55.651602] (-) TimerEvent: {}
+[55.729667] (mission) StdoutLine: {'line': b"reading manifest file '../build/mission/mission.egg-info/SOURCES.txt'\n"}
+[55.733325] (mission) StdoutLine: {'line': b"writing manifest file '../build/mission/mission.egg-info/SOURCES.txt'\n"}
+[55.734105] (mission) StdoutLine: {'line': b'running build\n'}
+[55.734728] (mission) StdoutLine: {'line': b'running build_py\n'}
+[55.735506] (mission) StdoutLine: {'line': b'creating /ros2_ws/build/mission/build\n'}
+[55.736315] (mission) StdoutLine: {'line': b'creating /ros2_ws/build/mission/build/lib\n'}
+[55.736965] (mission) StdoutLine: {'line': b'creating /ros2_ws/build/mission/build/lib/mission\n'}
+[55.737607] (mission) StdoutLine: {'line': b'copying mission/approach.py -> /ros2_ws/build/mission/build/lib/mission\n'}
+[55.738327] (mission) StdoutLine: {'line': b'copying mission/helper_func.py -> /ros2_ws/build/mission/build/lib/mission\n'}
+[55.739588] (mission) StdoutLine: {'line': b'copying mission/state_node.py -> /ros2_ws/build/mission/build/lib/mission\n'}
+[55.740523] (mission) StdoutLine: {'line': b'copying mission/winch_control.py -> /ros2_ws/build/mission/build/lib/mission\n'}
+[55.741455] (mission) StdoutLine: {'line': b'copying mission/machine_vision.py -> /ros2_ws/build/mission/build/lib/mission\n'}
+[55.742364] (mission) StdoutLine: {'line': b'copying mission/manual_control.py -> /ros2_ws/build/mission/build/lib/mission\n'}
+[55.743323] (mission) StdoutLine: {'line': b'copying mission/__init__.py -> /ros2_ws/build/mission/build/lib/mission\n'}
+[55.744134] (mission) StdoutLine: {'line': b'copying mission/valve_bucket_control.py -> /ros2_ws/build/mission/build/lib/mission\n'}
+[55.745791] (mission) StdoutLine: {'line': b'running install\n'}
+[55.751684] (-) TimerEvent: {}
+[55.773292] (mission) StdoutLine: {'line': b'running install_lib\n'}
+[55.843822] (mission) StdoutLine: {'line': b'creating /ros2_ws/install/mission/lib/python3.10/site-packages/mission\n'}
+[55.848212] (mission) StdoutLine: {'line': b'copying /ros2_ws/build/mission/build/lib/mission/approach.py -> /ros2_ws/install/mission/lib/python3.10/site-packages/mission\n'}
+[55.848841] (mission) StdoutLine: {'line': b'copying /ros2_ws/build/mission/build/lib/mission/helper_func.py -> /ros2_ws/install/mission/lib/python3.10/site-packages/mission\n'}
+[55.849250] (mission) StdoutLine: {'line': b'copying /ros2_ws/build/mission/build/lib/mission/state_node.py -> /ros2_ws/install/mission/lib/python3.10/site-packages/mission\n'}
+[55.849596] (mission) StdoutLine: {'line': b'copying /ros2_ws/build/mission/build/lib/mission/winch_control.py -> /ros2_ws/install/mission/lib/python3.10/site-packages/mission\n'}
+[55.849964] (mission) StdoutLine: {'line': b'copying /ros2_ws/build/mission/build/lib/mission/machine_vision.py -> /ros2_ws/install/mission/lib/python3.10/site-packages/mission\n'}
+[55.850316] (mission) StdoutLine: {'line': b'copying /ros2_ws/build/mission/build/lib/mission/manual_control.py -> /ros2_ws/install/mission/lib/python3.10/site-packages/mission\n'}
+[55.859770] (mission) StdoutLine: {'line': b'copying /ros2_ws/build/mission/build/lib/mission/__init__.py -> /ros2_ws/install/mission/lib/python3.10/site-packages/mission\n'}
+[55.860368] (-) TimerEvent: {}
+[55.864960] (mission) StdoutLine: {'line': b'copying /ros2_ws/build/mission/build/lib/mission/valve_bucket_control.py -> /ros2_ws/install/mission/lib/python3.10/site-packages/mission\n'}
+[55.866595] (mission) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/mission/lib/python3.10/site-packages/mission/approach.py to approach.cpython-310.pyc\n'}
+[55.867136] (mission) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/mission/lib/python3.10/site-packages/mission/helper_func.py to helper_func.cpython-310.pyc\n'}
+[55.867694] (mission) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/mission/lib/python3.10/site-packages/mission/state_node.py to state_node.cpython-310.pyc\n'}
+[55.874448] (mission) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/mission/lib/python3.10/site-packages/mission/winch_control.py to winch_control.cpython-310.pyc\n'}
+[55.882977] (mission) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/mission/lib/python3.10/site-packages/mission/machine_vision.py to machine_vision.cpython-310.pyc\n'}
+[55.886015] (mission) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/mission/lib/python3.10/site-packages/mission/manual_control.py to manual_control.cpython-310.pyc\n'}
+[55.893043] (mission) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/mission/lib/python3.10/site-packages/mission/__init__.py to __init__.cpython-310.pyc\n'}
+[55.894260] (mission) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/mission/lib/python3.10/site-packages/mission/valve_bucket_control.py to valve_bucket_control.cpython-310.pyc\n'}
+[55.898693] (mission) StdoutLine: {'line': b'running install_data\n'}
+[55.900646] (mission) StdoutLine: {'line': b'creating /ros2_ws/install/mission/share\n'}
+[55.902831] (mission) StdoutLine: {'line': b'creating /ros2_ws/install/mission/share/ament_index\n'}
+[55.903219] (mission) StdoutLine: {'line': b'creating /ros2_ws/install/mission/share/ament_index/resource_index\n'}
+[55.905958] (mission) StdoutLine: {'line': b'creating /ros2_ws/install/mission/share/ament_index/resource_index/packages\n'}
+[55.906478] (mission) StdoutLine: {'line': b'copying resource/mission -> /ros2_ws/install/mission/share/ament_index/resource_index/packages\n'}
+[55.906821] (mission) StdoutLine: {'line': b'creating /ros2_ws/install/mission/share/mission\n'}
+[55.907150] (mission) StdoutLine: {'line': b'copying package.xml -> /ros2_ws/install/mission/share/mission\n'}
+[55.907465] (mission) StdoutLine: {'line': b'creating /ros2_ws/install/mission/share/mission/msg\n'}
+[55.907908] (mission) StdoutLine: {'line': b'running install_egg_info\n'}
+[55.960541] (-) TimerEvent: {}
+[55.977685] (mission) StdoutLine: {'line': b'Copying ../build/mission/mission.egg-info to /ros2_ws/install/mission/lib/python3.10/site-packages/mission-0.0.0-py3.10.egg-info\n'}
+[55.981490] (mission) StdoutLine: {'line': b'running install_scripts\n'}
+[56.060959] (-) TimerEvent: {}
+[56.162492] (-) TimerEvent: {}
+[56.263708] (-) TimerEvent: {}
+[56.318946] (mission) StdoutLine: {'line': b'Installing approach script to /ros2_ws/install/mission/lib/mission\n'}
+[56.320091] (mission) StdoutLine: {'line': b'Installing bucket_valve script to /ros2_ws/install/mission/lib/mission\n'}
+[56.320936] (mission) StdoutLine: {'line': b'Installing control script to /ros2_ws/install/mission/lib/mission\n'}
+[56.321822] (mission) StdoutLine: {'line': b'Installing state script to /ros2_ws/install/mission/lib/mission\n'}
+[56.322565] (mission) StdoutLine: {'line': b'Installing vision script to /ros2_ws/install/mission/lib/mission\n'}
+[56.323323] (mission) StdoutLine: {'line': b'Installing winch script to /ros2_ws/install/mission/lib/mission\n'}
+[56.325905] (mission) StdoutLine: {'line': b"writing list of installed files to '/ros2_ws/build/mission/install.log'\n"}
+[56.364012] (-) TimerEvent: {}
+[56.465357] (-) TimerEvent: {}
+[56.548766] (mission) CommandEnded: {'returncode': 0}
+[56.566417] (-) TimerEvent: {}
+[56.594928] (mission) JobEnded: {'identifier': 'mission', 'rc': 0}
+[56.599777] (-) EventReactorShutdown: {}

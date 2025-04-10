@@ -1,0 +1,276 @@
+[0.038s] Invoking command in '/ros2_ws/build/mission_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /ros2_ws/mission_interfaces -DCMAKE_INSTALL_PREFIX=/ros2_ws/install/mission_interfaces
+[0.264s] -- The C compiler identification is GNU 11.4.0
+[0.512s] -- The CXX compiler identification is GNU 11.4.0
+[0.539s] -- Detecting C compiler ABI info
+[0.827s] -- Detecting C compiler ABI info - done
+[0.872s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.876s] -- Detecting C compile features
+[0.876s] -- Detecting C compile features - done
+[0.893s] -- Detecting CXX compiler ABI info
+[1.200s] -- Detecting CXX compiler ABI info - done
+[1.233s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.234s] -- Detecting CXX compile features
+[1.237s] -- Detecting CXX compile features - done
+[1.248s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[4.290s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[4.648s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[4.659s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[4.681s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[4.809s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[6.364s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[7.468s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[14.502s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[17.707s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[17.717s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[17.857s] -- Found PythonLibs: /usr/lib/aarch64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+[17.858s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[17.858s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[17.858s] -- Using PYTHON_LIBRARIES: /usr/lib/aarch64-linux-gnu/libpython3.10.so
+[17.961s] -- Found PythonExtra: .so  
+[18.131s] -- Found ament_lint_auto: 0.12.12 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[18.289s] -- Added test 'copyright' to check source files copyright and LICENSE
+[18.308s] -- Added test 'lint_cmake' to check CMake code style
+[18.315s] -- Added test 'xmllint' to check XML markup files
+[18.341s] -- Configuring done
+[18.487s] -- Generating done
+[18.532s] -- Build files have been written to: /ros2_ws/build/mission_interfaces
+[18.556s] Invoked command in '/ros2_ws/build/mission_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /ros2_ws/mission_interfaces -DCMAKE_INSTALL_PREFIX=/ros2_ws/install/mission_interfaces
+[18.563s] Invoking command in '/ros2_ws/build/mission_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /ros2_ws/build/mission_interfaces -- -j4 -l4
+[18.805s] [  2%] [34m[1mGenerating C code for ROS interfaces[0m
+[18.845s] [  5%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[18.884s] [  5%] Built target ament_cmake_python_copy_mission_interfaces
+[21.608s] [  7%] [32mBuilding C object CMakeFiles/mission_interfaces__rosidl_generator_c.dir/rosidl_generator_c/mission_interfaces/msg/detail/approach_info__functions.c.o[0m
+[21.637s] [ 10%] [32mBuilding C object CMakeFiles/mission_interfaces__rosidl_generator_c.dir/rosidl_generator_c/mission_interfaces/srv/detail/get_pose__functions.c.o[0m
+[22.086s] running egg_info
+[22.092s] creating mission_interfaces.egg-info
+[22.141s] [ 10%] Built target mission_interfaces__cpp
+[22.182s] [ 12%] [32m[1mLinking C shared library libmission_interfaces__rosidl_generator_c.so[0m
+[22.189s] [ 15%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[22.215s] [ 17%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[22.226s] writing mission_interfaces.egg-info/PKG-INFO
+[22.229s] writing dependency_links to mission_interfaces.egg-info/dependency_links.txt
+[22.230s] writing top-level names to mission_interfaces.egg-info/top_level.txt
+[22.233s] writing manifest file 'mission_interfaces.egg-info/SOURCES.txt'
+[22.515s] [ 17%] Built target mission_interfaces__rosidl_generator_c
+[22.610s] [ 20%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[22.735s] reading manifest file 'mission_interfaces.egg-info/SOURCES.txt'
+[22.766s] writing manifest file 'mission_interfaces.egg-info/SOURCES.txt'
+[23.503s] [ 20%] Built target ament_cmake_python_build_mission_interfaces_egg
+[23.604s] [ 23%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[24.524s] [ 25%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/mission_interfaces/srv/get_pose__type_support.cpp.o[0m
+[25.127s] [ 28%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/mission_interfaces/srv/detail/dds_fastrtps/get_pose__type_support.cpp.o[0m
+[26.503s] [ 30%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/mission_interfaces/srv/detail/get_pose__type_support_c.cpp.o[0m
+[26.509s] [ 33%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/mission_interfaces/srv/detail/get_pose__type_support.cpp.o[0m
+[27.488s] [ 35%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/mission_interfaces/msg/approach_info__type_support.cpp.o[0m
+[29.568s] [ 38%] [32m[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_cpp.so[0m
+[29.631s] [ 41%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/mission_interfaces/msg/detail/approach_info__type_support_c.cpp.o[0m
+[29.706s] [ 43%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/mission_interfaces/msg/detail/dds_fastrtps/approach_info__type_support.cpp.o[0m
+[29.937s] [ 43%] Built target mission_interfaces__rosidl_typesupport_cpp
+[30.018s] [ 46%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[30.981s] [ 48%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/mission_interfaces/msg/detail/approach_info__type_support.cpp.o[0m
+[32.539s] [ 51%] [32m[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_fastrtps_c.so[0m
+[33.182s] [ 51%] Built target mission_interfaces__rosidl_typesupport_fastrtps_c
+[33.221s] [ 53%] [32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/mission_interfaces/srv/detail/get_pose__type_support.c.o[0m
+[33.280s] [ 56%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[33.405s] [ 58%] [32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/mission_interfaces/msg/detail/approach_info__type_support.c.o[0m
+[33.600s] [ 61%] [32m[1mLinking C shared library libmission_interfaces__rosidl_typesupport_introspection_c.so[0m
+[33.834s] [ 61%] Built target mission_interfaces__rosidl_typesupport_introspection_c
+[33.947s] [ 64%] [32m[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_fastrtps_cpp.so[0m
+[34.313s] [ 64%] Built target mission_interfaces__rosidl_typesupport_fastrtps_cpp
+[34.718s] [ 66%] [32m[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_introspection_cpp.so[0m
+[35.022s] [ 66%] Built target mission_interfaces__rosidl_typesupport_introspection_cpp
+[35.337s] [ 69%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/mission_interfaces/srv/get_pose__type_support.cpp.o[0m
+[35.341s] [ 71%] [32mBuilding CXX object CMakeFiles/mission_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/mission_interfaces/msg/approach_info__type_support.cpp.o[0m
+[35.495s] [ 74%] [32m[1mLinking CXX shared library libmission_interfaces__rosidl_typesupport_c.so[0m
+[35.686s] [ 74%] Built target mission_interfaces__rosidl_typesupport_c
+[35.781s] [ 74%] Built target mission_interfaces
+[35.878s] [ 76%] [34m[1mGenerating Python code for ROS interfaces[0m
+[38.996s] [ 76%] Built target mission_interfaces__py
+[39.069s] [ 79%] [32mBuilding C object CMakeFiles/mission_interfaces__rosidl_generator_py.dir/rosidl_generator_py/mission_interfaces/srv/_get_pose_s.c.o[0m
+[39.101s] [ 82%] [32mBuilding C object CMakeFiles/mission_interfaces__rosidl_generator_py.dir/rosidl_generator_py/mission_interfaces/msg/_approach_info_s.c.o[0m
+[44.175s] [ 84%] [32m[1mLinking C shared library rosidl_generator_py/mission_interfaces/libmission_interfaces__rosidl_generator_py.so[0m
+[44.370s] [ 84%] Built target mission_interfaces__rosidl_generator_py
+[44.444s] [ 87%] [32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[44.915s] [ 89%] [32m[1mLinking C shared library rosidl_generator_py/mission_interfaces/mission_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so[0m
+[45.064s] [ 89%] Built target mission_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[45.129s] [ 92%] [32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_c.c.o[0m
+[45.701s] [ 94%] [32m[1mLinking C shared library rosidl_generator_py/mission_interfaces/mission_interfaces_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so[0m
+[45.837s] [ 94%] Built target mission_interfaces__rosidl_typesupport_c__pyext
+[45.902s] [ 97%] [32mBuilding C object CMakeFiles/mission_interfaces__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[47.554s] [100%] [32m[1mLinking C shared library rosidl_generator_py/mission_interfaces/mission_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so[0m
+[47.708s] [100%] Built target mission_interfaces__rosidl_typesupport_introspection_c__pyext
+[47.764s] Invoked command in '/ros2_ws/build/mission_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /ros2_ws/build/mission_interfaces -- -j4 -l4
+[47.807s] Invoking command in '/ros2_ws/build/mission_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /ros2_ws/build/mission_interfaces
+[47.848s] -- Install configuration: ""
+[47.850s] -- Installing: /ros2_ws/install/mission_interfaces/share/ament_index/resource_index/rosidl_interfaces/mission_interfaces
+[47.852s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces
+[47.854s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg
+[47.856s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_generator_c__visibility_control.h
+[47.857s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail
+[47.860s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__struct.h
+[47.862s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__type_support.h
+[47.863s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__functions.h
+[47.869s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__functions.c
+[47.872s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/approach_info.h
+[47.873s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv
+[47.874s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/get_pose.h
+[47.875s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail
+[47.876s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__type_support.h
+[47.877s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__functions.c
+[47.878s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__struct.h
+[47.880s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__functions.h
+[47.882s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/library_path.sh
+[47.883s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/library_path.dsv
+[47.884s] -- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_generator_c.so
+[47.885s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_generator_c.so" to ""
+[47.885s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces
+[47.886s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg
+[47.887s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[47.889s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail
+[47.890s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__rosidl_typesupport_fastrtps_c.h
+[47.891s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv
+[47.892s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail
+[47.893s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__rosidl_typesupport_fastrtps_c.h
+[47.893s] -- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_fastrtps_c.so
+[47.894s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_fastrtps_c.so" to ""
+[47.895s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces
+[47.896s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg
+[47.897s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[47.898s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail
+[47.899s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__rosidl_typesupport_introspection_c.h
+[47.900s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__type_support.c
+[47.900s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv
+[47.901s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail
+[47.902s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__type_support.c
+[47.903s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__rosidl_typesupport_introspection_c.h
+[47.905s] -- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_introspection_c.so
+[47.906s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_introspection_c.so" to ""
+[47.908s] -- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_c.so
+[47.910s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_c.so" to ""
+[47.911s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces
+[47.912s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg
+[47.913s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/approach_info.hpp
+[47.914s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+[47.915s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail
+[47.916s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__struct.hpp
+[47.917s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__builder.hpp
+[47.918s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__type_support.hpp
+[47.918s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__traits.hpp
+[47.919s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv
+[47.919s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/get_pose.hpp
+[47.921s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail
+[47.922s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__builder.hpp
+[47.923s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__traits.hpp
+[47.924s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__struct.hpp
+[47.925s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__type_support.hpp
+[47.926s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces
+[47.926s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg
+[47.927s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[47.928s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail
+[47.930s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/dds_fastrtps
+[47.932s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__rosidl_typesupport_fastrtps_cpp.hpp
+[47.933s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv
+[47.935s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail
+[47.936s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/dds_fastrtps
+[47.937s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__rosidl_typesupport_fastrtps_cpp.hpp
+[47.938s] -- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[47.939s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_fastrtps_cpp.so" to ""
+[47.942s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces
+[47.944s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg
+[47.947s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail
+[47.949s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__rosidl_typesupport_introspection_cpp.hpp
+[47.949s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/msg/detail/approach_info__type_support.cpp
+[47.950s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv
+[47.952s] -- Up-to-date: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail
+[47.953s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__rosidl_typesupport_introspection_cpp.hpp
+[47.954s] -- Installing: /ros2_ws/install/mission_interfaces/include/mission_interfaces/mission_interfaces/srv/detail/get_pose__type_support.cpp
+[47.955s] -- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_introspection_cpp.so
+[47.956s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_introspection_cpp.so" to ""
+[47.957s] -- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_cpp.so
+[47.957s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_typesupport_cpp.so" to ""
+[47.958s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/pythonpath.sh
+[47.958s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/pythonpath.dsv
+[47.959s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info
+[47.960s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info/top_level.txt
+[47.961s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info/PKG-INFO
+[47.962s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info/SOURCES.txt
+[47.963s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces-0.0.0-py3.10.egg-info/dependency_links.txt
+[47.964s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces
+[47.964s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so
+[47.965s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg
+[47.966s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/_approach_info_s.c
+[47.967s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/_approach_info.py
+[47.968s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/__init__.py
+[47.969s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so
+[47.969s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_c.c
+[47.970s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so
+[47.971s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/__init__.py
+[47.971s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/libmission_interfaces__rosidl_generator_py.so
+[47.972s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+[47.973s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/_mission_interfaces_s.ep.rosidl_typesupport_introspection_c.c
+[47.974s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv
+[47.975s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/_get_pose_s.c
+[47.975s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/_get_pose.py
+[47.976s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/__init__.py
+[48.229s] Listing '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces'...
+[48.230s] Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/__init__.py'...
+[48.231s] Listing '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg'...
+[48.239s] Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/__init__.py'...
+[48.240s] Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/msg/_approach_info.py'...
+[48.241s] Listing '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv'...
+[48.244s] Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/__init__.py'...
+[48.249s] Compiling '/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/srv/_get_pose.py'...
+[48.264s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so
+[48.266s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so" to ""
+[48.268s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so
+[48.269s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so" to ""
+[48.271s] -- Installing: /ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so
+[48.272s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/local/lib/python3.10/dist-packages/mission_interfaces/mission_interfaces_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so" to ""
+[48.276s] -- Installing: /ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_generator_py.so
+[48.277s] -- Set runtime path of "/ros2_ws/install/mission_interfaces/lib/libmission_interfaces__rosidl_generator_py.so" to ""
+[48.277s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/srv/GetPose.idl
+[48.278s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/msg/ApproachInfo.idl
+[48.280s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/srv/GetPose.srv
+[48.281s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/srv/GetPose_Request.msg
+[48.285s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/srv/GetPose_Response.msg
+[48.287s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/msg/ApproachInfo.msg
+[48.291s] -- Installing: /ros2_ws/install/mission_interfaces/share/ament_index/resource_index/package_run_dependencies/mission_interfaces
+[48.292s] -- Installing: /ros2_ws/install/mission_interfaces/share/ament_index/resource_index/parent_prefix_path/mission_interfaces
+[48.293s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/ament_prefix_path.sh
+[48.293s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/ament_prefix_path.dsv
+[48.294s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/path.sh
+[48.294s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/environment/path.dsv
+[48.295s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/local_setup.bash
+[48.300s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/local_setup.sh
+[48.301s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/local_setup.zsh
+[48.301s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/local_setup.dsv
+[48.302s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/package.dsv
+[48.302s] -- Installing: /ros2_ws/install/mission_interfaces/share/ament_index/resource_index/packages/mission_interfaces
+[48.303s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_cExport.cmake
+[48.312s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_cExport-noconfig.cmake
+[48.313s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+[48.313s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[48.314s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_introspection_cExport.cmake
+[48.314s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[48.315s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_cExport.cmake
+[48.315s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_cExport-noconfig.cmake
+[48.322s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_cppExport.cmake
+[48.323s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+[48.323s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[48.324s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+[48.325s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[48.325s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_cppExport.cmake
+[48.326s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfaces__rosidl_typesupport_cppExport-noconfig.cmake
+[48.326s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_pyExport.cmake
+[48.327s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/export_mission_interfaces__rosidl_generator_pyExport-noconfig.cmake
+[48.341s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/rosidl_cmake-extras.cmake
+[48.349s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+[48.349s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+[48.350s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+[48.350s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[48.350s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+[48.351s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[48.351s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfacesConfig.cmake
+[48.352s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/cmake/mission_interfacesConfig-version.cmake
+[48.360s] -- Installing: /ros2_ws/install/mission_interfaces/share/mission_interfaces/package.xml
+[48.361s] Invoked command in '/ros2_ws/build/mission_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /ros2_ws/build/mission_interfaces
