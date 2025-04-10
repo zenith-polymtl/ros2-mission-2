@@ -3,3 +3,4 @@ pymavlink==2.4.42
 opencv-python
 gpiod
 empy==3.3.4
+python-can[seeedstudio]
