@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>mission_interfaces</name>
+  <name>mission</name>
   <version>0.0.0</version>
   <description>Mission custom message interfaces</description>
   <maintainer email="colinc131@gmail.com">colin</maintainer>
