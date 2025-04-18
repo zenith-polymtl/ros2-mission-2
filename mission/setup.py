@@ -32,7 +32,8 @@ setup(
             'bucket_valve = mission.valve_bucket_control:main',
             'winch = mission.winch_control:main',
             'control = mission.manual_control:main',
-            'water = mission.water_measure:main'
+            'water = mission.water_measure:main',
+            'camera = mission.cam_pub:main',
         ],
     },
 )
