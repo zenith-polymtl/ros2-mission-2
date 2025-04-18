@@ -92,7 +92,7 @@ class StateNode(Node):
         self.source = Target_info("source", -8, "SOURCE", is_bucket=False)
         self.bucket = Target_info("bucket", -5, "BUCKET", is_bucket=True)
 
-        # TSP route setup
+        # TMP route setup
         self.position_dict = position_dict
         self.optimal_route, self.distances = tmp_solution(self.position_dict)
 
@@ -110,6 +110,10 @@ class StateNode(Node):
         self.taken_off = False
         self.reached_wp = False
         self.ready_to_fly = False
+        #TODO Get message from another node to tell the state node if the drone is empty
+        self.empty = False
+        #TODO Compute the number of loops needed based of the drone's and buckets' water capacity
+        self.num_of_loop = 3 
 
         
 
@@ -261,9 +265,23 @@ class StateNode(Node):
                 if self.finished_manual_approach:
                     self.state = MissionState.GOTO_NEXT_BUCKET
                     self.finished_manual_approach = False
-
+                    
+                    # If the drone just filled a bucket, checking if the drone is empty and going to water source if it is
+                    # If the drone just went to a water source, registering that it's now not empty
                     if self.target_type.is_bucket:
                         self.optimal_route.pop(0)
+                        if self.empty:
+                            if not self.possible_movement(self.water_source[1]):
+                                self.get_logger().warn(
+                                    "Not enough battery to reach source + return; RTL now."
+                                )
+                                self.mav.RTL()
+                                self.state = MissionState.FINISHED
+                                return
+                            else:
+                                self.state = MissionState.GOTO_WATER_SOURCE
+                    elif self.target_type == self.source:
+                        self.empty = False
                 else:
                     self.get_logger().info("Waiting for manual approach to end...")
 
@@ -274,17 +292,38 @@ class StateNode(Node):
                 self.state = MissionState.GOTO_NEXT_BUCKET
                 self.finished_bucket = False
 
+                # If the drone just filled a bucket, checking if the drone is empty and going to water source if it is
+                # If the drone just went to a water source, registering that it's now not empty
                 if self.target_type.is_bucket:
                     self.optimal_route.pop(0)
+                    if self.empty:
+                        if not self.possible_movement(self.water_source[1]):
+                            self.get_logger().warn(
+                                "Not enough battery to reach source + return; RTL now."
+                            )
+                            self.mav.RTL()
+                            self.state = MissionState.FINISHED
+                            return
+                        else:
+                            self.state = MissionState.GOTO_WATER_SOURCE
+                elif self.target_type == self.source:
+                    self.empty = False
 
         elif self.state == MissionState.GOTO_NEXT_BUCKET:
             if len(self.optimal_route) == 0:
-                # No more buckets, we are done
-                self.get_logger().info("No more buckets => Return to base (RTL).")
-                self.mav.RTL()
-                self.state = MissionState.FINISHED
-                return
-
+                # No more buckets, we have done one full loop 
+                self.num_of_loop =- 1
+                if self.num_of_loop == 0:
+                    # No more buckets and no more loops, we are done
+                    self.get_logger().info("No more buckets => Return to base (RTL).")
+                    self.mav.RTL()
+                    self.state = MissionState.FINISHED
+                    return
+                else:
+                    # Recalculating the optimal route and going to get water to start a new loop
+                    self.get_logger().info("Starting a new loop")
+                    self.optimal_route, self.distances = tmp_solution(self.position_dict)
+                    self.state = MissionState.GOTO_WATER_SOURCE
             # Grab the next bucket
             next_bucket = self.optimal_route[0]
             if not self.possible_movement(next_bucket):
