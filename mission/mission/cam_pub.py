@@ -29,7 +29,7 @@ class CameraPublisher(Node):
     def __init__(self):
         super().__init__('camera_publisher')
 
-        self.publisher_ = self.create_publisher(Image, 'camera/image_raw', 10)
+        self.publisher_ = self.create_publisher(Image, 'camera/image', 10)
         self.bridge = CvBridge()
 
         self.picam2 = initialize_cam( gain=1, ExposureTime=2000, lenspos=8)

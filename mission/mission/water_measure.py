@@ -12,7 +12,7 @@ class WaterNode(Node):
         super().__init__('water_node')
 
         # ROS2 publisher
-        self.water_qty_pub = self.create_publisher(Int32, '/water_qty', 10)
+        self.water_qty_pub = self.create_publisher(Int32, '/water_qty', 2)
 
         # Configuration parameters
         self.declare_parameter('device', '/dev/ttyUSB0')

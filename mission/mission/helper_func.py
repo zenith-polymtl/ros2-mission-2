@@ -9,6 +9,8 @@ class pymav():
     def __init__(self):
         self = self
         self.last_message_req = None
+
+    
         
     def is_near_waypoint(self, actual : list, target: list, threshold : float = 2.):
         """Retoune True si la distance entre le drone et le target est < threshold. Else False.
@@ -319,6 +321,28 @@ class pymav():
                     pass
             else:
                 print("Waypoint reached!")
+
+    def send_velocity(self, vx, vy, vz):
+        """Envoie une commande de vitesse au drone.
+        Args:
+            connection (mavlink connection): Connection au drone, souvent appelée master ou connection
+            vx (float): Vitesse en NED (N)
+            vy (float): Vitesse en NED (E)
+            vz (float): Vitesse en NED (D)
+        """
+        time_boot_ms = int((time.time() - self.start_time) * 1000) & 0xFFFFFFFF
+
+        self.connection.mav.set_position_target_local_ned_send(
+            time_boot_ms,
+            self.master.target_system,
+            self.master.target_component,
+            mavutil.mavlink.MAV_FRAME_BODY_NED,
+            0b0000111111000111,  # velocity only
+            0, 0, 0,
+            vx, vy, vz,
+            0, 0, 0,
+            0, 0
+        )
 
 
     def RTL(self, while_moving = None, wait_to_land = True):
