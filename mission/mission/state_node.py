@@ -312,7 +312,7 @@ class StateNode(Node):
         elif self.state == MissionState.GOTO_NEXT_BUCKET:
             if len(self.optimal_route) == 0:
                 # No more buckets, we have done one full loop 
-                self.num_of_loop =- 1
+                self.num_of_loop -= 1
                 if self.num_of_loop == 0:
                     # No more buckets and no more loops, we are done
                     self.get_logger().info("No more buckets => Return to base (RTL).")

@@ -13,7 +13,7 @@ class WaterNode(Node):
 
         # ROS2 publisher
         self.water_qty_pub = self.create_publisher(Int32, '/water_qty', 2)
-
+        self.torque_pub = self.create_publisher(Int32, '/torque', 2)
         # Configuration parameters
         self.declare_parameter('device', '/dev/ttyUSB0')
         self.declare_parameter('can_speed', 500000)
@@ -28,7 +28,7 @@ class WaterNode(Node):
         self.declare_parameter('drum_radius', 0.0235)  # m
         self.declare_parameter('gear_ratio', 10.0)  # 10:1 reduction
         self.declare_parameter('dead_weight', 0.74)  # kg
-        self.declare_parameter('water_density', 1.0)  # kg/L
+        self.declare_parameter('water_density', 1.0)  # kg/mL
 
         # Get parameters
         self.device = self.get_parameter('device').value
@@ -225,12 +225,15 @@ class WaterNode(Node):
                         self.volume = self.calculate_water_volume(
                             self.torque
                         )
-
+                        
+                        
                         # Log and publish data
                         self.debug_print(
                             f"Result: Current={self.current:.2f}A | Torque={self.torque:.4f}Nm | Water={self.volume}L",
                             level=0,
                         )
+
+                        self.send_torque()
                         self.send_water_volume()
                 else:
                     self.debug_print(
@@ -250,6 +253,12 @@ class WaterNode(Node):
         msg = Int32()
         msg.data = self.volume
         self.water_qty_pub.publish(msg)
+
+    def send_torque(self):
+        msg = Int32()
+        msg.data = self.torque
+        self.get_logger().info(f"Torque: {self.torque}")
+        self.torque_pub.publish(msg)
 
     def shutdown(self):
         """Clean shutdown"""

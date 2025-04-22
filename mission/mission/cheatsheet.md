@@ -32,8 +32,7 @@ Dans tous les nouveaux terminaux utilisés pour l'env ros2, exécuter :
     sim_address:=127.0.0.1 \
     master:=tcp:127.0.0.1:5760 \
     sitl:=127.0.0.1:5501 \
-    out:=udp:127.0.0.1:14550 \
-    out:=udp:127.0.0.1:14551 \
+    out:=udp:127.0.0.1:14550, out:=udp:127.0.0.1:14551\
     home:=50.0974520,-110.7357341,101.855,0
    ```
    Les deux connections udp sont les sortis de la simulation, ici distribuer à mavros et pymavlink, set up différent avec mission planner. (voir plus loin ... TODO, je comprends pas mais ça marche)

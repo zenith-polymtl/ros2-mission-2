@@ -6,6 +6,9 @@ from PyQt6.QtCore import QTimer
 from PyQt6.QtGui import QColor, QPalette
 from std_msgs.msg import String
 from std_msgs.msg import Int32 as Integer
+from PyQt6.QtGui import QFont
+from std_msgs.msg import Int32
+
 
 class DroneControlGUI(Node, QWidget):
     def __init__(self):
@@ -28,6 +31,10 @@ class DroneControlGUI(Node, QWidget):
         self.abort_state_pub = self.create_publisher(String, '/abort_state', 10)  
         self.confirm_arming_pub = self.create_publisher(String, '/confirm_arming', 10)
         self.bucket_number_pub = self.create_publisher(Integer, '/bucket_number', 10)   
+
+        #ROS 2 subscribers
+        self.water_qty_sub = self.create_subscription(Int32, '/water_qty', self.update_water_qty, 10)
+        self.torque_sub = self.create_subscription(Int32, '/torque', self.update_torque, 10)
 
 
         # Main layout
@@ -73,7 +80,7 @@ class DroneControlGUI(Node, QWidget):
 
         # ➡️ Winch Controls
         winch_box = QGroupBox("Winch Controls")
-        winch_layout = QHBoxLayout()
+        winch_layout = QVBoxLayout()
         self.winch_btn = QPushButton('Winch Down')
         self.winch_btn.clicked.connect(self.send_winch_down)
         winch_layout.addWidget(self.winch_btn)
@@ -119,6 +126,22 @@ class DroneControlGUI(Node, QWidget):
         water_box.setLayout(water_layout)
         main_layout.addWidget(water_box)
 
+        # ➡️ Sensor Feedback Display
+        sensor_box = QGroupBox("Sensor Feedback")
+        sensor_layout = QVBoxLayout()
+
+        self.water_qty_label = QLabel("Water Qty: 0 mL")
+        self.water_qty_label.setFont(QFont('Arial', 14))
+        sensor_layout.addWidget(self.water_qty_label)
+
+        self.torque_label = QLabel("Torque: 0 Phil/saucisse")
+        self.torque_label.setFont(QFont('Arial', 14))
+        sensor_layout.addWidget(self.torque_label)
+
+        sensor_box.setLayout(sensor_layout)
+        main_layout.addWidget(sensor_box)
+
+
         # ➡️ Battery Status Controls
         battery_box = QGroupBox("Battery Status")
         battery_layout = QVBoxLayout()
@@ -154,6 +177,10 @@ class DroneControlGUI(Node, QWidget):
         flight_mode_layout.addWidget(self.arm_btn)
         flight_mode_box.setLayout(flight_mode_layout)
         main_layout.addWidget(flight_mode_box)
+
+        for btn in [self.winch_btn, self.winch_btn_up, self.motor_init, self.close_motor]:
+            btn.setFont(QFont('Arial', 12))
+            btn.setMinimumHeight(40)
 
         # Set main layout
         self.setLayout(main_layout)
@@ -232,6 +259,13 @@ class DroneControlGUI(Node, QWidget):
         self.water_source_pub.publish(msg)
         self.get_logger().info("Water Refill Command Sent.")
 
+    def update_water_qty(self, msg):
+        self.water_qty_label.setText(f"Water Qty: {msg.data} mL")
+
+    def update_torque(self, msg):
+        self.torque_label.setText(f"Torque: {msg.data:.2f} Nm")
+
+
     def send_water_bucket(self):
         msg = String()
         msg.data = "RELEASE"
@@ -249,14 +283,6 @@ class DroneControlGUI(Node, QWidget):
         else:
             self.get_logger().warn("Invalid bucket number entered. Must be an integer.")
 
-
-    def send_buckets(self):
-        num_buckets = self.bucket_input.text().strip()
-        if num_buckets.isdigit():
-            msg = String()
-            msg.data = num_buckets
-            self.water_bucket_pub.publish(msg)
-            self.get_logger().info(f"Set number of buckets to {num_buckets}.")
 
     # ➡️ Battery Status Command
     def send_battery_changed(self):
