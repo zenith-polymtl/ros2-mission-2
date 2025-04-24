@@ -19,7 +19,7 @@ class ValveNode(Node):
         self.line1 = self.chip.get_line(servo_pin)
         self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)'''
 
-        self.servo = Servo(18, min_pulse_width=0.0005, max_pulse_width=0.0025, pin_factory=factory)
+        self.servo = Servo(18, min_pulse_width=0.0005, max_pulse_width=0.0025)
         self.min_pulse_us = 500  # 500 µs
         self.max_pulse_us = 2500  # 2500 µs
         self.target_pulse_us = 600  # 900 µs
