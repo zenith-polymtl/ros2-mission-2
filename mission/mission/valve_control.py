@@ -4,10 +4,6 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from std_msgs.msg import Int32
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
-import time
-import gpiod
-import time
-import numpy as np
 from gpiozero import Servo
 
 class ValveNode(Node):
