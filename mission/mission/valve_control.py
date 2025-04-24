@@ -9,7 +9,6 @@ import gpiod
 import time
 import numpy as np
 from gpiozero import Servo
-import RPi.GPIO as GPIO
 
 class ValveNode(Node):
     def __init__(self):
