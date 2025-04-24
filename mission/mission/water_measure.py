@@ -19,7 +19,7 @@ class WaterNode(Node):
         self.declare_parameter('can_speed', 500000)
         self.declare_parameter('baudrate', 2000000)
         self.declare_parameter('motor_id', 1)
-        self.declare_parameter('polling_rate', 5.0)  # Hz
+        self.declare_parameter('polling_rate', 2.0)  # Hz
         self.declare_parameter('filter_window', 11)
         self.declare_parameter('debug_level', 1)  # 0=minimal, 1=normal, 2=verbose
 
