@@ -35,8 +35,8 @@ class ValveNode(Node):
 
         self.subscriber_ = self.create_subscription(String, '/go_bucket_valve', self.go_callback, qos_profile)
         self.bucket_number_sub = self.create_subscription(Int32, '/bucket_number', self.bucket_number_callback, qos_profile)
-        self.water_sub = self.create_subscription(Int32, '/water_qty', self.water_sub_callback)
-        self.water_sub = self.create_subscription(String, '/valve_state', self.state_callback)
+        self.water_sub = self.create_subscription(Int32, '/water_qty', self.water_sub_callback, 2)
+        self.water_sub = self.create_subscription(String, '/valve_state', self.state_callback, 10)
 
         self.get_logger().info(f"Valve Initialized")
 
