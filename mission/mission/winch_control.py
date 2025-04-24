@@ -37,11 +37,10 @@ class WinchNode(Node):
         self.debug_level = self.get_parameter('debug_level').value
 
         # Commands
-        self.INIT_COMMAND = bytes([0xB4, 0x13, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
         self.STOP_COMMAND = bytes([0x92, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
-        self.IDLE_COMMAND = bytes([0x91, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
+        self.START_COMMAND = bytes([0x91, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
         self.UP_COMMAND = bytes([0x94, 0x00, 0x00, 0xA0, 0xC1, 0xD0, 0x07, 0x00])
-        self.DOWN_COMMAND = bytes([0x94, 0x80, 0x00, 0xA0, 0xC1, 0xD0, 0x07, 0x00])
+        self.DOWN_COMMAND = bytes([0x94, 0x80, 0x00, 0xA0, 0x41, 0xD0, 0x07, 0x00])
         self.GET_POSITION_COMMAND = bytes([0xB4, 0x13, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
 
         # State tracking
@@ -107,7 +106,7 @@ class WinchNode(Node):
             self.get_logger().info("Motor Initialization Command Received")
             
             # Step 1: Send initialization command
-            self.send_message(self.INIT_COMMAND)
+            self.send_message(self.GET_POSITION_COMMAND)
             self.debug_print("Sent initialization command: B4 13 00 00 00 00 00 00", level=1)
             
             # Step 2: Wait for response and extract 4 bytes
@@ -131,7 +130,7 @@ class WinchNode(Node):
                     )
                     
                     # Step 4: Send idle command
-                    self.send_message(self.IDLE_COMMAND)
+                    self.send_message(self.START_COMMAND)
                     self.debug_print(
                         "Sent idle command: 91 00 00 00 00 00 00 00", 
                         level=1
