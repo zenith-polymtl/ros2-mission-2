@@ -43,7 +43,6 @@ class ValveNode(Node):
         self.water_sub = self.create_subscription(Int32, '/water_qty', self.water_sub_callback)
         self.water_sub = self.create_subscription(String, '/valve_state', self.state_callback)
 
-        self.set_servo_angle(90)  # Initialize the servo to 0 degrees
         self.get_logger().info(f"Valve Initialized")
 
     def state_callback(self, msg):
