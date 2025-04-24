@@ -21,7 +21,7 @@ class ValveNode(Node):
 
         self.bucketsQty = None
         self.waterVolume = 0
-        self.openTime = 0
+        self.openTime = None
         self.isClosed = True
 
         qos_profile = QoSProfile(
@@ -38,6 +38,9 @@ class ValveNode(Node):
         self.get_logger().info(f"Valve Initialized")
         
     def set_servo_angle(self, angle, duration=1.0):
+        #Ici duration est set par défault à 1 seconde,
+        # mais on peut le changer pour dequoi de plus court,
+        # représente le temps d'application du pm
 
         duty_cycle = 2 + (angle / 18)
         period = 0.02  # 20 ms
@@ -45,6 +48,9 @@ class ValveNode(Node):
         low_time = period - high_time
 
         end_time = time.time() + duration
+        #Loop while blocante, un peu un NoNo ROS, mais c'est court
+        #TODO Faire dequoi de mieux
+
         while time.time() < end_time:
             self.line1.set_value(1)
             time.sleep(high_time)

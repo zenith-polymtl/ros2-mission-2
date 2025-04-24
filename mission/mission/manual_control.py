@@ -163,6 +163,7 @@ class DroneControlGUI(Node, QWidget):
         palette.setColor(QPalette.ColorRole.Button, QColor(200, 0, 0))  # RGB for Red
         self.abort_btn.setPalette(palette)
         self.abort_btn.setStyleSheet("background-color: red; color: white; font-weight: bold;")
+        
 
         abort_layout.addWidget(self.abort_btn)
         abort_box.setLayout(abort_layout)
@@ -194,7 +195,6 @@ class DroneControlGUI(Node, QWidget):
         """Process ROS 2 callbacks without blocking the UI."""
         rclpy.spin_once(self, timeout_sec=0.1)
 
-    # ➡️ Vision Commands
     # ➡️ Vision Commands
     def send_vision_source(self):
         msg = String()
