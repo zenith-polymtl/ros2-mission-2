@@ -8,16 +8,24 @@ import time
 import gpiod
 import time
 import numpy as np
+from gpiozero import Servo
 #import RPi.GPIO as GPIO
 
 class ValveNode(Node):
     def __init__(self):
         super().__init__("bucket_valve_Node")
-        servo_pin = 3
+        '''servo_pin = 3
         # Create a chip instance (adjust the chip number if needed)
         self.chip = gpiod.Chip("gpiochip0")  # Use gpiochip0 for your Pi 5
         self.line1 = self.chip.get_line(servo_pin)
-        self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)
+        self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)'''
+
+        self.servo = Servo(18, min_pulse_width=0.0005, max_pulse_width=0.0025)
+        self.min_pulse_us = 500  # 500 µs
+        self.max_pulse_us = 2500  # 2500 µs
+        self.target_pulse_us = 600  # 900 µs
+
+        self.position_900 = (self.target_pulse_us - self.min_pulse_us) / (self.max_pulse_us - self.min_pulse_us) * 2 - 1
 
         self.bucketsQty = None
         self.waterVolume = 0
@@ -38,8 +46,6 @@ class ValveNode(Node):
         self.set_servo_angle(90)  # Initialize the servo to 0 degrees
         self.get_logger().info(f"Valve Initialized")
 
-
-    
     def state_callback(self, msg):
         if msg.data == "OPEN":
             self.open_valve()
@@ -50,26 +56,6 @@ class ValveNode(Node):
         else:
             self.get_logger().info(f"Unexpected command sent")
 
-            
-    def set_servo_angle(self, angle, duration=1.0):
-        #Ici duration est set par défault à 1 seconde,
-        # mais on peut le changer pour dequoi de plus court,
-        # représente le temps d'application du pm
-
-        duty_cycle = 2 + (angle / 18)
-        period = 0.02  # 20 ms
-        high_time = duty_cycle / 100.0 * period
-        low_time = period - high_time
-
-        end_time = time.time() + duration
-        #Loop while blocante, un peu un NoNo ROS, mais c'est court
-        #TODO Faire dequoi de mieux
-
-        while time.time() < end_time:
-            self.line1.set_value(1)
-            time.sleep(high_time)
-            self.line1.set_value(0)
-            time.sleep(low_time)
     
     def bucket_number_callback(self, msg):
         self.bucketsQty = msg.data
@@ -77,14 +63,19 @@ class ValveNode(Node):
 
         
     def open_valve(self):
-        self.set_servo_angle(180)
+        self.servo.value = self.position_900  # Applique la position calculée
         self.get_logger().info(f"Opened Valve")
         self.isClosed = False
 
     def close_valve(self):
-        self.set_servo_angle(0)
+        self.servo.mid()
+        self.create_timer(0.5, self.detach_servo)
         self.get_logger().info(f"Closed Valve")
         self.isClosed = True
+
+    def detach_servo(self):
+        self.servo.detach()
+        self.get_logger().info(f"Detached Servo")
 
     def go_callback(self, msg):
         if msg.data == 'RELEASE' and self.isClosed:
