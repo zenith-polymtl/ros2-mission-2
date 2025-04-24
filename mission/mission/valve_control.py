@@ -9,8 +9,7 @@ import gpiod
 import time
 import numpy as np
 from gpiozero import Servo
-from gpiozero.pins.pigpio import PiGPIOFactory
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 class ValveNode(Node):
     def __init__(self):
@@ -20,7 +19,7 @@ class ValveNode(Node):
         self.chip = gpiod.Chip("gpiochip0")  # Use gpiochip0 for your Pi 5
         self.line1 = self.chip.get_line(servo_pin)
         self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)'''
-        factory = PiGPIOFactory(host='localhost')
+
         self.servo = Servo(18, min_pulse_width=0.0005, max_pulse_width=0.0025, pin_factory=factory)
         self.min_pulse_us = 500  # 500 µs
         self.max_pulse_us = 2500  # 2500 µs
