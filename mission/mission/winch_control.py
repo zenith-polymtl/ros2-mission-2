@@ -5,7 +5,8 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 from rclpy.qos import QoSProfile
-
+from threading import Thread
+from queue import Queue, Empty
 
 class WinchNode(Node):
     def __init__(self):
@@ -36,7 +37,7 @@ class WinchNode(Node):
         self.motor_id = self.get_parameter('motor_id').value
         self.debug_level = self.get_parameter('debug_level').value
 
-        # Commands
+        # Commands (Corrected based on your updated list)
         self.STOP_COMMAND = bytes([0x92, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
         self.START_COMMAND = bytes([0x91, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
         self.UP_COMMAND = bytes([0x94, 0x00, 0x00, 0xA0, 0xC1, 0xD0, 0x07, 0x00])
@@ -50,6 +51,18 @@ class WinchNode(Node):
         # Initialize CAN bus
         self.bus = self.setup_can_bus()
 
+        # Queue for incoming CAN messages and flag for receiver thread
+        self.can_message_queue = Queue()
+        self._running = True
+        self._receiver_thread = None
+
+        # Start the continuous receiver thread
+        if self.bus:
+            self._receiver_thread = Thread(target=self._receive_can_messages)
+            self._receiver_thread.daemon = True  # Allow thread to exit when main program exits
+            self._receiver_thread.start()
+            self.debug_print("CAN receiver thread started", level=1)
+
         self.get_logger().info('Winch Node initialized')
 
     def debug_print(self, message, level=1):
@@ -59,25 +72,55 @@ class WinchNode(Node):
 
     def format_can_data(self, data):
         """Format CAN data as space-separated hex bytes"""
-        return " ".join([f"{byte:02X}" for byte in data])
+        if isinstance(data, bytes) or isinstance(data, list):
+             return " ".join([f"{byte:02X}" for byte in data])
+        return str(data)
+
 
     def setup_can_bus(self):
         """Initialize the CAN bus connection"""
         try:
+            # Use a non-blocking approach for receiving
             bus = can.interface.Bus(
                 interface='seeedstudio',
                 channel=self.device,
                 bitrate=self.can_speed,
                 baudrate=self.baudrate,
+                receive_own_messages=False  # Don't receive messages sent by this node
             )
             self.get_logger().info(f"Connected to CAN bus on {self.device}")
             return bus
         except Exception as e:
             self.get_logger().error(f"Error setting up CAN bus: {e}")
-            rclpy.shutdown()
+            # Consider whether to gracefully exit or attempt reconnect
+            # For now, we'll log and the node might not function correctly
+            return None
+
+    def _receive_can_messages(self):
+        """Continuous loop to receive CAN messages and put them in a queue"""
+        self.debug_print("CAN receiver thread is running", level=2)
+        while self._running and self.bus:
+            try:
+                # Use a small timeout to allow the thread to check the _running flag
+                msg = self.bus.recv(timeout=0.1)
+                if msg:
+                    # Put the received message into the queue
+                    self.can_message_queue.put(msg)
+                    self.debug_print(
+                         f"Received message in thread: ID={msg.arbitration_id}, data={self.format_can_data(msg.data)}",
+                         level=2
+                    )
+            except can.CanError as e:
+                self.get_logger().error(f"CAN receive error: {e}", throttle_duration_sec=1.0) # Throttle error logs
+            except Exception as e:
+                self.get_logger().error(f"Unexpected error in CAN receiver thread: {e}")
 
     def send_message(self, data, arbitration_id=None):
         """Send a message with the specified data to the CAN bus"""
+        if not self.bus:
+            self.get_logger().error("CAN bus is not initialized. Cannot send message.")
+            return False
+
         if arbitration_id is None:
             arbitration_id = self.motor_id
 
@@ -100,48 +143,122 @@ class WinchNode(Node):
             self.get_logger().error(f"Error sending message: {e}")
             return False
 
+    def get_response_from_queue(self, timeout=1.0, expected_arbitration_id=None, expected_data_prefix=None):
+        """
+        Checks the queue for a message, with optional filtering.
+
+        Args:
+            timeout (float): How long to wait for a message.
+            expected_arbitration_id (int, optional): Filter by arbitration ID.
+            expected_data_prefix (bytes, optional): Filter by the start of the data payload.
+
+        Returns:
+            can.Message or None: The matching message, or None if no message received or timeout.
+        """
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            try:
+                # Get a message from the queue without blocking indefinitely
+                msg = self.can_message_queue.get(block=True, timeout=0.01)
+
+                # Check if the message matches the criteria
+                match = True
+                if expected_arbitration_id is not None and msg.arbitration_id != expected_arbitration_id:
+                    match = False
+                if expected_data_prefix is not None and not msg.data.startswith(expected_data_prefix):
+                    match = False
+
+                if match:
+                    self.debug_print(
+                        f"Found matching response in queue: ID={msg.arbitration_id}, data={self.format_can_data(msg.data)}",
+                        level=2
+                    )
+                    return msg
+                else:
+                    # If it's not the message we're looking for, put it back in the queue (if possible)
+                    # or just log and discard if the queue is full or re-queueing is complex
+                    # For simplicity, we'll discard messages that don't match during this specific wait
+                    self.debug_print(
+                         f"Received non-matching message in queue: ID={msg.arbitration_id}, data={self.format_can_data(msg.data)}",
+                         level=3
+                    )
+
+            except Empty:
+                # Queue was empty, continue loop to check timeout
+                pass
+            except Exception as e:
+                self.get_logger().error(f"Error reading from message queue: {e}")
+                return None # Return None on unexpected errors
+        
+        # Timeout occurred
+        self.debug_print("Timeout waiting for response from queue", level=2)
+        return None
+
+
     def init_callback(self, msg):
         """Initialize the motor with the required command sequence"""
         if msg.data == 'INIT':
             self.get_logger().info("Motor Initialization Command Received")
             
-            # Step 1: Send initialization command
+            if not self.bus:
+                self.get_logger().error("CAN bus not initialized, cannot initialize motor.")
+                return
+
+            # Step 1: Send initialization command (Get Position)
             self.send_message(self.GET_POSITION_COMMAND)
-            self.debug_print("Sent initialization command: B4 13 00 00 00 00 00 00", level=1)
+            self.debug_print("Sent initialization command (Get Position): B4 13 00 00 00 00 00 00", level=1)
             
             # Step 2: Wait for response and extract 4 bytes
-            try:
-                response = self.bus.recv(1.0)  # 1 second timeout
-                if response:
-                    self.debug_print(
-                        f"Received response: {self.format_can_data(response.data)}", 
-                        level=1
-                    )
-                    
-                    # Extract the 4 bytes from the response (bytes 4-7)
-                    response_bytes = response.data[4:8]
-                    
-                    # Step 3: Send second command with the extracted 4 bytes
-                    second_command = bytes([0x95]) + response_bytes + bytes([0x32, 0x14, 0x00])
-                    self.send_message(second_command)
-                    self.debug_print(
-                        f"Sent second command: {self.format_can_data(second_command)}", 
-                        level=1
-                    )
-                    
-                    # Step 4: Send idle command
-                    self.send_message(self.START_COMMAND)
-                    self.debug_print(
-                        "Sent idle command: 91 00 00 00 00 00 00 00", 
-                        level=1
-                    )
-                    
-                    self.get_logger().info("Motor initialization sequence completed")
+            # Expecting a response likely from motor_id with data starting with B4 13
+            response = self.get_response_from_queue(
+                 timeout=1.0, 
+                 expected_arbitration_id=self.motor_id,
+                 expected_data_prefix=bytes([0xB4, 0x13])
+            )
+            
+            if response:
+                self.debug_print(
+                    f"Received response to Get Position: {self.format_can_data(response.data)}", 
+                    level=1
+                )
+                
+                # Extract the 4 bytes from the response (bytes 4-7)
+                if len(response.data) >= 8:
+                     response_bytes = response.data[4:8]
                 else:
-                    self.get_logger().error("No response received during initialization")
-            except Exception as e:
-                self.get_logger().error(f"Error during motor initialization: {e}")
+                     self.get_logger().error(f"Initialization response too short ({len(response.data)} bytes). Cannot extract position.")
+                     return # Exit initialization
+                
+                # Step 3: Send second command (Set Position) with the extracted 4 bytes
+                second_command = bytes([0x95]) + response_bytes + bytes([0x32, 0x14, 0x00])
+                self.send_message(second_command)
+                self.debug_print(
+                    f"Sent second command (Set Position): {self.format_can_data(second_command)}", 
+                    level=1
+                )
+                
+                # Optional: Wait for a response to the Set Position command if expected
+                # response_set_position = self.get_response_from_queue(
+                #      timeout=0.5,
+                #      expected_arbitration_id=self.motor_id,
+                #      expected_data_prefix=bytes([0x95]) # Assuming response starts with 95
+                # )
+                # if response_set_position:
+                #     self.debug_print("Received response to Set Position command", level=1)
+                # else:
+                #     self.debug_print("No specific response to Set Position command received within timeout", level=1)
 
+                # Step 4: Send idle command (Start)
+                self.send_message(self.START_COMMAND)
+                self.debug_print(
+                    "Sent idle command (Start): 91 00 00 00 00 00 00 00",
+                    level=1
+                )
+                
+                self.get_logger().info("Motor initialization sequence completed")
+            else:
+                self.get_logger().error("No response received for Get Position during initialization")
+    
     def stop_callback(self, msg):
         """Stop the motor by sending the stop command"""
         self.get_logger().info("Motor Stop Command Received")
@@ -150,96 +267,204 @@ class WinchNode(Node):
             if self.position_timer:
                 self.position_timer.cancel()
                 self.position_timer = None
+                self.debug_print("Cancelled position timer", level=1)
                 
+            # Clear any pending messages related to the last movement from the queue
+            self._clear_position_related_queue_messages()
+
             self.send_message(self.STOP_COMMAND)
             self.debug_print("Sent stop command: 92 00 00 00 00 00 00 00", level=1)
             self.get_logger().info("Motor stop command sent")
             self.current_operation = None
+
+    def _clear_position_related_queue_messages(self):
+        """Clears messages likely related to the position get/set from the queue"""
+        self.debug_print("Attempting to clear position-related messages from queue", level=2)
+        while True:
+            try:
+                # Get messages with a very short timeout, non-blocking
+                msg = self.can_message_queue.get(block=False)
+                # You might add logic here to check if the message is related to
+                # the position query (e.g., starts with B4 13 or 95).
+                # For now, we'll just discard all messages to be safe.
+                self.debug_print(
+                    f"Discarded message during stop: ID={msg.arbitration_id}, data={self.format_can_data(msg.data)}",
+                    level=3
+                )
+            except Empty:
+                # Queue is empty, we're done
+                self.debug_print("Queue is clear of position-related messages", level=2)
+                break
+            except Exception as e:
+                self.get_logger().error(f"Error clearing queue: {e}", throttle_duration_sec=1.0)
+                break
+
 
     def go_callback(self, msg):
         """Handle go up/down commands"""
         self.get_logger().info(f"GO MESSAGE : {msg.data}")
         if msg.data == 'UP':
             self.go_up()
-        if msg.data == 'DOWN':
+        elif msg.data == 'DOWN': # Use elif to avoid potential issues if message is neither
             self.go_down()
+        else:
+            self.get_logger().warn(f"Received unknown GO command: {msg.data}")
+
 
     def go_up(self):
         """Command the winch to go up"""
+        if self.current_operation is not None:
+             self.get_logger().warn(f"Ignoring UP command, motor is currently {self.current_operation}")
+             return
+
         self.current_operation = 'UP'
         self.get_logger().info("Starting UP movement")
         
+        if not self.bus:
+             self.get_logger().error("CAN bus not initialized, cannot start UP movement.")
+             self.current_operation = None
+             return
+
         # Send the UP command
         self.send_message(self.UP_COMMAND)
         self.debug_print("Sent UP command: 94 00 00 A0 C1 D0 07 00", level=1)
         
-        # Create a one-shot timer for 2 seconds
+        # The standard script sends the idle command immediately after the move command.
+        # Let's replicate that behavior here before the timer starts.
+        self.send_message(self.START_COMMAND)
+        self.debug_print("Sent START command after UP", level=1)
+
+        # Create a one-shot timer for 2 seconds to trigger the position get/set
+        # Cancel any existing timer first (though go_callback should prevent overlap)
         if self.position_timer:
             self.position_timer.cancel()
         self.position_timer = self.create_timer(2.0, self.get_position_callback)
+        self.debug_print("Position timer created for 2.0 seconds", level=2)
+
 
     def go_down(self):
         """Command the winch to go down"""
+        if self.current_operation is not None:
+             self.get_logger().warn(f"Ignoring DOWN command, motor is currently {self.current_operation}")
+             return
+
         self.current_operation = 'DOWN'
         self.get_logger().info("Starting DOWN movement")
-        
+
+        if not self.bus:
+             self.get_logger().error("CAN bus not initialized, cannot start DOWN movement.")
+             self.current_operation = None
+             return
+
         # Send the DOWN command
         self.send_message(self.DOWN_COMMAND)
-        self.debug_print("Sent DOWN command: 94 80 00 A0 C1 D0 07 00", level=1)
+        self.debug_print("Sent DOWN command: 94 80 00 A0 41 D0 07 00", level=1)
         
-        # Create a one-shot timer for 2 seconds
+        # Replicate standard script behavior: Send idle command after move command
+        self.send_message(self.START_COMMAND)
+        self.debug_print("Sent START command after DOWN", level=1)
+
+        # Create a one-shot timer for 2 seconds to trigger the position get/set
+        # Cancel any existing timer first
         if self.position_timer:
             self.position_timer.cancel()
         self.position_timer = self.create_timer(2.0, self.get_position_callback)
+        self.debug_print("Position timer created for 2.0 seconds", level=2)
+
 
     def get_position_callback(self):
         """Callback for timer to get position and set it"""
+        self.debug_print("get_position_callback triggered", level=2)
+
         # Cancel the timer since this is a one-shot operation
-        self.position_timer.cancel()
-        self.position_timer = None
+        if self.position_timer:
+            self.position_timer.cancel()
+            self.position_timer = None
+            self.debug_print("Position timer cancelled within callback", level=2)
         
+        if not self.bus:
+             self.get_logger().error("CAN bus not initialized, cannot get position.")
+             self.current_operation = None
+             return
+
         self.get_logger().info(f"Getting position after {self.current_operation} movement")
         
         # Send the get position command
         self.send_message(self.GET_POSITION_COMMAND)
-        self.debug_print("Sent get position command: B4 13 00 00 00 00 00 00", level=1)
+        self.debug_print("Sent get position command from callback: B4 13 00 00 00 00 00 00", level=1)
         
-        # Wait for response and process it
-        try:
-            response = self.bus.recv(1.0)  # 1 second timeout
-            if response:
-                self.debug_print(
-                    f"Received position response: {self.format_can_data(response.data)}", 
-                    level=1
-                )
-                
-                # Extract the 4 bytes from the response (bytes 4-7)
-                response_bytes = response.data[4:8]
-                
-                # Send set position command with the extracted 4 bytes
-                set_position_command = bytes([0x95]) + response_bytes + bytes([0x32, 0x14, 0x00])
-                self.send_message(set_position_command)
-                self.debug_print(
-                    f"Sent set position command: {self.format_can_data(set_position_command)}", 
-                    level=1
-                )
-                
-                self.get_logger().info(f"Completed {self.current_operation} movement")
-                self.current_operation = None
+        # Wait for response from the queue
+        # Expecting a response likely from motor_id with data starting with B4 13
+        response = self.get_response_from_queue(
+            timeout=1.0, # Increased timeout slightly if needed, adjust based on testing
+            expected_arbitration_id=self.motor_id,
+            expected_data_prefix=bytes([0xB4, 0x13])
+        )
+
+        if response:
+            self.debug_print(
+                f"Received position response from queue: {self.format_can_data(response.data)}",
+                level=1
+            )
+
+            # Extract the 4 bytes from the response (bytes 4-7)
+            if len(response.data) >= 8:
+                 response_bytes = response.data[4:8]
             else:
-                self.get_logger().error("No response received for position query")
-        except Exception as e:
-            self.get_logger().error(f"Error during position setting: {e}")
+                 self.get_logger().error(f"Position response too short ({len(response.data)} bytes). Cannot extract position.")
+                 self.current_operation = None
+                 return # Exit callback
+
+            # Send set position command with the extracted 4 bytes
+            set_position_command = bytes([0x95]) + response_bytes + bytes([0x32, 0x14, 0x00])
+            # Ensure it's exactly 8 bytes (though the construction method should guarantee this)
+            if len(set_position_command) > 8:
+                set_position_command = set_position_command[:8]
+                self.debug_print("Trimmed set position command to 8 bytes", level=2)
+            elif len(set_position_command) < 8:
+                 # This shouldn't happen with the current construction but adding for robustness
+                 set_position_command = set_position_command + bytes([0x00] * (8 - len(set_position_command)))
+                 self.debug_print("Padded set position command to 8 bytes", level=2)
+
+            self.send_message(set_position_command)
+            self.debug_print(
+                f"Sent set position command from callback: {self.format_can_data(set_position_command)}",
+                level=1
+            )
+
+            # Optional: Wait for a response to the Set Position command if expected
+            # response_set_position = self.get_response_from_queue(
+            #      timeout=0.5,
+            #      expected_arbitration_id=self.motor_id,
+            #      expected_data_prefix=bytes([0x95]) # Assuming response starts with 95
+            # )
+            # if response_set_position:
+            #     self.debug_print("Received response to Set Position command in callback", level=1)
+            # else:
+            #     self.debug_print("No specific response to Set Position command received within timeout in callback", level=1)
+
+            self.get_logger().info(f"Completed {self.current_operation} movement sequence")
             self.current_operation = None
+        else:
+            self.get_logger().error("No position response received from queue within timeout")
+            self.current_operation = None # Reset operation state on failure
+
 
     def shutdown(self):
         """Clean shutdown"""
         self.get_logger().info("Shutting down winch node...")
-        if hasattr(self, 'bus'):
+        
+        # Signal the receiver thread to stop
+        self._running = False
+        if self._receiver_thread and self._receiver_thread.is_alive():
+             self._receiver_thread.join(timeout=1.0) # Wait for thread to finish
+
+        if hasattr(self, 'bus') and self.bus:
             # Send stop command before shutting down
             self.send_message(self.STOP_COMMAND)
             self.debug_print("Sent stop command during shutdown", level=1)
             self.bus.shutdown()
+            self.get_logger().info("CAN bus shut down")
 
 
 def main(args=None):
@@ -252,7 +477,7 @@ def main(args=None):
         pass
     finally:
         node.shutdown()
-        node.destroy_node()
+        # node.destroy_node() # shutdown() handles resource cleanup, avoid double-free
         rclpy.shutdown()
 
 
