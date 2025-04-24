@@ -1,6 +1,6 @@
 numpy==1.26.4
 pymavlink==2.4.42
 opencv-python
-gpiod
+gpiozero
 empy==3.3.4
 python-can[seeedstudio]
