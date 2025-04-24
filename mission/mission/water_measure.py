@@ -56,7 +56,7 @@ class WaterNode(Node):
 
         # Commands
         self.IQ_COMMAND = bytes(
-            [0xB4, 0x0B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+            [0xB4, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
         )
 
         # Print configuration
@@ -255,7 +255,7 @@ class WaterNode(Node):
         self.water_qty_pub.publish(msg)
 
     def send_torque(self):
-        msg = Int32()
+        msg = Float32()
         msg.data = self.torque
         self.get_logger().info(f"Torque: {self.torque}")
         self.torque_pub.publish(msg)

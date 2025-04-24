@@ -35,7 +35,7 @@ class DroneControlGUI(Node, QWidget):
 
         #ROS 2 subscribers
         self.water_qty_sub = self.create_subscription(Int32, '/water_qty', self.update_water_qty, 10)
-        self.torque_sub = self.create_subscription(Int32, '/torque', self.update_torque, 10)
+        self.torque_sub = self.create_subscription(Float32, '/torque', self.update_torque, 10)
 
 
         # Main layout
