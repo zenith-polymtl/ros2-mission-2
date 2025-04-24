@@ -29,7 +29,7 @@ setup(
             'state = mission.state_node:main',
             'approach = mission.approach:main',
             'vision = mission.machine_vision:main',
-            'bucket_valve = mission.valve_bucket_control:main',
+            'valve = mission.valve_control:main',
             'winch = mission.winch_control:main',
             'control = mission.manual_control:main',
             'water = mission.water_measure:main',
