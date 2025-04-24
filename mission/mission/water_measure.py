@@ -140,7 +140,7 @@ class WaterNode(Node):
             return None
 
     def apply_filter(self, new_value):
-        """Apply Savitzky-Golay filter to the new value"""
+        """Apply Moving average filter to the new value"""
         self.torque_buffer.append(new_value)
         if len(self.torque_buffer) < self.filter_window:
             return new_value
@@ -176,13 +176,13 @@ class WaterNode(Node):
         rounded_volume = round(volume_ml)
 
         # Return positive volume or zero
-        result = max(0, rounded_volume)
+        result = rounded_volume
 
-        if result == 0 and volume_ml < 0:
-            self.debug_print(
-                f"NOTE: Negative water volume calculated: {volume_ml:.4f}L",
-                level=0,
-            )
+        # if result == 0 and volume_ml < 0:
+        #     self.debug_print(
+        #         f"NOTE: Negative water volume calculated: {volume_ml:.4f}mL",
+        #         level=0,
+        #     )
 
         return result
 
@@ -229,7 +229,7 @@ class WaterNode(Node):
                         
                         # Log and publish data
                         self.debug_print(
-                            f"Result: Current={self.current:.2f}A | Torque={self.torque:.4f}Nm | Water={self.volume}L",
+                            f"Result: Current={self.current:.2f}A | Torque={self.torque:.4f}Nm | Water={self.volume}mL",
                             level=0,
                         )
 
