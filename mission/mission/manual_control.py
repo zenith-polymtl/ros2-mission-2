@@ -25,6 +25,7 @@ class DroneControlGUI(Node, QWidget):
         self.motor_stop_pub = self.create_publisher(String, '/close_motor', 10)
         self.water_source_pub = self.create_publisher(String, '/go_bucket_valve', 10)
         self.water_bucket_pub = self.create_publisher(String, '/go_bucket_valve', 10)
+        self.valve_pub = self.create_publisher(String, '/valve_state', 10)
         self.manual_approach = self.create_publisher(String, '/manual', 10)
         self.finished_manual_approach_pub = self.create_publisher(String, '/task_end', 10)
         self.battery_changed_pub = self.create_publisher(String, '/battery_changed', 10)
@@ -112,6 +113,10 @@ class DroneControlGUI(Node, QWidget):
         self.water_btn_source.clicked.connect(self.send_water_source)
         water_layout.addWidget(self.water_btn_source, 0, 1)
 
+
+
+        
+
         # ➡️ Number of Buckets
         self.bucket_label = QLabel("Number of Buckets:")
         water_layout.addWidget(self.bucket_label, 1, 0)
@@ -122,6 +127,15 @@ class DroneControlGUI(Node, QWidget):
         self.set_bucket_btn = QPushButton('Set Buckets')
         self.set_bucket_btn.clicked.connect(self.send_buckets)
         water_layout.addWidget(self.set_bucket_btn, 2, 0, 1, 2)
+
+        self.close_btn = QPushButton('Close Valve')
+        self.close_btn.clicked.connect(self.send_close)
+        water_layout.addWidget(self.close_btn, 3, 0)
+
+
+        self.open_btn = QPushButton('Open Valve')
+        self.open_btn.clicked.connect(self.send_open)
+        water_layout.addWidget(self.open_btn, 3, 1)
 
         water_box.setLayout(water_layout)
         main_layout.addWidget(water_box)
@@ -271,6 +285,18 @@ class DroneControlGUI(Node, QWidget):
         msg.data = "RELEASE"
         self.water_bucket_pub.publish(msg)
         self.get_logger().info("Water Release Command Sent.")
+    
+    def send_open(self):
+        msg = String()
+        msg.data = "OPEN"
+        self.valve_pub.publish(msg)
+        self.get_logger().info("Valve Open Command Sent.")
+    
+    def send_close(self):
+        msg = String()
+        msg.data = "CLOSE"
+        self.valve_pub.publish(msg)
+        self.get_logger().info("Valve Close Command Sent.")
 
     def send_buckets(self):
         text = self.bucket_input.text()
