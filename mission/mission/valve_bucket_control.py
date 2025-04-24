@@ -2,7 +2,7 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
-from std_msgs.msg import Int32 as Integer
+from std_msgs.msg import Int32
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 import time
 import gpiod
@@ -19,8 +19,8 @@ class ValveNode(Node):
         self.line1 = self.chip.get_line(servo_pin)
         self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)
 
-        self.bucketsQty = 5
-        self.waterVolume = 4000
+        self.bucketsQty = None
+        self.waterVolume = 0
         self.openTime = 0
         self.isClosed = True
 
@@ -31,7 +31,8 @@ class ValveNode(Node):
         )
 
         self.subscriber_ = self.create_subscription(String, '/go_bucket_valve', self.go_callback, qos_profile)
-        self.bucket_number_sub = self.create_subscription(Integer, '/bucket_number', self.bucket_number_callback, qos_profile)
+        self.bucket_number_sub = self.create_subscription(Int32, '/bucket_number', self.bucket_number_callback, qos_profile)
+        self.water_sub = self.create_subscription(Int32, '/water_qty', self.water_sub_callback)
 
         self.set_servo_angle(90)  # Initialize the servo to 0 degrees
         self.get_logger().info(f"Valve Initialized")
@@ -53,6 +54,7 @@ class ValveNode(Node):
     def bucket_number_callback(self, msg):
         self.bucketsQty = msg.data
         self.get_logger().info(f"Set number of buckets to {msg.data}")
+
         
     def open_valve(self):
         self.set_servo_angle(180)
@@ -73,7 +75,6 @@ class ValveNode(Node):
             self.get_logger().info(f"REFILLING")
             self.openTime = 10
             self.start_timer()
-            self.waterVolume = 4000
         else :
             try:
                 int(msg.data)
@@ -83,21 +84,39 @@ class ValveNode(Node):
                 self.bucketsQty = int(msg.data)
                 self.get_logger().info(f"Set number of buckets to {msg.data}")
 
+    def water_sub_callback(self, msg):
+        self.waterVolume = msg.data
+        self.get_logger().info(f"Water volume updated to {self.waterVolume}")
+
+        if self.waterVolume <= 500:
+            self.waterVolume = 0
+            self.get_logger().info(f"Water volume reset to {self.waterVolume}")
+
     def calculate_open_time(self):
         """Calculates the time the valve should stay open based on the amount of water left"""
-        maxWater = 4000 
 
         "faire la fonction de temps ici!!"
-        self.openTime = (maxWater / max(self.waterVolume, 0.5)) * (8/self.bucketsQty)
-        self.waterVolume = self.waterVolume - (maxWater / self.bucketsQty)
-        self.get_logger().info(f"Water volume {self.waterVolume}")
-        if self.waterVolume <= 0:
-            self.waterVolume = maxWater
+        currentWaterVol = self.waterVolume
+
+        self.openTime = (690 / max(self.waterVolume, 0.5)) * (8/self.bucketsQty)
+        self.get_logger().info(f"Valve open time calculated to {self.openTime:.2f} seconds")
+
+        #Safety logic to make sure the open time is not too long, or too short
+        min_bound = 0.2
+        max_bound = 10
+        if not (self.openTime > min_bound) and (self.openTime < max_bound):
+            val = self.openTime
+            self.openTime = 0
+            self.get_logger().info(f"Valve open time set to 0 seconds, cause out of bounds")
+            self.get_logger().info(f"Current val : {val}, bounds : {min_bound} - {max_bound}")
 
     def start_timer(self):
         self.open_valve()
-        time.sleep(self.openTime)
+        self.create_timer(self.openTime, self.timer_callback)
+
+    def timer_callback(self):
         self.close_valve()
+        self.get_logger().info(f"Valve closed after {self.openTime:.2f} seconds")	    
 
         
 def main(args=None):
