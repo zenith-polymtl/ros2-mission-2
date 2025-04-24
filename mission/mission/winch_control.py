@@ -262,7 +262,7 @@ class WinchNode(Node):
     def stop_callback(self, msg):
         """Stop the motor by sending the stop command"""
         self.get_logger().info("Motor Stop Command Received")
-        if msg.data == 'STOP':
+        if msg.data == 'CLOSE':
             # Cancel any ongoing position timer
             if self.position_timer:
                 self.position_timer.cancel()
