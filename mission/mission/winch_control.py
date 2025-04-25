@@ -216,7 +216,7 @@ class WinchNode(Node):
                 if msg and hasattr(msg, 'arbitration_id') and hasattr(msg, 'data') and msg.data is not None:
                     
                     self.debug_print(
-                        f"Pulled message from queue for check: ID={msg.arbitbation_id}, data={self.format_can_data(msg.data)}",
+                        f"Pulled message from queue for check: ID={msg.arbitration_id}, data={self.format_can_data(msg.data)}",
                         level=3
                     )
                     
