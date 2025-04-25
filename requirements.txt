@@ -4,3 +4,5 @@ opencv-python
 gpiozero
 empy==3.3.4
 python-can[seeedstudio]
+adafruit-blinka
+adafruit-circuitpython-pca9685
