@@ -67,19 +67,19 @@ class ValveNode(Node):
         self.isClosed = True
 
     def detach_servo(self):
-    self.servo_channel.duty_cycle = 0
+        self.servo_channel.duty_cycle = 0
 
-    if hasattr(self, 'detach_timer') and self.detach_timer is not None:
-        try:
-            self.destroy_timer(self.detach_timer)
-            self.detach_timer = None
-            self.get_logger().info("Timer destroyed")
-        except Exception as e:
-            self.get_logger().info(f"Could not destroy timer: {e}")
-    else:
-        self.get_logger().info("No detach timer found or already destroyed")
+        if hasattr(self, 'detach_timer') and self.detach_timer is not None:
+            try:
+                self.destroy_timer(self.detach_timer)
+                self.detach_timer = None
+                self.get_logger().info("Timer destroyed")
+            except Exception as e:
+                self.get_logger().info(f"Could not destroy timer: {e}")
+        else:
+            self.get_logger().info("No detach timer found or already destroyed")
 
-    self.get_logger().info("Detached Servo")
+        self.get_logger().info("Detached Servo")
 
 
     def go_callback(self, msg):
