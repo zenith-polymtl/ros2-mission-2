@@ -14,7 +14,7 @@ class WaterNode(Node):
 
         # ROS2 publisher
         self.water_qty_pub = self.create_publisher(Int32, '/water_qty', 2)
-        self.torque_pub = self.create_publisher(Int32, '/torque', 2)
+        self.torque_pub = self.create_publisher(Float32, '/torque', 2)
         # Configuration parameters
         self.declare_parameter('device', '/dev/ttyUSB0')
         self.declare_parameter('can_speed', 500000)
