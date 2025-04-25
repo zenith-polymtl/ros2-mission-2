@@ -31,7 +31,7 @@ class ValveNode(Node):
         self.subscriber_ = self.create_subscription(String, '/go_bucket_valve', self.go_callback, qos_profile)
         self.bucket_number_sub = self.create_subscription(Int32, '/bucket_number', self.bucket_number_callback, qos_profile)
         self.water_sub = self.create_subscription(Int32, '/water_qty', self.water_sub_callback, 2)
-        self.water_sub = self.create_subscription(String, '/valve_state', self.state_callback, 10)
+        self.state_sub = self.create_subscription(String, '/valve_state', self.state_callback, 10)
 
         self.get_logger().info(f"Valve Initialized")
 
@@ -51,20 +51,24 @@ class ValveNode(Node):
 
     
     def bucket_number_callback(self, msg):
-        self.bucketsQty = msg.data
-        self.get_logger().info(f"Set number of buckets to {msg.data}")
+        self.bucketsQty = int(msg.data)
+        self.get_logger().info(f"Set number of buckets to {self.bucketsQty}")
+        self.last_logged_bucketsQty = self.bucketsQty
 
         
     def open_valve(self):
-        self.set_servo_pulse_us(500) # Applique la position calculée
-        self.get_logger().info(f"Opened Valve")
-        self.isClosed = False
+        if self.isClosed:
+            self.set_servo_pulse_us(500) # Applique la position calculée
+            self.get_logger().info(f"Opened Valve")
+            self.isClosed = False
 
     def close_valve(self):
-        self.set_servo_pulse_us(1150)
-        self.detach_timer = self.create_timer(0.5, self.detach_servo)
-        self.get_logger().info(f"Closed Valve")
-        self.isClosed = True
+        if not self.isClosed:
+            self.get_logger().info(f"Closing Valve")
+            self.set_servo_pulse_us(1150)
+            self.detach_timer = self.create_timer(0.5, self.detach_servo)
+            self.get_logger().info(f"Closed Valve")
+            self.isClosed = True
 
     def detach_servo(self):
         self.servo_channel.duty_cycle = 0
@@ -87,48 +91,49 @@ class ValveNode(Node):
             self.calculate_open_time()
             self.get_logger().info(f"Opening Valve for {self.openTime}")
             self.start_timer()
+            self.bucketsQty -= 1
         elif msg.data == "REFILL":
             self.get_logger().info(f"REFILLING")
-            self.openTime = 10
+            self.openTime = 30
             self.start_timer()
-        else :
-            try:
-                int(msg.data)
-            except:
-                self.get_logger().info(f"Unexpected command sent")
-            else:
-                self.bucketsQty = int(msg.data)
-                self.get_logger().info(f"Set number of buckets to {msg.data}")
+            self.bucketsQty = self.last_logged_bucketsQty
 
     def water_sub_callback(self, msg):
         self.waterVolume = msg.data
         self.get_logger().info(f"Water volume updated to {self.waterVolume}")
 
-        if self.waterVolume <= 500:
-            self.waterVolume = 0
-            self.get_logger().info(f"Water volume reset to {self.waterVolume}")
 
     def calculate_open_time(self):
         """Calculates the time the valve should stay open based on the amount of water left"""
+        if self.waterVolume <= 400:
+            self.get_logger().info(f"Not enough water to open the valve")
+            self.openTime = None
+            return
+        volume_par_ecoulement = self.waterVolume / self.bucketsQty
 
-        "faire la fonction de temps ici!!"
-        currentWaterVol = self.waterVolume
-
-        self.openTime = (690 / max(self.waterVolume, 0.5)) * (8/self.bucketsQty)
+        debit_moyen= self.fonction_debit(self.waterVolume, volume_par_ecoulement)
+        temps_s = (volume_par_ecoulement / debit_moyen) * 60  # t en secondes
+        self.openTime = temps_s
         self.get_logger().info(f"Valve open time calculated to {self.openTime:.2f} seconds")
 
         #Safety logic to make sure the open time is not too long, or too short
         min_bound = 0.2
-        max_bound = 10
+        max_bound = 30
         if not (self.openTime > min_bound) and (self.openTime < max_bound):
             val = self.openTime
-            self.openTime = 0
+            self.openTime = None
             self.get_logger().info(f"Valve open time set to 0 seconds, cause out of bounds")
             self.get_logger().info(f"Current val : {val}, bounds : {min_bound} - {max_bound}")
 
+    def fonction_debit(self, volume_restant, volume_par_ecoulement):
+        """Calculates the flow rate based on the remaining volume"""
+        # Q = 4.0032 * (Vr - Delta_V/2) + 10.55
+        return (4.0032 * (volume_restant - volume_par_ecoulement/2) + 10.55)
+
     def start_timer(self):
-        self.open_valve()
-        self.create_timer(self.openTime, self.timer_callback)
+        if self.openTime is not None:
+            self.open_valve()
+            self.create_timer(self.openTime, self.timer_callback)
 
     def timer_callback(self):
         self.close_valve()
