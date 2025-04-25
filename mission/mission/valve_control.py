@@ -21,7 +21,8 @@ class ValveNode(Node):
         self.target_pulse_us = 600  # 900 µs
 
         self.position_900 = (self.target_pulse_us - self.min_pulse_us) / (self.max_pulse_us - self.min_pulse_us) * 2 - 1
-
+        self.detach_servo()
+        
         self.bucketsQty = None
         self.waterVolume = 0
         self.openTime = None
@@ -43,10 +44,8 @@ class ValveNode(Node):
     def state_callback(self, msg):
         if msg.data == "OPEN":
             self.open_valve()
-            self.get_logger().info(f"Opened Valve")
         elif msg.data == "CLOSE":
             self.close_valve()
-            self.get_logger().info(f"Closed Valve")
         else:
             self.get_logger().info(f"Unexpected command sent")
 
