@@ -4,7 +4,9 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from std_msgs.msg import Int32
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
-from gpiozero import Servo
+import board
+import busio
+from adafruit_pca9685 import PCA9685
 
 class ValveNode(Node):
     def __init__(self):
@@ -15,12 +17,11 @@ class ValveNode(Node):
         self.line1 = self.chip.get_line(servo_pin)
         self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)'''
 
-        self.servo = Servo(18, min_pulse_width=0.0005, max_pulse_width=0.0025)
-        self.min_pulse_us = 500  # 500 µs
-        self.max_pulse_us = 2500  # 2500 µs
-        self.target_pulse_us = 600  # 900 µs
-
-        self.position_900 = (self.target_pulse_us - self.min_pulse_us) / (self.max_pulse_us - self.min_pulse_us) * 2 - 1
+        i2c = busio.I2C(board.SCL, board.SDA)
+        pca = PCA9685(i2c, address=0x40)
+        self.pca.frequency = 50  # 50Hz for standard servos
+        self.servo_channel = pca.channels[1]
+        
 
         self.bucketsQty = None
         self.waterVolume = 0
@@ -40,6 +41,12 @@ class ValveNode(Node):
 
         self.get_logger().info(f"Valve Initialized")
 
+    def set_servo_pulse_us(self, pulse_us):
+        pulse_length = 1000000 / self.pca.frequency / 4096  # microseconds per bit
+        pulse = int(pulse_us / pulse_length)
+        # Scale the 12-bit pulse value to the 16-bit duty cycle range
+        self.servo_channel.duty_cycle = pulse * 16
+        
     def state_callback(self, msg):
         if msg.data == "OPEN":
             self.open_valve()
@@ -55,18 +62,19 @@ class ValveNode(Node):
 
         
     def open_valve(self):
-        self.servo.value = self.position_900  # Applique la position calculée
+        self.set_servo_pulse_us(500) # Applique la position calculée
         self.get_logger().info(f"Opened Valve")
         self.isClosed = False
 
     def close_valve(self):
-        self.servo.mid()
+        self.set_servo_pulse_us(1150)
         self.detach_timer = self.create_timer(0.5, self.detach_servo)
         self.get_logger().info(f"Closed Valve")
         self.isClosed = True
 
     def detach_servo(self):
-        self.servo.detach()
+        self.servo_channel.duty_cycle = 0
+        self.pca.deinit()
         try:
             self.destroy_timer(self.detach_timer)
         except:
