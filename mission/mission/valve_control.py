@@ -74,7 +74,6 @@ class ValveNode(Node):
 
     def detach_servo(self):
         self.servo_channel.duty_cycle = 0
-        self.pca.deinit()
         try:
             self.destroy_timer(self.detach_timer)
         except:
@@ -134,16 +133,19 @@ class ValveNode(Node):
 
     def timer_callback(self):
         self.close_valve()
-        self.get_logger().info(f"Valve closed after {self.openTime:.2f} seconds")	    
+        self.get_logger().info(f"Valve closed after {self.openTime:.2f} seconds")	 
+
+    def end_servo(self):
+        self.pca.deinit()
+        self.get_logger().info(f"Servo deinitialized")
 
         
 def main(args=None):
     rclpy.init(args=args)
     node = ValveNode()
     rclpy.spin(node)
-    node.detach_servo()
+    node.end_servo()
     node.destroy_node()
-    # GPIO.cleanup()
     rclpy.shutdown()
 
 if __name__ == "__main__":
