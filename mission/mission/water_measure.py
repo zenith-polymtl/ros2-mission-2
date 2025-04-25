@@ -156,7 +156,7 @@ class WaterNode(Node):
     def calculate_water_volume(self, torque):
         """Calculate water volume from torque"""
         # Weight = Torque / (radius * gear_ratio * gravity)
-        force = torque * self.gear_ratio / (self.drum_radius)
+        force = abs(torque) * self.gear_ratio / (self.drum_radius)
         weight_g = force / 9.81 * 1000
 
         # Subtract dead weight
