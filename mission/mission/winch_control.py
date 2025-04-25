@@ -70,6 +70,31 @@ class WinchNode(Node):
         if self.debug_level >= level:
             self.get_logger().info(f"DEBUG: {message}")
 
+    def receive_direct(self, timeout=1.0):
+        """
+        Low-level direct reception from CAN bus with better error handling.
+        
+        Args:
+            timeout (float): Maximum time to wait for a message
+            
+        Returns:
+            can.Message or None: The received message or None if timeout/error
+        """
+        if not self.bus:
+            self.get_logger().error("CAN bus not initialized. Cannot receive messages.")
+            return None
+        
+        try:
+            # Use direct bus.recv() with timeout
+            return self.bus.recv(timeout)
+        except can.CanError as e:
+            self.get_logger().error(f"CAN direct receive error: {e}")
+            return None
+        except Exception as e:
+            self.get_logger().error(f"Unexpected error in direct receive: {e}")
+            return None
+
+
     def format_can_data(self, data):
         """Format CAN data as space-separated hex bytes"""
         if isinstance(data, bytes) or isinstance(data, list):
@@ -103,17 +128,20 @@ class WinchNode(Node):
             try:
                 # Use a small timeout to allow the thread to check the _running flag
                 msg = self.bus.recv(timeout=0.1)
-                if msg:
+                if msg and msg.data:  # Make sure msg and msg.data are not empty
                     # Put the received message into the queue
                     self.can_message_queue.put(msg)
                     self.debug_print(
-                         f"Received message in thread: ID={msg.arbitration_id}, data={self.format_can_data(msg.data)}",
-                         level=2
+                        f"Received message in thread: ID={msg.arbitration_id}, data={self.format_can_data(msg.data)}",
+                        level=2
                     )
             except can.CanError as e:
-                self.get_logger().error(f"CAN receive error: {e}", throttle_duration_sec=1.0) # Throttle error logs
+                self.get_logger().error(f"CAN receive error: {e}", throttle_duration_sec=1.0)
             except Exception as e:
-                self.get_logger().error(f"Unexpected error in CAN receiver thread: {e}")
+                self.get_logger().error(f"Unexpected error in CAN receiver thread: {e}", throttle_duration_sec=1.0)
+                # Sleep briefly to avoid tight error loop
+                time.sleep(0.1)
+
 
     def send_message(self, data, arbitration_id=None):
         """Send a message with the specified data to the CAN bus"""
@@ -200,6 +228,97 @@ class WinchNode(Node):
                 
         self.debug_print("Timeout waiting for direct response", level=1)
         return None
+
+    def get_response_direct(self, timeout=1.0, expected_arbitration_id=None, expected_data_prefix=None):
+        """
+        Directly receive a message from the CAN bus, with robust error handling.
+        
+        Args:
+            timeout (float): How long to wait for a message.
+            expected_arbitration_id (int, optional): Filter by arbitration ID.
+            expected_data_prefix (bytes, optional): Filter by the start of the data payload.
+            
+        Returns:
+            can.Message or None: The received message or None if timeout.
+        """
+        if not self.bus:
+            self.get_logger().error("CAN bus not initialized. Cannot receive messages.")
+            return None
+            
+        start_time = time.time()
+        
+        # Log that we're waiting for a message
+        self.debug_print(
+            f"Waiting directly for message with ID={expected_arbitration_id}, prefix={self.format_can_data(expected_data_prefix) if expected_data_prefix else 'any'}",
+            level=1
+        )
+        
+        # For the case where we expect a specific response, let's flush the existing queue
+        # to avoid processing old messages
+        try:
+            while not self.can_message_queue.empty():
+                self.can_message_queue.get_nowait()
+                self.debug_print("Cleared a message from queue before direct receive", level=2)
+        except Empty:
+            pass
+        
+        while time.time() - start_time < timeout:
+            # Use our safer receive function
+            msg = self.receive_direct(timeout=0.1)
+            
+            if not msg:
+                # No message received or error occurred
+                continue
+                
+            # Safely extract data
+            try:
+                # Log all received messages for debugging
+                self.debug_print(
+                    f"Received direct message: ID={msg.arbitration_id}, data={self.format_can_data(msg.data)}",
+                    level=1
+                )
+                
+                # Check if message matches criteria
+                match = True
+                if expected_arbitration_id is not None and msg.arbitration_id != expected_arbitration_id:
+                    match = False
+                    self.debug_print(f"ID mismatch: expected {expected_arbitration_id}, got {msg.arbitration_id}", level=2)
+                    
+                if expected_data_prefix is not None and (not msg.data or not msg.data.startswith(expected_data_prefix)):
+                    match = False
+                    self.debug_print(
+                        f"Prefix mismatch: expected {self.format_can_data(expected_data_prefix)}, got {self.format_can_data(msg.data[:len(expected_data_prefix) if msg.data else b''])}",
+                        level=2
+                    )
+                    
+                if match:
+                    self.debug_print(
+                        f"Found matching response: ID={msg.arbitration_id}, data={self.format_can_data(msg.data)}",
+                        level=1
+                    )
+                    return msg
+                    
+            except Exception as e:
+                self.get_logger().error(f"Error processing received message: {e}")
+                
+        self.debug_print("Timeout waiting for direct response", level=1)
+        return None
+
+    def format_can_data(self, data):
+        """Format CAN data as space-separated hex bytes, with safer handling of None or empty data"""
+        if not data:
+            return "EMPTY"
+        
+        try:
+            if isinstance(data, bytes) or isinstance(data, bytearray):
+                return " ".join([f"{byte:02X}" for byte in data])
+            elif isinstance(data, list):
+                return " ".join([f"{byte:02X}" for byte in data])
+            else:
+                return str(data)
+        except Exception as e:
+            self.get_logger().error(f"Error formatting CAN data: {e}")
+            return "ERROR_FORMATTING"
 
 
     def debug_print(self, message, level=1):
