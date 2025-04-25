@@ -11,18 +11,12 @@ from adafruit_pca9685 import PCA9685
 class ValveNode(Node):
     def __init__(self):
         super().__init__("bucket_valve_Node")
-        '''servo_pin = 3
-        # Create a chip instance (adjust the chip number if needed)
-        self.chip = gpiod.Chip("gpiochip0")  # Use gpiochip0 for your Pi 5
-        self.line1 = self.chip.get_line(servo_pin)
-        self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)'''
 
         i2c = busio.I2C(board.SCL, board.SDA)
         self.pca = PCA9685(i2c, address=0x40)
         self.pca.frequency = 50  # 50Hz for standard servos
         self.servo_channel = self.pca.channels[1]
         
-
         self.bucketsQty = None
         self.waterVolume = 0
         self.openTime = None
@@ -76,10 +70,9 @@ class ValveNode(Node):
         self.servo_channel.duty_cycle = 0
         try:
             self.destroy_timer(self.detach_timer)
+            self.get_logger().info(f"Timer destroyed")
         except:
             self.get_logger().info(f"Could not destroy timer")
-        else:
-            self.get_logger().info(f"Timer destroyed")
 
         self.get_logger().info(f"Detached Servo")
 
