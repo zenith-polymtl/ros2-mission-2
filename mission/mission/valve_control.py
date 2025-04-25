@@ -63,12 +63,19 @@ class ValveNode(Node):
 
     def close_valve(self):
         self.servo.mid()
-        self.create_timer(0.5, self.detach_servo)
+        self.detach_timer = self.create_timer(0.5, self.detach_servo)
         self.get_logger().info(f"Closed Valve")
         self.isClosed = True
 
     def detach_servo(self):
         self.servo.detach()
+        try:
+            self.destroy_timer(self.detach_timer)
+        except:
+            self.get_logger().info(f"Could not destroy timer")
+        else:
+            self.get_logger().info(f"Timer destroyed")
+
         self.get_logger().info(f"Detached Servo")
 
     def go_callback(self, msg):
@@ -128,6 +135,7 @@ def main(args=None):
     rclpy.init(args=args)
     node = ValveNode()
     rclpy.spin(node)
+    node.detach_servo()
     node.destroy_node()
     # GPIO.cleanup()
     rclpy.shutdown()
