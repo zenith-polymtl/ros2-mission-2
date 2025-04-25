@@ -18,9 +18,9 @@ class ValveNode(Node):
         self.line1.request(consumer="servo_control", type=gpiod.LINE_REQ_DIR_OUT)'''
 
         i2c = busio.I2C(board.SCL, board.SDA)
-        pca = PCA9685(i2c, address=0x40)
+        self.pca = PCA9685(i2c, address=0x40)
         self.pca.frequency = 50  # 50Hz for standard servos
-        self.servo_channel = pca.channels[1]
+        self.servo_channel = self.pca.channels[1]
         
 
         self.bucketsQty = None
