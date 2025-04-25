@@ -21,8 +21,7 @@ class ValveNode(Node):
         self.target_pulse_us = 600  # 900 µs
 
         self.position_900 = (self.target_pulse_us - self.min_pulse_us) / (self.max_pulse_us - self.min_pulse_us) * 2 - 1
-        self.detach_servo()
-        
+
         self.bucketsQty = None
         self.waterVolume = 0
         self.openTime = None
