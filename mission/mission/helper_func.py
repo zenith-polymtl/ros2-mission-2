@@ -2,17 +2,30 @@ from pymavlink import mavutil
 import time
 import numpy as np
 import csv
-
+from geopy.distance import distance
+from geopy import Point
 # Helper functions
 
 class pymav():
-    def __init__(self):
+    def __init__(self, gps_thresh= None, ip = 'tcp:127.0.0.1:5762' ):
         self = self
         self.last_message_req = None
 
+        self.connect(ip)
+
+        if gps_thresh is not None:
+            gps_pos = self.get_global_pos()
+            ref_point = Point(gps_pos[0], gps_pos[1])
+            point_north = distance(meters=gps_thresh).destination(ref_point, bearing=0)
+            self.lat_thresh = abs(point_north.latitude - ref_point.latitude)
+
+            # 1.7 meters East (Longitude axis)
+            point_east = distance(meters=gps_thresh).destination(ref_point, bearing=90)
+            self.lon_thresh = abs(point_east.longitude - ref_point.longitude)
+
     
         
-    def is_near_waypoint(self, actual : list, target: list, threshold : float = 2.):
+    def is_near_waypoint(self, actual : list, target: list, threshold : float = 2., gps = False):
         """Retoune True si la distance entre le drone et le target est < threshold. Else False.
 
         Args:
@@ -23,7 +36,11 @@ class pymav():
         Returns:
             bool: Vrai si le donne est assez proche, False otherwise
         """
-        return np.linalg.norm(np.array(actual) - np.array(target)) < threshold
+        
+        if gps:
+            return (abs(actual[0] - target[0]) <= self.lat_thresh) and (abs(actual[1] - target[1]) <= self.lon_thresh)
+        else:
+            return np.linalg.norm(np.array(actual) - np.array(target)) < threshold
 
 
     def get_local_pos(self, frequency_hz=60):
@@ -271,7 +288,7 @@ class pymav():
             if wait_to_reach:
                 # Wait for the waypoint to be reached
                 print("Waiting for waypoint to be reached...")
-                while not self.is_near_waypoint(self.get_global_pos(), wp, threshold=acceptance_radius):
+                while not self.is_near_waypoint(self.get_global_pos(), wp, threshold=acceptance_radius, gps = True):
                     if while_moving is not None:
                         while_moving()
                     else:
