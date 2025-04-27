@@ -9,6 +9,7 @@ import numpy as np
 
 
 def func_distance(pos1, pos2):
+    '''Possible de l'utiliser pour des données métriques PAS GPS'''
     return np.linalg.norm(np.array(pos1) - np.array(pos2))
 
 
@@ -88,9 +89,9 @@ class StateNode(Node):
             depth=10,
         )
 
-        # PYMAVLINK IS IN NED FRAME, height is negative above ground!
-        self.source = Target_info("source", -8, "SOURCE", is_bucket=False)
-        self.bucket = Target_info("bucket", -5, "BUCKET", is_bucket=True)
+        #TODO Use pymavlink global coordinates instead of local
+        self.source = Target_info("source", 8, "SOURCE", is_bucket=False)
+        self.bucket = Target_info("bucket", 5, "BUCKET", is_bucket=True)
 
         # TMP route setup
         self.position_dict = position_dict
@@ -113,13 +114,15 @@ class StateNode(Node):
         #TODO Get message from another node to tell the state node if the drone is empty
         self.empty = False
         #TODO Compute the number of loops needed based of the drone's and buckets' water capacity
-        self.num_of_loop = 3 
+        self.num_of_loop = 2
 
         
 
         # Battery info
         self.drone_battery = 100.0
         self.drone_travel_efficiency = 2.0  # distance units per 1% battery
+        #TODO remove this efficency metrics, wont have enough time to test it
+        #Implement a battery check function that will return the battery level of the drone...
 
         # Create Publishers / Subscribers
         self.publisher_vision = self.create_publisher(String, "/go_vision", qos_profile)
@@ -156,7 +159,6 @@ class StateNode(Node):
 
     def abort(self, msg):
         self.get_logger().info("Shutting down node...")
-        self.mav.set_mode("LAND")
 
         # Close the node after command sent to ensure cutoff from further autonomous commands from state node
         # Vision possible if accesed via manual control
@@ -228,6 +230,7 @@ class StateNode(Node):
         elif self.state == MissionState.WAIT_FOR_TRAVEL:
             # Check if near the current_target
             self.get_logger().info("Flying towards target")
+            #TODO implement the AEAC-mission 1 threshold logic
             if self.mav.is_near_waypoint(
                 self.current_target[1], self.mav.get_global_pos(), 0.00003
             ):
@@ -235,7 +238,7 @@ class StateNode(Node):
                 self.state = MissionState.LOWERING_DRONE
 
         elif self.state == MissionState.LOWERING_DRONE:
-
+            #TODO Remove all instances of local position and replace with global position
             self.current_pos = self.mav.get_local_pos()
             self.mav.local_target(
                 [self.current_pos[0], self.current_pos[1], self.target_type.approach_height], wait_to_reach=False
