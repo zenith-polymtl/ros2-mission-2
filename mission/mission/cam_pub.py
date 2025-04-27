@@ -31,7 +31,7 @@ def configure_v4l2(device: str,
 
 class V4L2CameraPublisher(Node):
     def __init__(self,
-                 device: str = '/dev/video0',
+                 device: str = '/dev/video20',
                  width:  int = 1280,
                  height: int =  720,
                  fps:   float =  60.0,
