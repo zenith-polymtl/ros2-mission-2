@@ -31,12 +31,12 @@ def configure_v4l2(device: str,
 
 class V4L2CameraPublisher(Node):
     def __init__(self,
-                 device: str = '/dev/video20',
+                 device: str = '/dev/video0',
                  width:  int = 1280,
                  height: int =  720,
                  fps:   float =  60.0,
                  gain:   int =    1,
-                 exposure: int = 2000,
+                 exposure: int = 5000,
                  lenspos:  int =    8):
         super().__init__('v4l2_camera_publisher')
         self.pub = self.create_publisher(Image, 'camera/image', 10)
