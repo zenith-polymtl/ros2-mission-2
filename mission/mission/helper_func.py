@@ -385,7 +385,7 @@ class pymav():
         )
 
         if wait_to_land:
-            while self.get_local_pos(connection)[2] > - 0.5:
+            while self.get_global_pos()[2] > 1:
                 if while_moving is not None:
                     while_moving()
                 else:

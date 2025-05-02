@@ -26,7 +26,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'state = mission.state_node:main',
+            'state = mission.state_node_min:main',
             'approach = mission.approach:main',
             'vision = mission.machine_vision:main',
             'valve = mission.valve_control:main',

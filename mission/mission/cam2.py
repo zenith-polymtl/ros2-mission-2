@@ -11,16 +11,6 @@ def initialize_cam( gain = 1, ExposureTime = 5000, lenspos = 8):
     # Initialize the Raspberry Pi Camera using Picamera2
     picam2 = Picamera2()
     picam2.configure(picam2.create_preview_configuration(main={"size": (1280, 720)}))
-    picam2.set_controls({
-        "AeEnable": False,          # Disable auto exposure
-        "ExposureTime": ExposureTime,       # Fixed exposure time (in microseconds)
-        "AnalogueGain": gain,        # Fixed analog gain
-        "AwbEnable": False,         # Disable auto white balance
-        "FrameDurationLimits": (16666, 16666),  # ~60 FPS
-        "NoiseReductionMode": 0,    # Disable noise reduction
-        "AfMode": controls.AfModeEnum.Manual,
-        "LensPosition": lenspos #Réciproque de x m
-    })
     picam2.start()
     return picam2
 

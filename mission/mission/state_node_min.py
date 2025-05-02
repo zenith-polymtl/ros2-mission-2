@@ -10,6 +10,7 @@ import numpy as np
 
 def func_distance(pos1, pos2):
     '''Possible de l'utiliser pour des données métriques PAS GPS'''
+    ''' Voir si ça semble good'''
     return np.linalg.norm(np.array(pos1) - np.array(pos2))
 
 
@@ -89,7 +90,7 @@ class StateNode(Node):
             depth=10,
         )
 
-        #TODO Use pymavlink global coordinates instead of local
+
         self.source = Target_info("source", 8, "SOURCE", is_bucket=False)
         self.bucket = Target_info("bucket", 5, "BUCKET", is_bucket=True)
 
@@ -99,7 +100,6 @@ class StateNode(Node):
 
         # Some fixed references
         self.flying_height = flying_height
-        self.ground_station = ("ground station", [0, 0, 0])
         self.water_source = ("water source", [50.1013, -110.734, self.flying_height])
         self.current_pos = None  # store last known drone position
         self.current_target = None  # whichever waypoint we’re currently trying to reach
@@ -111,18 +111,10 @@ class StateNode(Node):
         self.taken_off = False
         self.reached_wp = False
         self.ready_to_fly = False
-        #TODO Get message from another node to tell the state node if the drone is empty
-        self.empty = False
-        #TODO Compute the number of loops needed based of the drone's and buckets' water capacity
+
         self.num_of_loop = 2
 
-        
-
-        # Battery info
-        self.drone_battery = 100.0
-        self.drone_travel_efficiency = 2.0  # distance units per 1% battery
-        #TODO remove this efficency metrics, wont have enough time to test it
-        #Implement a battery check function that will return the battery level of the drone...
+    
 
         # Create Publishers / Subscribers
         self.publisher_vision = self.create_publisher(String, "/go_vision", qos_profile)
@@ -132,9 +124,6 @@ class StateNode(Node):
         self.finished_manual_sub = self.create_subscription(
             String, "/task_end", self.end_approach_callback, qos_profile
         )
-        self.battery_sub = self.create_subscription(
-            String, "/battery_changed", self.notify_battery, qos_profile
-        )
         self.abort_sub = self.create_subscription(
             String, "/abort_state", self.abort, qos_profile
         )
@@ -143,13 +132,11 @@ class StateNode(Node):
         )
 
         # MAVLink Connection
-        self.mav = hf.pymav()
+        self.mav = hf.pymav(gps_thresh = 2)
         self.mav.connect("udp:127.0.0.1:14551")
 
         # Start a short, frequent timer for mission logic
         self.main_timer = self.create_timer(0.5, self.mission_step)
-        # Start a less frequent timer for battery checks
-        self.batt_timer = self.create_timer(30.0, self.charge_opportunity)
 
         self.get_logger().info("✅ State node started.")
 
@@ -164,10 +151,6 @@ class StateNode(Node):
         # Vision possible if accesed via manual control
         self.destroy_node()
         rclpy.shutdown()
-
-    def notify_battery(self, msg):
-        if msg.data == "CHANGED":
-            self.drone_battery = 100.0
 
     def manual_callback(self, msg):
         if msg.data == "MANUAL":
@@ -193,7 +176,7 @@ class StateNode(Node):
         # Example manual override check:
         if self.state == MissionState.MANUAL:
             self.get_logger().info(
-                    "🚀 DRONE"
+                    "🚀 DRONE MANUAL"
                 )
             pass
 
@@ -208,12 +191,14 @@ class StateNode(Node):
                 self.get_logger().info(
                     "🚀 Takeoff initiated. Transition to WAIT_FOR_TAKEOFF."
                 )
+                self.ready_to_fly = False
+
 
         elif self.state == MissionState.WAIT_FOR_TAKEOFF:
             # Check if we are at ~alt=20
-            N, E, D = self.mav.get_local_pos()
+            lat, lon, alt = self.mav.get_global_pos()
             # Suppose we consider "taken_off" if alt >=  tkf height -1, negative convetion for up, so inverted 
-            if -self.flying_height + 1 >= D:
+            if self.flying_height <= alt + 0.5:
                 self.taken_off = True
                 self.get_logger().info(
                     "Takeoff complete! Transition to GOTO_WATER_SOURCE."
@@ -230,26 +215,27 @@ class StateNode(Node):
         elif self.state == MissionState.WAIT_FOR_TRAVEL:
             # Check if near the current_target
             self.get_logger().info("Flying towards target")
-            #TODO implement the AEAC-mission 1 threshold logic
             if self.mav.is_near_waypoint(
-                self.current_target[1], self.mav.get_global_pos(), 0.00003
+                self.current_target[1], self.mav.get_global_pos(), gps = True
             ):
-                self.get_logger().info(f"Reached {self.target_type}. Next: VISION/APPROACH.")
+                self.get_logger().info(f"Reached {self.target_type}.")
                 self.state = MissionState.LOWERING_DRONE
 
         elif self.state == MissionState.LOWERING_DRONE:
-            #TODO Remove all instances of local position and replace with global position
-            self.current_pos = self.mav.get_local_pos()
-            self.mav.local_target(
+
+            self.get_logger().info(f"LOWERING INTO POSITION")
+            self.current_pos = self.mav.get_global_pos()
+            print(self.current_pos)
+            self.mav.global_target(
                 [self.current_pos[0], self.current_pos[1], self.target_type.approach_height], wait_to_reach=False
             )
-            self.get_logger().info(f"Lowering down to {self.current_target[0]}")
+            self.get_logger().info(f"Lowering down to {self.current_target[0]} at alt  = {self.target_type.approach_height}")
             self.state = MissionState.WAIT_FOR_LOWER
 
         elif self.state == MissionState.WAIT_FOR_LOWER:
 
             if self.mav.is_near_waypoint(
-                self.mav.get_local_pos()[2],
+                self.mav.get_global_pos()[2],
                 self.target_type.approach_height,
                 0.5
             ):
@@ -257,7 +243,7 @@ class StateNode(Node):
                 self.state = MissionState.APPROACH
 
         elif self.state == MissionState.APPROACH:
-            # Start vision, or do manual approach again
+            # Start vision, or do manual approach
             if not self.manual:
                 self.finished_bucket = False
                 self.start_vision()
@@ -269,48 +255,19 @@ class StateNode(Node):
                     self.state = MissionState.GOTO_NEXT_BUCKET
                     self.finished_manual_approach = False
                     
-                    # If the drone just filled a bucket, checking if the drone is empty and going to water source if it is
-                    # If the drone just went to a water source, registering that it's now not empty
                     if self.target_type.is_bucket:
                         self.optimal_route.pop(0)
-                        if self.empty:
-                            if not self.possible_movement(self.water_source[1]):
-                                self.get_logger().warn(
-                                    "Not enough battery to reach source + return; RTL now."
-                                )
-                                self.mav.RTL()
-                                self.state = MissionState.FINISHED
-                                return
-                            else:
-                                self.state = MissionState.GOTO_WATER_SOURCE
-                    elif self.target_type == self.source:
-                        self.empty = False
                 else:
                     self.get_logger().info("Waiting for manual approach to end...")
 
         elif self.state == MissionState.WAIT_FINISH:
             if self.finished_bucket:
-
                 self.get_logger().info("Target treated successfully")
                 self.state = MissionState.GOTO_NEXT_BUCKET
                 self.finished_bucket = False
 
-                # If the drone just filled a bucket, checking if the drone is empty and going to water source if it is
-                # If the drone just went to a water source, registering that it's now not empty
                 if self.target_type.is_bucket:
                     self.optimal_route.pop(0)
-                    if self.empty:
-                        if not self.possible_movement(self.water_source[1]):
-                            self.get_logger().warn(
-                                "Not enough battery to reach source + return; RTL now."
-                            )
-                            self.mav.RTL()
-                            self.state = MissionState.FINISHED
-                            return
-                        else:
-                            self.state = MissionState.GOTO_WATER_SOURCE
-                elif self.target_type == self.source:
-                    self.empty = False
 
         elif self.state == MissionState.GOTO_NEXT_BUCKET:
             if len(self.optimal_route) == 0:
@@ -323,19 +280,13 @@ class StateNode(Node):
                     self.state = MissionState.FINISHED
                     return
                 else:
-                    # Recalculating the optimal route and going to get water to start a new loop
-                    self.get_logger().info("Starting a new loop")
-                    self.optimal_route, self.distances = tmp_solution(self.position_dict)
-                    self.state = MissionState.GOTO_WATER_SOURCE
+                    self.get_logger().info(f"Fin du tour {self.num_of_loop + 1}")
+                    self.mav.RTL()
+                    self.get_logger().info("Waiting for battery change... Going into waiting for armed and ready to fly confirmation")
+                    self.state = MissionState.WAIT_FOR_TAKEOFF
+
             # Grab the next bucket
             next_bucket = self.optimal_route[0]
-            if not self.possible_movement(next_bucket):
-                self.get_logger().warn(
-                    "Not enough battery to reach next bucket + return; RTL now."
-                )
-                self.mav.RTL()
-                self.state = MissionState.FINISHED
-                return
 
             # We do have enough battery, so go
             self.current_target = next_bucket
@@ -369,34 +320,6 @@ class StateNode(Node):
         msg.data = self.target_type.vision_message
         self.publisher_vision.publish(msg)
         self.get_logger().info("VISION GO => " + self.target_type.name)
-
-    def charge_opportunity(self):
-        # This is the 10 second timer for battery checks
-
-        # For example:
-        if self.drone_battery <= 15:
-            self.get_logger().warn("Battery low => returning to launch for charge.")
-            self.mav.RTL()
-            self.state = MissionState.FINISHED
-            # If you want to do a real charge cycle, you can set self.drone_battery = 100 later
-        # Otherwise do nothing
-
-    def possible_movement(self, target_pos):
-        # This code is essentially your same function
-        # but we skip the while loops
-        try:
-            next_distance = self.distances[(self.current_target[0], target_pos[0])]
-        except KeyError:
-            # fallback
-            next_distance = func_distance(self.current_target[1], target_pos[1])
-
-        distance_target_to_base = func_distance(target_pos[1], self.ground_station[1])
-        # approximate battery usage
-        battery_at_target = self.drone_battery - (
-            next_distance / self.drone_travel_efficiency
-        )
-        autonomy_at_target = battery_at_target * self.drone_travel_efficiency
-        return autonomy_at_target > distance_target_to_base
 
 
 def main(args=None):
