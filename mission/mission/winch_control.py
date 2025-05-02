@@ -45,6 +45,7 @@ class CANWinchNode(Node):
         self.operation_step = 0
         self.operation_data = {}
         self.timer = None
+        self.last_command_time = 0  # Track when the last command was sent
         
         # Create reliable QoS profile
         reliable_qos = QoSProfile(depth=10, reliability=ReliabilityPolicy.RELIABLE)
@@ -92,6 +93,10 @@ class CANWinchNode(Node):
             self.get_logger().error("Error: Message must be exactly 8 bytes")
             return False
         
+        # Clear the response queue before sending a new command
+        while not self.response_queue.empty():
+            self.response_queue.get()
+        
         message = can.Message(
             arbitration_id=arbitration_id,
             data=data,
@@ -100,6 +105,7 @@ class CANWinchNode(Node):
         
         try:
             self.last_command = data[:2]  # Store the first 2 bytes for response matching
+            self.last_command_time = time.time()  # Record when we sent the command
             self.bus.send(message)
             self.get_logger().info(f"Sent message to ID {arbitration_id}: {self.format_can_data(data)}")
             return True
@@ -115,21 +121,27 @@ class CANWinchNode(Node):
             try:
                 message = self.bus.recv(0.1)  # Use timeout to allow clean thread exit
                 if message:
-                    self.get_logger().info(f"Received from ID {message.arbitration_id}: {self.format_can_data(message.data)}")
+                    current_time = time.time()
+                    time_since_command = current_time - self.last_command_time
+                    self.get_logger().info(f"Received from ID {message.arbitration_id}: {self.format_can_data(message.data)} (delay: {time_since_command:.3f}s)")
                     
-                    # Check if this is a response to our last command (based on first 2 bytes)
-                    if self.last_command and message.data[:2] == self.last_command:
+                    # Add any message received to the queue if we're in an operation
+                    # The check_for_response method will filter as needed
+                    if self.current_operation is not None:
                         self.response_queue.put(message)
             except Exception as e:
                 self.get_logger().error(f"Error in receiver thread: {e}")
                 # Brief pause to avoid tight loop in case of persistent errors
                 time.sleep(0.1)
 
-    def check_for_response(self):
-        """Check if there's a response in the queue (non-blocking)"""
+    def check_for_response(self, wait_time=0.2):
+        """Check if there's a response in the queue, with option to wait briefly for response"""
         try:
-            if not self.response_queue.empty():
-                return self.response_queue.get(block=False)
+            start_time = time.time()
+            while time.time() - start_time < wait_time:
+                if not self.response_queue.empty():
+                    return self.response_queue.get(block=False)
+                time.sleep(0.01)  # Small sleep to prevent tight loop
         except:
             pass
         return None
@@ -204,8 +216,9 @@ class CANWinchNode(Node):
                 self.get_logger().info("Step 1: Sending initial UP command")
                 data = self.parse_byte_string("94 00 00 A0 C1 D0 07 00")
                 if data and self.send_message(data):
-                    # Set timer to check for response and move to next step
-                    self.create_timer_for_next_step(0.5)
+                    # Give some time to capture response before moving to next step
+                    # We'll check for this response in the next step
+                    self.create_timer_for_next_step(0.2)
                 else:
                     self.reset_operation()
                     
@@ -214,13 +227,15 @@ class CANWinchNode(Node):
                 response = self.check_for_response()
                 if not response:
                     self.get_logger().warn("No response to UP command 1, continuing anyway")
+                else:
+                    self.get_logger().info(f"Response to command 1: {self.format_can_data(response.data)}")
                 
                 # Step 2: Send command 91 00 00 00 00 00 00 00
                 self.get_logger().info("Step 2: Sending second UP command")
                 data = self.parse_byte_string("91 00 00 00 00 00 00 00")
                 if data and self.send_message(data):
                     # Set timer to check for response and move to next step
-                    self.create_timer_for_next_step(0.5)
+                    self.create_timer_for_next_step(0.2)
                 else:
                     self.reset_operation()
                     
@@ -229,6 +244,8 @@ class CANWinchNode(Node):
                 response = self.check_for_response()
                 if not response:
                     self.get_logger().warn("No response to UP command 2, continuing anyway")
+                else:
+                    self.get_logger().info(f"Response to command 2: {self.format_can_data(response.data)}")
                 
                 # Wait for movement_time seconds before proceeding
                 self.get_logger().info(f"Waiting {self.movement_time} seconds for UP movement...")
@@ -239,15 +256,19 @@ class CANWinchNode(Node):
                 self.get_logger().info("Step 3: Sending command to get data for UP")
                 data = self.parse_byte_string("B4 13 00 00 00 00 00 00")
                 if data and self.send_message(data):
-                    # Set timer to check for response and move to next step
-                    self.create_timer_for_next_step(0.5)
+                    # IMPORTANT: Use a short delay to check for response to B4 command
+                    # This ensures we don't miss the response which may come quickly
+                    self.create_timer_for_next_step(0.1)
                 else:
                     self.reset_operation()
                     
             elif self.operation_step == 5:
-                # Check for response to previous command
-                response = self.check_for_response()
+                # Check for response to B4 command - wait a bit longer to ensure we catch it
+                self.get_logger().info("Waiting for response to B4 command...")
+                response = self.check_for_response(wait_time=0.5)
+                
                 if response:
+                    self.get_logger().info(f"Received response to B4: {self.format_can_data(response.data)}")
                     # Extract last 4 bytes from response
                     last_four_bytes = response.data[-4:]
                     self.get_logger().info(f"Extracted 4 bytes: {self.format_can_data(last_four_bytes)}")
@@ -266,17 +287,47 @@ class CANWinchNode(Node):
                     self.get_logger().info(f"Final UP command: {self.format_can_data(final_command)}")
                     if self.send_message(final_command):
                         # Set timer to check for response and finish
-                        self.create_timer_for_next_step(0.5)
+                        self.create_timer_for_next_step(0.2)
                     else:
                         self.reset_operation()
                 else:
-                    self.get_logger().error("Error: No response to UP command B4, cannot proceed")
+                    # Try looking for any message in the queue that might have the format we need
+                    self.get_logger().error("Error: No direct response to UP command B4")
+                    self.get_logger().info("Checking if there are any messages we can use...")
+                    
+                    # If no response, check if we have any received messages from ID 0
+                    # Send a dummy command to ping the device and get any response
+                    data = self.parse_byte_string("91 00 00 00 00 00 00 00")
+                    if data and self.send_message(data):
+                        # Wait a bit to see if we get any response
+                        time.sleep(0.2)
+                        response = self.check_for_response(wait_time=0.3)
+                        if response:
+                            self.get_logger().info(f"Found usable response: {self.format_can_data(response.data)}")
+                            # Try to use this response
+                            last_four_bytes = response.data[-4:]
+                            self.operation_data['last_four_bytes'] = last_four_bytes
+                            
+                            # Continue with final command
+                            final_command = bytes([0x95]) + last_four_bytes + bytes([0x32, 0x14, 0x00])
+                            if len(final_command) > 8:
+                                final_command = final_command[:8]
+                            elif len(final_command) < 8:
+                                final_command = final_command + bytes([0x00] * (8 - len(final_command)))
+                            
+                            self.get_logger().info(f"Final UP command (from alternate response): {self.format_can_data(final_command)}")
+                            if self.send_message(final_command):
+                                self.create_timer_for_next_step(0.2)
+                                return
+                    
+                    self.get_logger().error("Could not find any usable response data")
                     self.reset_operation()
                     
             elif self.operation_step == 6:
                 # Check for response to final command
                 response = self.check_for_response()
                 if response:
+                    self.get_logger().info(f"Final UP response: {self.format_can_data(response.data)}")
                     self.get_logger().info("UP command sequence completed successfully")
                 else:
                     self.get_logger().warn("No response to final UP command")
@@ -290,8 +341,8 @@ class CANWinchNode(Node):
                 self.get_logger().info("Step 1: Sending initial DOWN command")
                 data = self.parse_byte_string("94 00 00 A0 41 D0 07 00")
                 if data and self.send_message(data):
-                    # Set timer to check for response and move to next step
-                    self.create_timer_for_next_step(0.5)
+                    # Give some time to capture response before moving to next step
+                    self.create_timer_for_next_step(0.2)
                 else:
                     self.reset_operation()
                     
@@ -300,13 +351,15 @@ class CANWinchNode(Node):
                 response = self.check_for_response()
                 if not response:
                     self.get_logger().warn("No response to DOWN command 1, continuing anyway")
+                else:
+                    self.get_logger().info(f"Response to command 1: {self.format_can_data(response.data)}")
                 
                 # Step 2: Send command 91 00 00 00 00 00 00 00
                 self.get_logger().info("Step 2: Sending second DOWN command")
                 data = self.parse_byte_string("91 00 00 00 00 00 00 00")
                 if data and self.send_message(data):
                     # Set timer to check for response and move to next step
-                    self.create_timer_for_next_step(0.5)
+                    self.create_timer_for_next_step(0.2)
                 else:
                     self.reset_operation()
                     
@@ -315,6 +368,8 @@ class CANWinchNode(Node):
                 response = self.check_for_response()
                 if not response:
                     self.get_logger().warn("No response to DOWN command 2, continuing anyway")
+                else:
+                    self.get_logger().info(f"Response to command 2: {self.format_can_data(response.data)}")
                 
                 # Wait for movement_time seconds before proceeding
                 self.get_logger().info(f"Waiting {self.movement_time} seconds for DOWN movement...")
@@ -325,15 +380,19 @@ class CANWinchNode(Node):
                 self.get_logger().info("Step 3: Sending command to get data for DOWN")
                 data = self.parse_byte_string("B4 13 00 00 00 00 00 00")
                 if data and self.send_message(data):
-                    # Set timer to check for response and move to next step
-                    self.create_timer_for_next_step(0.5)
+                    # IMPORTANT: Use a short delay to check for response to B4 command
+                    # This ensures we don't miss the response which may come quickly
+                    self.create_timer_for_next_step(0.1)
                 else:
                     self.reset_operation()
                     
             elif self.operation_step == 5:
-                # Check for response to previous command
-                response = self.check_for_response()
+                # Check for response to B4 command - wait a bit longer to ensure we catch it
+                self.get_logger().info("Waiting for response to B4 command...")
+                response = self.check_for_response(wait_time=0.5)
+                
                 if response:
+                    self.get_logger().info(f"Received response to B4: {self.format_can_data(response.data)}")
                     # Extract last 4 bytes from response
                     last_four_bytes = response.data[-4:]
                     self.get_logger().info(f"Extracted 4 bytes: {self.format_can_data(last_four_bytes)}")
@@ -352,17 +411,47 @@ class CANWinchNode(Node):
                     self.get_logger().info(f"Final DOWN command: {self.format_can_data(final_command)}")
                     if self.send_message(final_command):
                         # Set timer to check for response and finish
-                        self.create_timer_for_next_step(0.5)
+                        self.create_timer_for_next_step(0.2)
                     else:
                         self.reset_operation()
                 else:
-                    self.get_logger().error("Error: No response to DOWN command B4, cannot proceed")
+                    # Try looking for any message in the queue that might have the format we need
+                    self.get_logger().error("Error: No direct response to DOWN command B4")
+                    self.get_logger().info("Checking if there are any messages we can use...")
+                    
+                    # If no response, check if we have any received messages from ID 0
+                    # Send a dummy command to ping the device and get any response
+                    data = self.parse_byte_string("91 00 00 00 00 00 00 00")
+                    if data and self.send_message(data):
+                        # Wait a bit to see if we get any response
+                        time.sleep(0.2)
+                        response = self.check_for_response(wait_time=0.3)
+                        if response:
+                            self.get_logger().info(f"Found usable response: {self.format_can_data(response.data)}")
+                            # Try to use this response
+                            last_four_bytes = response.data[-4:]
+                            self.operation_data['last_four_bytes'] = last_four_bytes
+                            
+                            # Continue with final command
+                            final_command = bytes([0x95]) + last_four_bytes + bytes([0x32, 0x14, 0x00])
+                            if len(final_command) > 8:
+                                final_command = final_command[:8]
+                            elif len(final_command) < 8:
+                                final_command = final_command + bytes([0x00] * (8 - len(final_command)))
+                            
+                            self.get_logger().info(f"Final DOWN command (from alternate response): {self.format_can_data(final_command)}")
+                            if self.send_message(final_command):
+                                self.create_timer_for_next_step(0.2)
+                                return
+                    
+                    self.get_logger().error("Could not find any usable response data")
                     self.reset_operation()
                     
             elif self.operation_step == 6:
                 # Check for response to final command
                 response = self.check_for_response()
                 if response:
+                    self.get_logger().info(f"Final DOWN response: {self.format_can_data(response.data)}")
                     self.get_logger().info("DOWN command sequence completed successfully")
                 else:
                     self.get_logger().warn("No response to final DOWN command")
