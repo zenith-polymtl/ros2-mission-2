@@ -398,7 +398,7 @@ class CANWinchNode(Node):
                 if data and self.send_message(data):
                     # IMPORTANT: Use a short delay to check for response to B4 command
                     # This ensures we don't miss the response which may come quickly
-                    self.create_timer_for_next_step(0.2)
+                    self.create_timer_for_next_step(0.1)
                 else:
                     self.reset_operation()
                     
