@@ -117,24 +117,32 @@ class Winch(Node):
             log(f"running for {self.move_time}s …")
             time.sleep(self.move_time)
 
-            # 4) close brake, be sure speed=0
+            # 4) close brake, make speed go to 0
             self._send(b"\x91\x00\x00\x00\x00\x00\x00\x00")
-            time.sleep(0.15)            # allow brake to engage
 
-            # 5) read status (contains abs‑pos bytes we need)
-            self._send(b"\xB4\x13\x00\x00\x00\x00\x00\x00")
-            reply = self._wait_reply(0.6)
-            if not reply:
-                log("B4 reply missing – aborting")
+            # 5) wait until B4 reports speed = 0  (≤ 3 s or abort)
+            for _ in range(30):                 # 30 × 0.1 s  ≈ 3 s max
+                time.sleep(0.10)
+                self._send(b"\xB4\x13\x00\x00\x00\x00\x00\x00")
+                reply = self._wait_reply(0.2)
+                if not reply:
+                    continue                    # nothing came back, try again
+                speed = reply.data[4]
+                if speed == 0:
+                    break                       # brake engaged, shaft stopped
+                self.get_logger().debug(f"speed = 0x{speed:02X}, waiting…")
+            else:
+                self.get_logger().error("shaft never stopped – aborting")
                 return
+
             last4 = reply.data[-4:]
-            log("pos bytes = %s" % fmt(last4))
+            self.get_logger().info("pos bytes = %s" % fmt(last4))
 
             # 6) commit absolute position
             final = b"\x95" + last4 + b"\x32\x14\x00"
             self._send(final)
             if not self._wait_reply(2.0):
-                log("95 not acknowledged – controller refused")
+                self.get_logger().error("95 still not acknowledged – controller fault")
                 return
 
             log(f"=== {dir_str} DONE ===")
