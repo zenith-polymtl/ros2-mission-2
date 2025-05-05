@@ -4,7 +4,7 @@ import can
 import sys
 import time
 from threading import Thread
-from queue import Queue
+from queue import Queue, Empty
 
 import rclpy
 from rclpy.node import Node
@@ -113,7 +113,7 @@ class CANWinchNode(Node):
             self.get_logger().error(f"Error sending message: {e}")
             return False
 
-    def receive_messages(self):
+    '''def receive_messages(self):
         """Continuously receive messages from the CAN bus"""
         self.get_logger().info("Listening for CAN messages...")
         
@@ -132,19 +132,35 @@ class CANWinchNode(Node):
             except Exception as e:
                 self.get_logger().error(f"Error in receiver thread: {e}")
                 # Brief pause to avoid tight loop in case of persistent errors
+                time.sleep(0.1)'''
+
+    def receive_messages(self):
+        """Continuously receive messages from the CAN bus."""
+        self.get_logger().info("Listening for CAN messages...")
+        while rclpy.ok() and self.bus:
+            try:
+                message = self.bus.recv(0.1)
+                if not message:
+                    continue
+
+                self.get_logger().debug(
+                    f"RX id={message.arbitration_id:#x} data={self.format_can_data(message.data)}")
+
+                # Only enqueue if it is a response to the last command we sent
+                if self.last_command and message.data[:2] == self.last_command:
+                    self.response_queue.put(message)
+
+            except Exception as exc:
+                self.get_logger().error(f"Receiver error: {exc}")
                 time.sleep(0.1)
 
+
     def check_for_response(self, wait_time=0.2):
-        """Check if there's a response in the queue, with option to wait briefly for response"""
         try:
-            start_time = time.time()
-            while time.time() - start_time < wait_time:
-                if not self.response_queue.empty():
-                    return self.response_queue.get(block=False)
-                time.sleep(0.01)  # Small sleep to prevent tight loop
-        except:
-            pass
-        return None
+            return self.response_queue.get(timeout=wait_time)
+        except Empty:
+            return None
+
 
     def parse_byte_string(self, byte_string):
         """Parse a string of hex bytes like '00 FF 12 34 56 78 9A BC' into bytes"""
@@ -464,10 +480,7 @@ class CANWinchNode(Node):
             self.timer.cancel()
         
         # Increment step counter
-
         self.operation_step += 1
-        if self.operation_step == 2:
-            self.operation_step = 3
 
         # Create new timer
         self.timer = self.create_timer(
