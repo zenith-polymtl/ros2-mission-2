@@ -218,7 +218,7 @@ class CANWinchNode(Node):
                 if data and self.send_message(data):
                     # Give some time to capture response before moving to next step
                     # We'll check for this response in the next step
-                    self.create_timer_for_next_step(0.2)
+                    self.create_timer_for_next_step(0.05)
                 else:
                     self.reset_operation()
                     
@@ -235,7 +235,7 @@ class CANWinchNode(Node):
                 data = self.parse_byte_string("91 00 00 00 00 00 00 00")
                 if data and self.send_message(data):
                     # Set timer to check for response and move to next step
-                    self.create_timer_for_next_step(0.2)
+                    self.create_timer_for_next_step(0.05)
                 else:
                     self.reset_operation()
                     
