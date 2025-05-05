@@ -464,8 +464,11 @@ class CANWinchNode(Node):
             self.timer.cancel()
         
         # Increment step counter
+
         self.operation_step += 1
-        
+        if self.operation_step == 2:
+            self.operation_step = 3
+
         # Create new timer
         self.timer = self.create_timer(
             delay, 
