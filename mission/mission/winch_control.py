@@ -227,23 +227,6 @@ class CANWinchNode(Node):
             return
             
         if self.current_operation == 'UP':
-            if self.operation_step == 0:
-                # DIR‑SET‑ONLY frame (no motion)
-                dir_byte = "C1" if self.current_operation == "UP" else "41"
-                preload  = f"94 00 00 A0 {dir_byte} D0 07 00"
-                self.get_logger().info("Pre‑latch DIR → " + preload)
-                data = self.parse_byte_string(preload)
-                if data and self.send_message(data):
-                    # wait until we see its echo (up to 600 ms)
-                    if not self.check_for_response(0.6):
-                        self.get_logger().error("DIR preload not acked – abort")
-                        self.reset_operation()
-                        return
-                    self.get_logger().info("Direction latched")
-                    self.create_timer_for_next_step(0.05)  # short guard
-                else:
-                    self.reset_operation()
-
             if self.operation_step == 1:
                 # Step 1: Send command 94 00 00 A0 C1 D0 07 00
                 self.get_logger().info("Step 1: Sending initial UP command")
