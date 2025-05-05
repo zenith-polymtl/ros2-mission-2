@@ -234,7 +234,7 @@ class CANWinchNode(Node):
                 if data and self.send_message(data):
                     # Give some time to capture response before moving to next step
                     # We'll check for this response in the next step
-                    self.create_timer_for_next_step(0.05)
+                    self.create_timer_for_next_step(0.2)
                 else:
                     self.reset_operation()
                     
@@ -251,7 +251,7 @@ class CANWinchNode(Node):
                 data = self.parse_byte_string("91 00 00 00 00 00 00 00")
                 if data and self.send_message(data):
                     # Set timer to check for response and move to next step
-                    self.create_timer_for_next_step(0.05)
+                    self.create_timer_for_next_step(0.2)
                 else:
                     self.reset_operation()
                     
@@ -269,6 +269,7 @@ class CANWinchNode(Node):
                 
             elif self.operation_step == 4:
                 # Step 3: Send command B4 13 00 00 00 00 00 00
+                
                 self.get_logger().info("Step 3: Sending command to get data for UP")
                 data = self.parse_byte_string("B4 13 00 00 00 00 00 00")
                 if data and self.send_message(data):
@@ -397,7 +398,7 @@ class CANWinchNode(Node):
                 if data and self.send_message(data):
                     # IMPORTANT: Use a short delay to check for response to B4 command
                     # This ensures we don't miss the response which may come quickly
-                    self.create_timer_for_next_step(0.1)
+                    self.create_timer_for_next_step(0.2)
                 else:
                     self.reset_operation()
                     
