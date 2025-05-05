@@ -53,7 +53,7 @@ def tmp_solution(buckets):
 # ---------------------------
 
 
-flying_height = 20
+flying_height = 12
 
 
 class MissionState:
@@ -100,7 +100,7 @@ class StateNode(Node):
 
         # Some fixed references
         self.flying_height = flying_height
-        self.water_source = ("water source", [50.1013, -110.734, self.flying_height])
+        self.water_source = ("water source", [45.5058762, -73.6083740, self.flying_height])
         self.current_pos = None  # store last known drone position
         self.current_target = None  # whichever waypoint we’re currently trying to reach
 
@@ -133,7 +133,7 @@ class StateNode(Node):
 
         # MAVLink Connection
         self.mav = hf.pymav(gps_thresh = 2)
-        self.mav.connect("udp:127.0.0.1:14551")
+        self.mav.connect("/dev/serial0")
 
         # Start a short, frequent timer for mission logic
         self.main_timer = self.create_timer(0.5, self.mission_step)
@@ -325,12 +325,10 @@ class StateNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     buckets = [
-        ("bucket_1", [50.101222, -110.738856, flying_height]),
-        ("bucket_2", [50.101796, -110.739031, flying_height]),
-        ("bucket_3", [50.101195, -110.738814, flying_height]),
-        ("bucket_4", [50.101195, -110.738554, flying_height]),
-        ("bucket_5", [50.101928, -110.738858, flying_height]),
-        ("bucket_6", [50.101876, -110.738629, flying_height]),
+        ("bucket_1", [45.5060631, -73.6084966, flying_height]),
+        ("bucket_2", [45.5062637, -73.6082053, flying_height]),
+        ("bucket_3", [45.5060159, -73.6080430, flying_height]),
+
     ]
     node = StateNode(buckets)
     rclpy.spin(node)
