@@ -42,7 +42,7 @@ class CANWinchNode(Node):
         self.response_queue = Queue()
         self.last_command = None
         self.current_operation = None
-        self.operation_step = -1
+        self.operation_step = 0
         self.operation_data = {}
         self.timer = None
         self.last_command_time = 0  # Track when the last command was sent
@@ -204,7 +204,7 @@ class CANWinchNode(Node):
     def execute_command_sequence_up(self):
         """Start the UP command sequence using timers"""
         self.current_operation = 'UP'
-        self.operation_step = 0
+        self.operation_step = 1
         self.operation_data = {}
         
         # Start the sequence with the first step
@@ -214,7 +214,7 @@ class CANWinchNode(Node):
     def execute_command_sequence_down(self):
         """Start the DOWN command sequence using timers"""
         self.current_operation = 'DOWN'
-        self.operation_step = 0
+        self.operation_step = 1
         self.operation_data = {}
         
         # Start the sequence with the first step
@@ -369,23 +369,6 @@ class CANWinchNode(Node):
                 self.reset_operation()
                 
         elif self.current_operation == 'DOWN':
-            if self.operation_step == 0:
-                # DIR‑SET‑ONLY frame (no motion)
-                dir_byte = "C1" if self.current_operation == "UP" else "41"
-                preload  = f"94 00 00 A0 {dir_byte} D0 07 00"
-                self.get_logger().info("Pre‑latch DIR → " + preload)
-                data = self.parse_byte_string(preload)
-                if data and self.send_message(data):
-                    # wait until we see its echo (up to 600 ms)
-                    if not self.check_for_response(0.6):
-                        self.get_logger().error("DIR preload not acked – abort")
-                        self.reset_operation()
-                        return
-                    self.get_logger().info("Direction latched")
-                    self.create_timer_for_next_step(0.05)  # short guard
-                else:
-                    self.reset_operation()
-
             if self.operation_step == 1:
                 # Step 1: Send command 94 00 00 A0 41 D0 07 00
                 self.get_logger().info("Step 1: Sending initial DOWN command")
@@ -536,7 +519,7 @@ class CANWinchNode(Node):
     def reset_operation(self):
         """Reset the operation state"""
         self.current_operation = None
-        self.operation_step = -1
+        self.operation_step = 0
         self.operation_data = {}
         
         # Cancel any pending timer
