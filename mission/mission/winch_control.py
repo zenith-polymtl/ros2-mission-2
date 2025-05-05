@@ -300,7 +300,6 @@ class CANWinchNode(Node):
                     data = self.parse_byte_string("91 00 00 00 00 00 00 00")
                     if data and self.send_message(data):
                         # Wait a bit to see if we get any response
-                        time.sleep(0.2)
                         response = self.check_for_response(wait_time=0.3)
                         if response:
                             self.get_logger().info(f"Found usable response: {self.format_can_data(response.data)}")
@@ -424,7 +423,6 @@ class CANWinchNode(Node):
                     data = self.parse_byte_string("91 00 00 00 00 00 00 00")
                     if data and self.send_message(data):
                         # Wait a bit to see if we get any response
-                        time.sleep(0.2)
                         response = self.check_for_response(wait_time=0.3)
                         if response:
                             self.get_logger().info(f"Found usable response: {self.format_can_data(response.data)}")
