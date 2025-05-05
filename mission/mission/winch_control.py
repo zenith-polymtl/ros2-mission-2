@@ -340,7 +340,7 @@ class CANWinchNode(Node):
                     
             elif self.operation_step == 6:
                 # Check for response to final command
-                response = self.check_for_response()
+                response = self.check_for_response(wait_time= 2)
                 if response:
                     self.get_logger().info(f"Final UP response: {self.format_can_data(response.data)}")
                     self.get_logger().info("UP command sequence completed successfully")
@@ -463,7 +463,7 @@ class CANWinchNode(Node):
                     
             elif self.operation_step == 6:
                 # Check for response to final command
-                response = self.check_for_response()
+                response = self.check_for_response(wait_time=2)
                 if response:
                     self.get_logger().info(f"Final DOWN response: {self.format_can_data(response.data)}")
                     self.get_logger().info("DOWN command sequence completed successfully")
