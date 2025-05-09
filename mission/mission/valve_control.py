@@ -65,7 +65,7 @@ class ValveNode(Node):
     def close_valve(self):
         if not self.isClosed:
             self.get_logger().info(f"Closing Valve")
-            self.set_servo_pulse_us(1150)
+            self.set_servo_pulse_us(2500)
             self.detach_timer = self.create_timer(0.5, self.detach_servo)
             self.get_logger().info(f"Closed Valve")
             self.isClosed = True
