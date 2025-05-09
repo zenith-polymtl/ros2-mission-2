@@ -4,7 +4,7 @@ import can
 import sys
 import time
 from threading import Thread
-from queue import Queue, Empty
+from queue import Queue
 
 import rclpy
 from rclpy.node import Node
@@ -113,7 +113,7 @@ class CANWinchNode(Node):
             self.get_logger().error(f"Error sending message: {e}")
             return False
 
-    '''def receive_messages(self):
+    def receive_messages(self):
         """Continuously receive messages from the CAN bus"""
         self.get_logger().info("Listening for CAN messages...")
         
@@ -132,35 +132,19 @@ class CANWinchNode(Node):
             except Exception as e:
                 self.get_logger().error(f"Error in receiver thread: {e}")
                 # Brief pause to avoid tight loop in case of persistent errors
-                time.sleep(0.1)'''
-
-    def receive_messages(self):
-        """Continuously receive messages from the CAN bus."""
-        self.get_logger().info("Listening for CAN messages...")
-        while rclpy.ok() and self.bus:
-            try:
-                message = self.bus.recv(0.1)
-                if not message:
-                    continue
-
-                self.get_logger().debug(
-                    f"RX id={message.arbitration_id:#x} data={self.format_can_data(message.data)}")
-
-                # Only enqueue if it is a response to the last command we sent
-                if self.last_command and message.data[:2] == self.last_command:
-                    self.response_queue.put(message)
-
-            except Exception as exc:
-                self.get_logger().error(f"Receiver error: {exc}")
                 time.sleep(0.1)
 
-
     def check_for_response(self, wait_time=0.2):
+        """Check if there's a response in the queue, with option to wait briefly for response"""
         try:
-            return self.response_queue.get(timeout=wait_time)
-        except Empty:
-            return None
-
+            start_time = time.time()
+            while time.time() - start_time < wait_time:
+                if not self.response_queue.empty():
+                    return self.response_queue.get(block=False)
+                time.sleep(0.01)  # Small sleep to prevent tight loop
+        except:
+            pass
+        return None
 
     def parse_byte_string(self, byte_string):
         """Parse a string of hex bytes like '00 FF 12 34 56 78 9A BC' into bytes"""
@@ -234,7 +218,7 @@ class CANWinchNode(Node):
                 if data and self.send_message(data):
                     # Give some time to capture response before moving to next step
                     # We'll check for this response in the next step
-                    self.create_timer_for_next_step(0.2)
+                    self.create_timer_for_next_step(0.05)
                 else:
                     self.reset_operation()
                     
@@ -251,7 +235,7 @@ class CANWinchNode(Node):
                 data = self.parse_byte_string("91 00 00 00 00 00 00 00")
                 if data and self.send_message(data):
                     # Set timer to check for response and move to next step
-                    self.create_timer_for_next_step(0.2)
+                    self.create_timer_for_next_step(0.05)
                 else:
                     self.reset_operation()
                     
@@ -269,7 +253,6 @@ class CANWinchNode(Node):
                 
             elif self.operation_step == 4:
                 # Step 3: Send command B4 13 00 00 00 00 00 00
-                
                 self.get_logger().info("Step 3: Sending command to get data for UP")
                 data = self.parse_byte_string("B4 13 00 00 00 00 00 00")
                 if data and self.send_message(data):
@@ -341,7 +324,7 @@ class CANWinchNode(Node):
                     
             elif self.operation_step == 6:
                 # Check for response to final command
-                response = self.check_for_response(wait_time= 2)
+                response = self.check_for_response()
                 if response:
                     self.get_logger().info(f"Final UP response: {self.format_can_data(response.data)}")
                     self.get_logger().info("UP command sequence completed successfully")
@@ -358,8 +341,7 @@ class CANWinchNode(Node):
                 data = self.parse_byte_string("94 00 00 A0 41 D0 07 00")
                 if data and self.send_message(data):
                     # Give some time to capture response before moving to next step
-                    # self.create_timer_for_next_step(0.2)
-                    self.create_timer_for_next_step(200)
+                    self.create_timer_for_next_step(0.2)
                 else:
                     self.reset_operation()
                     
@@ -376,9 +358,7 @@ class CANWinchNode(Node):
                 data = self.parse_byte_string("91 00 00 00 00 00 00 00")
                 if data and self.send_message(data):
                     # Set timer to check for response and move to next step
-                    # self.create_timer_for_next_step(0.2)
-                    self.create_timer_for_next_step(200)
-
+                    self.create_timer_for_next_step(0.2)
                 else:
                     self.reset_operation()
                     
@@ -467,7 +447,7 @@ class CANWinchNode(Node):
                     
             elif self.operation_step == 6:
                 # Check for response to final command
-                response = self.check_for_response(wait_time=2)
+                response = self.check_for_response()
                 if response:
                     self.get_logger().info(f"Final DOWN response: {self.format_can_data(response.data)}")
                     self.get_logger().info("DOWN command sequence completed successfully")
@@ -485,7 +465,7 @@ class CANWinchNode(Node):
         
         # Increment step counter
         self.operation_step += 1
-
+        
         # Create new timer
         self.timer = self.create_timer(
             delay, 
