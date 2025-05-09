@@ -57,7 +57,7 @@ class CANWinchNode(Node):
         self.setup_can_bus()
         self.setup_timers()
         self.setup_subscriptions()
-
+        self.timer = None
         self.get_logger().info("CAN Winch Node initialized")
 
     def setup_subscriptions(self):
@@ -354,7 +354,7 @@ class CANWinchNode(Node):
 
     def create_timer_for_next_step(self, delay):
         """Schedule next operation step with safety checks."""
-        if self.timer:
+        if self.timer is not None:
             self.timer.cancel()
         self.operation_step += 1
         self.timer = self.create_timer(delay, self.execute_next_step)
@@ -371,7 +371,7 @@ class CANWinchNode(Node):
         self.current_operation = None
         self.operation_step = 0
         self.operation_data = {}
-        if self.timer:
+        if self.timer is not None:
             self.timer.cancel()
             self.timer = None
         self.get_logger().info("Operation reset")
